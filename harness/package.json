@@ -1,0 +1,20 @@
+{
+  "name": "open-core-p1-harness",
+  "version": "0.1.0",
+  "description": "Falsification harness for P1 (repeat-presentation unlinkability) of a BBS-based guardianship-delegation credential.",
+  "license": "Apache-2.0",
+  "type": "module",
+  "private": true,
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "test": "node --test \"test/*.test.js\" && node src/run.js",
+    "linkability": "node src/run.js",
+    "linkability:json": "node src/run.js --json",
+    "sample": "node src/run.js > sample-output/run-output.txt 2>&1"
+  },
+  "dependencies": {
+    "@digitalbazaar/bbs-signatures": "3.1.0"
+  }
+}

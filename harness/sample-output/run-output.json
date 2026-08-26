@@ -1,0 +1,2105 @@
+{
+  "library": {
+    "name": "@digitalbazaar/bbs-signatures",
+    "version": "3.1.0",
+    "ciphersuite": "BLS12-381-SHA-256"
+  },
+  "scenarioA": [
+    {
+      "key": "naive",
+      "functional": {
+        "presentations": 21,
+        "accepted": 21
+      },
+      "analysis": {
+        "name": "A-naive (VC-shaped envelope around a BBS proof)",
+        "verdict": "FALSIFIED",
+        "table": [
+          {
+            "path": "bbs.disclosedIndexes",
+            "constant": true,
+            "anonymitySet": 6,
+            "cohortSize": 6,
+            "correlatable": false,
+            "leak": "N",
+            "note": "cohort-wide (k=6/6) -- no narrowing",
+            "sample": "0,2,3,5,6,7"
+          },
+          {
+            "path": "bbs.disclosed[credential_id]",
+            "constant": true,
+            "anonymitySet": 1,
+            "cohortSize": 6,
+            "correlatable": true,
+            "leak": "Y",
+            "note": "unique to the subject (k=1 of 6) -- exact linkage",
+            "sample": "credential_id=urn:uuid:88187683-2ce5-4b69-a93b..."
+          },
+          {
+            "path": "bbs.disclosed[issuer_key_id]",
+            "constant": true,
+            "anonymitySet": 6,
+            "cohortSize": 6,
+            "correlatable": false,
+            "leak": "N",
+            "note": "cohort-wide (k=6/6) -- no narrowing",
+            "sample": "issuer_key_id=did:example:mandate-registry#bbs..."
+          },
+          {
+            "path": "bbs.disclosed[mandate_scope]",
+            "constant": true,
+            "anonymitySet": 4,
+            "cohortSize": 6,
+            "correlatable": true,
+            "leak": "partial",
+            "note": "shared with 3 other dependent(s) -- anonymity set 4/6",
+            "sample": "mandate_scope=school_enrolment"
+          },
+          {
+            "path": "bbs.disclosed[revocation_handle]",
+            "constant": true,
+            "anonymitySet": 1,
+            "cohortSize": 6,
+            "correlatable": true,
+            "leak": "Y",
+            "note": "unique to the subject (k=1 of 6) -- exact linkage",
+            "sample": "revocation_handle=https://status.example/manda..."
+          },
+          {
+            "path": "bbs.disclosed[type]",
+            "constant": true,
+            "anonymitySet": 6,
+            "cohortSize": 6,
+            "correlatable": false,
+            "leak": "N",
+            "note": "cohort-wide (k=6/6) -- no narrowing",
+            "sample": "type=GuardianshipMandate"
+          },
+          {
+            "path": "bbs.disclosed[valid_until]",
+            "constant": true,
+            "anonymitySet": 1,
+            "cohortSize": 6,
+            "correlatable": true,
+            "leak": "Y",
+            "note": "unique to the subject (k=1 of 6) -- exact linkage",
+            "sample": "valid_until=2026-09-14"
+          },
+          {
+            "path": "bbs.header",
+            "constant": true,
+            "anonymitySet": 1,
+            "cohortSize": 6,
+            "correlatable": true,
+            "leak": "Y",
+            "note": "unique to the subject (k=1 of 6) -- exact linkage",
+            "sample": "b3Blbi1jb3JlL21hbmRhdGUvdjF8aXNzdWVyPWRpZDpleG..."
+          },
+          {
+            "path": "bbs.issuerPublicKey",
+            "constant": true,
+            "anonymitySet": 6,
+            "cohortSize": 6,
+            "correlatable": false,
+            "leak": "N",
+            "note": "cohort-wide (k=6/6) -- no narrowing",
+            "sample": "sks1jRy3dspp8zu0Zr/GmPp+biqARB/HhcXrvsyQBx0nNL..."
+          },
+          {
+            "path": "bbs.presentationHeader",
+            "constant": false,
+            "anonymitySet": null,
+            "cohortSize": 6,
+            "correlatable": false,
+            "leak": "N",
+            "note": "varies per presentation",
+            "sample": "bm9uY2U6cnA6c2Nob29sOjJmZDdiNmNhZDZiODRkNDNmY2..."
+          },
+          {
+            "path": "bbs.proof",
+            "constant": false,
+            "anonymitySet": null,
+            "cohortSize": 6,
+            "correlatable": false,
+            "leak": "N",
+            "note": "varies per presentation",
+            "sample": "paDSAhMcul3vUg9J9iDB6+BA1Fts6ajB8HIeQY3s1lciuu..."
+          },
+          {
+            "path": "bbs.proofByteLength",
+            "constant": true,
+            "anonymitySet": 6,
+            "cohortSize": 6,
+            "correlatable": false,
+            "leak": "N",
+            "note": "cohort-wide (k=6/6) -- no narrowing",
+            "sample": "336"
+          },
+          {
+            "path": "bbs.totalMessageCount",
+            "constant": true,
+            "anonymitySet": 6,
+            "cohortSize": 6,
+            "correlatable": false,
+            "leak": "N",
+            "note": "cohort-wide (k=6/6) -- no narrowing",
+            "sample": "8"
+          },
+          {
+            "path": "envelope.credentialId",
+            "constant": true,
+            "anonymitySet": 1,
+            "cohortSize": 6,
+            "correlatable": true,
+            "leak": "Y",
+            "note": "unique to the subject (k=1 of 6) -- exact linkage",
+            "sample": "urn:uuid:88187683-2ce5-4b69-a93b-c77aaff8fe81"
+          },
+          {
+            "path": "envelope.credentialStatus.statusListCredential",
+            "constant": true,
+            "anonymitySet": 6,
+            "cohortSize": 6,
+            "correlatable": false,
+            "leak": "N",
+            "note": "cohort-wide (k=6/6) -- no narrowing",
+            "sample": "https://status.example/mandates/2026-Q3"
+          },
+          {
+            "path": "envelope.credentialStatus.statusListIndex",
+            "constant": true,
+            "anonymitySet": 1,
+            "cohortSize": 6,
+            "correlatable": true,
+            "leak": "Y",
+            "note": "unique to the subject (k=1 of 6) -- exact linkage",
+            "sample": "0"
+          },
+          {
+            "path": "envelope.credentialStatus.type",
+            "constant": true,
+            "anonymitySet": 6,
+            "cohortSize": 6,
+            "correlatable": false,
+            "leak": "N",
+            "note": "cohort-wide (k=6/6) -- no narrowing",
+            "sample": "StatusList2021Entry"
+          },
+          {
+            "path": "envelope.holderKeyId",
+            "constant": true,
+            "anonymitySet": 1,
+            "cohortSize": 6,
+            "correlatable": true,
+            "leak": "Y",
+            "note": "unique to the subject (k=1 of 6) -- exact linkage",
+            "sample": "did:key:zixahi1eVeBhgWIMMBUw4Nbuz"
+          },
+          {
+            "path": "envelope.issuerKeyId",
+            "constant": true,
+            "anonymitySet": 6,
+            "cohortSize": 6,
+            "correlatable": false,
+            "leak": "N",
+            "note": "cohort-wide (k=6/6) -- no narrowing",
+            "sample": "did:example:mandate-registry#bbs-2026Q3"
+          }
+        ],
+        "proofs": {
+          "totalProofs": 21,
+          "distinctProofs": 21,
+          "collisions": 0,
+          "repeatVisitPairs": 2,
+          "pass": true
+        },
+        "clustering": {
+          "clusterCount": 2,
+          "clusterSizes": [
+            15,
+            6
+          ],
+          "targetClusterSize": 15,
+          "targetPresentations": 6,
+          "precision": 0.4,
+          "recall": 1,
+          "bestSingleField": {
+            "path": "bbs.header",
+            "value": "b3Blbi1jb3JlL21hbmRhdGUvdjF8aXNzdWVyPWRpZDpleG...",
+            "precision": 1,
+            "recall": 1,
+            "f1": 1,
+            "clusterSize": 6
+          },
+          "exactLinkage": true,
+          "partialLinkage": false,
+          "topEvidence": [
+            {
+              "path": "bbs.disclosed[mandate_scope]",
+              "value": "mandate_scope=school_enrolment",
+              "linked": 15
+            },
+            {
+              "path": "bbs.header",
+              "value": "b3Blbi1jb3JlL21hbmRhdGUvdjF8aXNzdWVyPWRpZDpleG...",
+              "linked": 6
+            },
+            {
+              "path": "bbs.disclosed[valid_until]",
+              "value": "valid_until=2026-09-14",
+              "linked": 6
+            },
+            {
+              "path": "bbs.disclosed[revocation_handle]",
+              "value": "revocation_handle=https://status.example/manda...",
+              "linked": 6
+            },
+            {
+              "path": "bbs.disclosed[credential_id]",
+              "value": "credential_id=urn:uuid:88187683-2ce5-4b69-a93b...",
+              "linked": 6
+            },
+            {
+              "path": "envelope.credentialId",
+              "value": "urn:uuid:88187683-2ce5-4b69-a93b-c77aaff8fe81",
+              "linked": 6
+            },
+            {
+              "path": "envelope.credentialStatus.statusListIndex",
+              "value": "0",
+              "linked": 6
+            },
+            {
+              "path": "envelope.holderKeyId",
+              "value": "did:key:zixahi1eVeBhgWIMMBUw4Nbuz",
+              "linked": 6
+            }
+          ]
+        },
+        "collusion": {
+          "findings": [
+            {
+              "check": "d1 issuer signature bytes reappear in a presentation",
+              "result": "no",
+              "leak": false
+            },
+            {
+              "check": "d2 an undisclosed signed attribute value appears in the payload anyway",
+              "result": "no",
+              "leak": false
+            },
+            {
+              "check": "d3 issuer trial-verification: candidate credentials that fit a presentation",
+              "result": "anonymity set 1/1/1 of 6 credentials",
+              "leak": true
+            }
+          ],
+          "linked": true
+        }
+      }
+    },
+    {
+      "key": "hardened",
+      "functional": {
+        "presentations": 21,
+        "accepted": 21
+      },
+      "analysis": {
+        "name": "A-hardened (cohort-wide header, no status handle, bucketed expiry)",
+        "verdict": "NOT-FALSIFIED",
+        "table": [
+          {
+            "path": "bbs.disclosedIndexes",
+            "constant": true,
+            "anonymitySet": 6,
+            "cohortSize": 6,
+            "correlatable": false,
+            "leak": "N",
+            "note": "cohort-wide (k=6/6) -- no narrowing",
+            "sample": "0,2,3"
+          },
+          {
+            "path": "bbs.disclosed[mandate_scope]",
+            "constant": true,
+            "anonymitySet": 4,
+            "cohortSize": 6,
+            "correlatable": true,
+            "leak": "partial",
+            "note": "shared with 3 other dependent(s) -- anonymity set 4/6",
+            "sample": "mandate_scope=school_enrolment"
+          },
+          {
+            "path": "bbs.disclosed[type]",
+            "constant": true,
+            "anonymitySet": 6,
+            "cohortSize": 6,
+            "correlatable": false,
+            "leak": "N",
+            "note": "cohort-wide (k=6/6) -- no narrowing",
+            "sample": "type=GuardianshipMandate"
+          },
+          {
+            "path": "bbs.disclosed[valid_until]",
+            "constant": true,
+            "anonymitySet": 6,
+            "cohortSize": 6,
+            "correlatable": false,
+            "leak": "N",
+            "note": "cohort-wide (k=6/6) -- no narrowing",
+            "sample": "valid_until=2026-09-30"
+          },
+          {
+            "path": "bbs.header",
+            "constant": true,
+            "anonymitySet": 6,
+            "cohortSize": 6,
+            "correlatable": false,
+            "leak": "N",
+            "note": "cohort-wide (k=6/6) -- no narrowing",
+            "sample": "b3Blbi1jb3JlL21hbmRhdGUvdjF8aXNzdWVyPWRpZDpleG..."
+          },
+          {
+            "path": "bbs.issuerPublicKey",
+            "constant": true,
+            "anonymitySet": 6,
+            "cohortSize": 6,
+            "correlatable": false,
+            "leak": "N",
+            "note": "cohort-wide (k=6/6) -- no narrowing",
+            "sample": "sks1jRy3dspp8zu0Zr/GmPp+biqARB/HhcXrvsyQBx0nNL..."
+          },
+          {
+            "path": "bbs.presentationHeader",
+            "constant": false,
+            "anonymitySet": null,
+            "cohortSize": 6,
+            "correlatable": false,
+            "leak": "N",
+            "note": "varies per presentation",
+            "sample": "bm9uY2U6cnA6c2Nob29sOjNmNWI5MmUwNTlkMGJiOTI1OD..."
+          },
+          {
+            "path": "bbs.proof",
+            "constant": false,
+            "anonymitySet": null,
+            "cohortSize": 6,
+            "correlatable": false,
+            "leak": "N",
+            "note": "varies per presentation",
+            "sample": "jrjK9v/9Sko4O+b+6XPzOGWYEigUZphoNabiaJhGg2zo0Q..."
+          },
+          {
+            "path": "bbs.proofByteLength",
+            "constant": true,
+            "anonymitySet": 6,
+            "cohortSize": 6,
+            "correlatable": false,
+            "leak": "N",
+            "note": "cohort-wide (k=6/6) -- no narrowing",
+            "sample": "432"
+          },
+          {
+            "path": "bbs.totalMessageCount",
+            "constant": true,
+            "anonymitySet": 6,
+            "cohortSize": 6,
+            "correlatable": false,
+            "leak": "N",
+            "note": "cohort-wide (k=6/6) -- no narrowing",
+            "sample": "8"
+          }
+        ],
+        "proofs": {
+          "totalProofs": 21,
+          "distinctProofs": 21,
+          "collisions": 0,
+          "repeatVisitPairs": 2,
+          "pass": true
+        },
+        "clustering": {
+          "clusterCount": 2,
+          "clusterSizes": [
+            15,
+            6
+          ],
+          "targetClusterSize": 15,
+          "targetPresentations": 6,
+          "precision": 0.4,
+          "recall": 1,
+          "bestSingleField": {
+            "path": "bbs.disclosed[mandate_scope]",
+            "value": "mandate_scope=school_enrolment",
+            "precision": 0.4,
+            "recall": 1,
+            "f1": 0.5714285714285715,
+            "clusterSize": 15
+          },
+          "exactLinkage": false,
+          "partialLinkage": true,
+          "topEvidence": [
+            {
+              "path": "bbs.disclosed[mandate_scope]",
+              "value": "mandate_scope=school_enrolment",
+              "linked": 15
+            },
+            {
+              "path": "bbs.disclosed[mandate_scope]",
+              "value": "mandate_scope=medical_consent",
+              "linked": 6
+            }
+          ]
+        },
+        "collusion": {
+          "findings": [
+            {
+              "check": "d1 issuer signature bytes reappear in a presentation",
+              "result": "no",
+              "leak": false
+            },
+            {
+              "check": "d2 an undisclosed signed attribute value appears in the payload anyway",
+              "result": "no",
+              "leak": false
+            },
+            {
+              "check": "d3 issuer trial-verification: candidate credentials that fit a presentation",
+              "result": "anonymity set 6/6/6 of 6 credentials",
+              "leak": false
+            }
+          ],
+          "linked": false
+        }
+      }
+    }
+  ],
+  "scenarioB": [
+    {
+      "key": "auditable",
+      "functional": {
+        "presentations": 16,
+        "accepted": 16,
+        "attenuationCheckable": 16,
+        "parentRevocationCheckable": 16,
+        "firstRejection": null
+      },
+      "analysis": {
+        "name": "B-auditable (delegation pointer + parent status disclosed)",
+        "verdict": "FALSIFIED",
+        "table": [
+          {
+            "path": "parent.disclosedIndexes",
+            "constant": true,
+            "anonymitySet": 6,
+            "cohortSize": 6,
+            "correlatable": false,
+            "leak": "N",
+            "note": "cohort-wide (k=6/6) -- no narrowing",
+            "sample": "0,2,3,4,6,7"
+          },
+          {
+            "path": "parent.disclosed[credential_id]",
+            "constant": true,
+            "anonymitySet": 1,
+            "cohortSize": 6,
+            "correlatable": true,
+            "leak": "Y",
+            "note": "unique to the subject (k=1 of 6) -- exact linkage",
+            "sample": "credential_id=urn:uuid:88187683-2ce5-4b69-a93b..."
+          },
+          {
+            "path": "parent.disclosed[guardian_key]",
+            "constant": true,
+            "anonymitySet": 1,
+            "cohortSize": 6,
+            "correlatable": true,
+            "leak": "Y",
+            "note": "unique to the subject (k=1 of 6) -- exact linkage",
+            "sample": "guardian_key=ixahi1eVeBhgWIMMBUw4Nbuz8NzYjG7cK..."
+          },
+          {
+            "path": "parent.disclosed[mandate_scope]",
+            "constant": true,
+            "anonymitySet": 4,
+            "cohortSize": 6,
+            "correlatable": true,
+            "leak": "partial",
+            "note": "shared with 3 other dependent(s) -- anonymity set 4/6",
+            "sample": "mandate_scope=school_enrolment"
+          },
+          {
+            "path": "parent.disclosed[revocation_handle]",
+            "constant": true,
+            "anonymitySet": 1,
+            "cohortSize": 6,
+            "correlatable": true,
+            "leak": "Y",
+            "note": "unique to the subject (k=1 of 6) -- exact linkage",
+            "sample": "revocation_handle=https://status.example/manda..."
+          },
+          {
+            "path": "parent.disclosed[type]",
+            "constant": true,
+            "anonymitySet": 6,
+            "cohortSize": 6,
+            "correlatable": false,
+            "leak": "N",
+            "note": "cohort-wide (k=6/6) -- no narrowing",
+            "sample": "type=GuardianshipMandate"
+          },
+          {
+            "path": "parent.disclosed[valid_until]",
+            "constant": true,
+            "anonymitySet": 1,
+            "cohortSize": 6,
+            "correlatable": true,
+            "leak": "Y",
+            "note": "unique to the subject (k=1 of 6) -- exact linkage",
+            "sample": "valid_until=2026-09-14"
+          },
+          {
+            "path": "parent.header",
+            "constant": true,
+            "anonymitySet": 1,
+            "cohortSize": 6,
+            "correlatable": true,
+            "leak": "Y",
+            "note": "unique to the subject (k=1 of 6) -- exact linkage",
+            "sample": "b3Blbi1jb3JlL21hbmRhdGUvdjF8aXNzdWVyPWRpZDpleG..."
+          },
+          {
+            "path": "parent.issuerPublicKey",
+            "constant": true,
+            "anonymitySet": 6,
+            "cohortSize": 6,
+            "correlatable": false,
+            "leak": "N",
+            "note": "cohort-wide (k=6/6) -- no narrowing",
+            "sample": "sks1jRy3dspp8zu0Zr/GmPp+biqARB/HhcXrvsyQBx0nNL..."
+          },
+          {
+            "path": "parent.presentationHeader",
+            "constant": false,
+            "anonymitySet": null,
+            "cohortSize": 6,
+            "correlatable": false,
+            "leak": "N",
+            "note": "varies per presentation",
+            "sample": "bm9uY2U6cnA6c2Nob29sOjU5ZWI3OGVjZWU2NjIyYjRkNG..."
+          },
+          {
+            "path": "parent.proof",
+            "constant": false,
+            "anonymitySet": null,
+            "cohortSize": 6,
+            "correlatable": false,
+            "leak": "N",
+            "note": "varies per presentation",
+            "sample": "ihKiGaE5cRHsKGwelqLNvCDA/rNULgCrPRpZ4VJn4nbSQE..."
+          },
+          {
+            "path": "parent.proofByteLength",
+            "constant": true,
+            "anonymitySet": 6,
+            "cohortSize": 6,
+            "correlatable": false,
+            "leak": "N",
+            "note": "cohort-wide (k=6/6) -- no narrowing",
+            "sample": "336"
+          },
+          {
+            "path": "sub.disclosedIndexes",
+            "constant": true,
+            "anonymitySet": 6,
+            "cohortSize": 6,
+            "correlatable": false,
+            "leak": "N",
+            "note": "cohort-wide (k=6/6) -- no narrowing",
+            "sample": "0,2,3,4,5,6,7"
+          },
+          {
+            "path": "sub.disclosed[delegator_key]",
+            "constant": true,
+            "anonymitySet": 1,
+            "cohortSize": 6,
+            "correlatable": true,
+            "leak": "Y",
+            "note": "unique to the subject (k=1 of 6) -- exact linkage",
+            "sample": "delegator_key=ixahi1eVeBhgWIMMBUw4Nbuz8NzYjG7c..."
+          },
+          {
+            "path": "sub.disclosed[parent_credential_id]",
+            "constant": true,
+            "anonymitySet": 1,
+            "cohortSize": 6,
+            "correlatable": true,
+            "leak": "Y",
+            "note": "unique to the subject (k=1 of 6) -- exact linkage",
+            "sample": "parent_credential_id=urn:uuid:88187683-2ce5-4b..."
+          },
+          {
+            "path": "sub.disclosed[parent_revocation_handle]",
+            "constant": true,
+            "anonymitySet": 1,
+            "cohortSize": 6,
+            "correlatable": true,
+            "leak": "Y",
+            "note": "unique to the subject (k=1 of 6) -- exact linkage",
+            "sample": "parent_revocation_handle=https://status.exampl..."
+          },
+          {
+            "path": "sub.disclosed[sub_scope]",
+            "constant": true,
+            "anonymitySet": 4,
+            "cohortSize": 6,
+            "correlatable": true,
+            "leak": "partial",
+            "note": "shared with 3 other dependent(s) -- anonymity set 4/6",
+            "sample": "sub_scope=school_pickup"
+          },
+          {
+            "path": "sub.disclosed[sub_valid_until]",
+            "constant": true,
+            "anonymitySet": 6,
+            "cohortSize": 6,
+            "correlatable": false,
+            "leak": "N",
+            "note": "cohort-wide (k=6/6) -- no narrowing",
+            "sample": "sub_valid_until=2026-08-12"
+          },
+          {
+            "path": "sub.disclosed[subcarer_key]",
+            "constant": true,
+            "anonymitySet": 1,
+            "cohortSize": 6,
+            "correlatable": true,
+            "leak": "Y",
+            "note": "unique to the subject (k=1 of 6) -- exact linkage",
+            "sample": "subcarer_key=j5nJ0tDIU9/QlrEfCqsnAzdUcEGVWk1XA..."
+          },
+          {
+            "path": "sub.disclosed[type]",
+            "constant": true,
+            "anonymitySet": 6,
+            "cohortSize": 6,
+            "correlatable": false,
+            "leak": "N",
+            "note": "cohort-wide (k=6/6) -- no narrowing",
+            "sample": "type=GuardianshipSubMandate"
+          },
+          {
+            "path": "sub.header",
+            "constant": true,
+            "anonymitySet": 1,
+            "cohortSize": 6,
+            "correlatable": true,
+            "leak": "Y",
+            "note": "unique to the subject (k=1 of 6) -- exact linkage",
+            "sample": "b3Blbi1jb3JlL3N1Yi1tYW5kYXRlL3YxfHBhcmVudD11cm..."
+          },
+          {
+            "path": "sub.presentationHeader",
+            "constant": false,
+            "anonymitySet": null,
+            "cohortSize": 6,
+            "correlatable": false,
+            "leak": "N",
+            "note": "varies per presentation",
+            "sample": "bm9uY2U6cnA6c2Nob29sOjU5ZWI3OGVjZWU2NjIyYjRkNG..."
+          },
+          {
+            "path": "sub.proof",
+            "constant": false,
+            "anonymitySet": null,
+            "cohortSize": 6,
+            "correlatable": false,
+            "leak": "N",
+            "note": "varies per presentation",
+            "sample": "kK1hF2MbEiehfLQI8D0gjV+igdOPDWbGlxGSxt8ryMtOye..."
+          },
+          {
+            "path": "sub.proofByteLength",
+            "constant": true,
+            "anonymitySet": 6,
+            "cohortSize": 6,
+            "correlatable": false,
+            "leak": "N",
+            "note": "cohort-wide (k=6/6) -- no narrowing",
+            "sample": "304"
+          }
+        ],
+        "proofs": {
+          "totalProofs": 32,
+          "distinctProofs": 32,
+          "collisions": 0,
+          "repeatVisitPairs": 2,
+          "pass": true
+        },
+        "clustering": {
+          "clusterCount": 2,
+          "clusterSizes": [
+            12,
+            4
+          ],
+          "targetClusterSize": 12,
+          "targetPresentations": 6,
+          "precision": 0.5,
+          "recall": 1,
+          "bestSingleField": {
+            "path": "parent.header",
+            "value": "b3Blbi1jb3JlL21hbmRhdGUvdjF8aXNzdWVyPWRpZDpleG...",
+            "precision": 1,
+            "recall": 1,
+            "f1": 1,
+            "clusterSize": 6
+          },
+          "exactLinkage": true,
+          "partialLinkage": false,
+          "topEvidence": [
+            {
+              "path": "parent.disclosed[mandate_scope]",
+              "value": "mandate_scope=school_enrolment",
+              "linked": 12
+            },
+            {
+              "path": "sub.disclosed[sub_scope]",
+              "value": "sub_scope=school_pickup",
+              "linked": 12
+            },
+            {
+              "path": "parent.header",
+              "value": "b3Blbi1jb3JlL21hbmRhdGUvdjF8aXNzdWVyPWRpZDpleG...",
+              "linked": 6
+            },
+            {
+              "path": "parent.disclosed[valid_until]",
+              "value": "valid_until=2026-09-14",
+              "linked": 6
+            },
+            {
+              "path": "parent.disclosed[guardian_key]",
+              "value": "guardian_key=ixahi1eVeBhgWIMMBUw4Nbuz8NzYjG7cK...",
+              "linked": 6
+            },
+            {
+              "path": "parent.disclosed[revocation_handle]",
+              "value": "revocation_handle=https://status.example/manda...",
+              "linked": 6
+            },
+            {
+              "path": "parent.disclosed[credential_id]",
+              "value": "credential_id=urn:uuid:88187683-2ce5-4b69-a93b...",
+              "linked": 6
+            },
+            {
+              "path": "sub.header",
+              "value": "b3Blbi1jb3JlL3N1Yi1tYW5kYXRlL3YxfHBhcmVudD11cm...",
+              "linked": 6
+            }
+          ]
+        },
+        "collusion": {
+          "findings": [
+            {
+              "check": "d1 issuer signature bytes reappear in a presentation",
+              "result": "no",
+              "leak": false
+            },
+            {
+              "check": "d2 an undisclosed signed attribute value appears in the payload anyway",
+              "result": "no",
+              "leak": false
+            },
+            {
+              "check": "d3 issuer trial-verification: candidate credentials that fit a presentation",
+              "result": "anonymity set 1/1/1 of 6 credentials",
+              "leak": true
+            }
+          ],
+          "linked": true
+        }
+      }
+    },
+    {
+      "key": "unlinkableStable",
+      "functional": {
+        "presentations": 16,
+        "accepted": 16,
+        "attenuationCheckable": 16,
+        "parentRevocationCheckable": 0,
+        "firstRejection": null
+      },
+      "analysis": {
+        "name": "B-unlinkable-stable (hop binding kept, parent ids/status removed)",
+        "verdict": "FALSIFIED",
+        "table": [
+          {
+            "path": "parent.disclosedIndexes",
+            "constant": true,
+            "anonymitySet": 6,
+            "cohortSize": 6,
+            "correlatable": false,
+            "leak": "N",
+            "note": "cohort-wide (k=6/6) -- no narrowing",
+            "sample": "0,2,3,4"
+          },
+          {
+            "path": "parent.disclosed[guardian_key]",
+            "constant": true,
+            "anonymitySet": 1,
+            "cohortSize": 6,
+            "correlatable": true,
+            "leak": "Y",
+            "note": "unique to the subject (k=1 of 6) -- exact linkage",
+            "sample": "guardian_key=ixahi1eVeBhgWIMMBUw4Nbuz8NzYjG7cK..."
+          },
+          {
+            "path": "parent.disclosed[mandate_scope]",
+            "constant": true,
+            "anonymitySet": 4,
+            "cohortSize": 6,
+            "correlatable": true,
+            "leak": "partial",
+            "note": "shared with 3 other dependent(s) -- anonymity set 4/6",
+            "sample": "mandate_scope=school_enrolment"
+          },
+          {
+            "path": "parent.disclosed[type]",
+            "constant": true,
+            "anonymitySet": 6,
+            "cohortSize": 6,
+            "correlatable": false,
+            "leak": "N",
+            "note": "cohort-wide (k=6/6) -- no narrowing",
+            "sample": "type=GuardianshipMandate"
+          },
+          {
+            "path": "parent.disclosed[valid_until]",
+            "constant": true,
+            "anonymitySet": 6,
+            "cohortSize": 6,
+            "correlatable": false,
+            "leak": "N",
+            "note": "cohort-wide (k=6/6) -- no narrowing",
+            "sample": "valid_until=2026-09-30"
+          },
+          {
+            "path": "parent.header",
+            "constant": true,
+            "anonymitySet": 6,
+            "cohortSize": 6,
+            "correlatable": false,
+            "leak": "N",
+            "note": "cohort-wide (k=6/6) -- no narrowing",
+            "sample": "b3Blbi1jb3JlL21hbmRhdGUvdjF8aXNzdWVyPWRpZDpleG..."
+          },
+          {
+            "path": "parent.issuerPublicKey",
+            "constant": true,
+            "anonymitySet": 6,
+            "cohortSize": 6,
+            "correlatable": false,
+            "leak": "N",
+            "note": "cohort-wide (k=6/6) -- no narrowing",
+            "sample": "sks1jRy3dspp8zu0Zr/GmPp+biqARB/HhcXrvsyQBx0nNL..."
+          },
+          {
+            "path": "parent.presentationHeader",
+            "constant": false,
+            "anonymitySet": null,
+            "cohortSize": 6,
+            "correlatable": false,
+            "leak": "N",
+            "note": "varies per presentation",
+            "sample": "bm9uY2U6cnA6c2Nob29sOmY1YjA2MzY2NDYwMjA5ZWQ4Mz..."
+          },
+          {
+            "path": "parent.proof",
+            "constant": false,
+            "anonymitySet": null,
+            "cohortSize": 6,
+            "correlatable": false,
+            "leak": "N",
+            "note": "varies per presentation",
+            "sample": "k8dLwQYo5XQgnwKQgDKP3X3dFGD3IbJkH5khiqPau0KM91..."
+          },
+          {
+            "path": "parent.proofByteLength",
+            "constant": true,
+            "anonymitySet": 6,
+            "cohortSize": 6,
+            "correlatable": false,
+            "leak": "N",
+            "note": "cohort-wide (k=6/6) -- no narrowing",
+            "sample": "400"
+          },
+          {
+            "path": "sub.disclosedIndexes",
+            "constant": true,
+            "anonymitySet": 6,
+            "cohortSize": 6,
+            "correlatable": false,
+            "leak": "N",
+            "note": "cohort-wide (k=6/6) -- no narrowing",
+            "sample": "0,2,3,5"
+          },
+          {
+            "path": "sub.disclosed[delegator_key]",
+            "constant": true,
+            "anonymitySet": 1,
+            "cohortSize": 6,
+            "correlatable": true,
+            "leak": "Y",
+            "note": "unique to the subject (k=1 of 6) -- exact linkage",
+            "sample": "delegator_key=ixahi1eVeBhgWIMMBUw4Nbuz8NzYjG7c..."
+          },
+          {
+            "path": "sub.disclosed[sub_scope]",
+            "constant": true,
+            "anonymitySet": 4,
+            "cohortSize": 6,
+            "correlatable": true,
+            "leak": "partial",
+            "note": "shared with 3 other dependent(s) -- anonymity set 4/6",
+            "sample": "sub_scope=school_pickup"
+          },
+          {
+            "path": "sub.disclosed[sub_valid_until]",
+            "constant": true,
+            "anonymitySet": 6,
+            "cohortSize": 6,
+            "correlatable": false,
+            "leak": "N",
+            "note": "cohort-wide (k=6/6) -- no narrowing",
+            "sample": "sub_valid_until=2026-08-12"
+          },
+          {
+            "path": "sub.disclosed[type]",
+            "constant": true,
+            "anonymitySet": 6,
+            "cohortSize": 6,
+            "correlatable": false,
+            "leak": "N",
+            "note": "cohort-wide (k=6/6) -- no narrowing",
+            "sample": "type=GuardianshipSubMandate"
+          },
+          {
+            "path": "sub.header",
+            "constant": true,
+            "anonymitySet": 6,
+            "cohortSize": 6,
+            "correlatable": false,
+            "leak": "N",
+            "note": "cohort-wide (k=6/6) -- no narrowing",
+            "sample": "b3Blbi1jb3JlL3N1Yi1tYW5kYXRlL3YxfGVwb2NoPTIwMj..."
+          },
+          {
+            "path": "sub.presentationHeader",
+            "constant": false,
+            "anonymitySet": null,
+            "cohortSize": 6,
+            "correlatable": false,
+            "leak": "N",
+            "note": "varies per presentation",
+            "sample": "bm9uY2U6cnA6c2Nob29sOmY1YjA2MzY2NDYwMjA5ZWQ4Mz..."
+          },
+          {
+            "path": "sub.proof",
+            "constant": false,
+            "anonymitySet": null,
+            "cohortSize": 6,
+            "correlatable": false,
+            "leak": "N",
+            "note": "varies per presentation",
+            "sample": "qbosFYOm+gdlUyxElSaL6hcWBhSMKj0LksuNmvb2+IdG7d..."
+          },
+          {
+            "path": "sub.proofByteLength",
+            "constant": true,
+            "anonymitySet": 6,
+            "cohortSize": 6,
+            "correlatable": false,
+            "leak": "N",
+            "note": "cohort-wide (k=6/6) -- no narrowing",
+            "sample": "400"
+          }
+        ],
+        "proofs": {
+          "totalProofs": 32,
+          "distinctProofs": 32,
+          "collisions": 0,
+          "repeatVisitPairs": 2,
+          "pass": true
+        },
+        "clustering": {
+          "clusterCount": 2,
+          "clusterSizes": [
+            12,
+            4
+          ],
+          "targetClusterSize": 12,
+          "targetPresentations": 6,
+          "precision": 0.5,
+          "recall": 1,
+          "bestSingleField": {
+            "path": "parent.disclosed[guardian_key]",
+            "value": "guardian_key=ixahi1eVeBhgWIMMBUw4Nbuz8NzYjG7cK...",
+            "precision": 1,
+            "recall": 1,
+            "f1": 1,
+            "clusterSize": 6
+          },
+          "exactLinkage": true,
+          "partialLinkage": false,
+          "topEvidence": [
+            {
+              "path": "parent.disclosed[mandate_scope]",
+              "value": "mandate_scope=school_enrolment",
+              "linked": 12
+            },
+            {
+              "path": "sub.disclosed[sub_scope]",
+              "value": "sub_scope=school_pickup",
+              "linked": 12
+            },
+            {
+              "path": "parent.disclosed[guardian_key]",
+              "value": "guardian_key=ixahi1eVeBhgWIMMBUw4Nbuz8NzYjG7cK...",
+              "linked": 6
+            },
+            {
+              "path": "sub.disclosed[delegator_key]",
+              "value": "delegator_key=ixahi1eVeBhgWIMMBUw4Nbuz8NzYjG7c...",
+              "linked": 6
+            },
+            {
+              "path": "parent.disclosed[mandate_scope]",
+              "value": "mandate_scope=medical_consent",
+              "linked": 4
+            },
+            {
+              "path": "sub.disclosed[sub_scope]",
+              "value": "sub_scope=medical_records_read",
+              "linked": 4
+            },
+            {
+              "path": "parent.disclosed[guardian_key]",
+              "value": "guardian_key=ith1dKPs7IcDZVwfHQgUkxYCRvLwb5EdL...",
+              "linked": 2
+            },
+            {
+              "path": "sub.disclosed[delegator_key]",
+              "value": "delegator_key=ith1dKPs7IcDZVwfHQgUkxYCRvLwb5Ed...",
+              "linked": 2
+            }
+          ]
+        },
+        "collusion": {
+          "findings": [
+            {
+              "check": "d1 issuer signature bytes reappear in a presentation",
+              "result": "no",
+              "leak": false
+            },
+            {
+              "check": "d2 an undisclosed signed attribute value appears in the payload anyway",
+              "result": "no",
+              "leak": false
+            },
+            {
+              "check": "d3 issuer trial-verification: candidate credentials that fit a presentation",
+              "result": "anonymity set 6/6/6 of 6 credentials",
+              "leak": false
+            }
+          ],
+          "linked": false
+        }
+      }
+    },
+    {
+      "key": "unlinkableFresh",
+      "functional": {
+        "presentations": 16,
+        "accepted": 16,
+        "attenuationCheckable": 0,
+        "parentRevocationCheckable": 0,
+        "firstRejection": null
+      },
+      "analysis": {
+        "name": "B-unlinkable-fresh (hop binding removed, fresh delegator key per presentation)",
+        "verdict": "NOT-FALSIFIED",
+        "table": [
+          {
+            "path": "parent.disclosedIndexes",
+            "constant": true,
+            "anonymitySet": 6,
+            "cohortSize": 6,
+            "correlatable": false,
+            "leak": "N",
+            "note": "cohort-wide (k=6/6) -- no narrowing",
+            "sample": "0,2,3"
+          },
+          {
+            "path": "parent.disclosed[mandate_scope]",
+            "constant": true,
+            "anonymitySet": 4,
+            "cohortSize": 6,
+            "correlatable": true,
+            "leak": "partial",
+            "note": "shared with 3 other dependent(s) -- anonymity set 4/6",
+            "sample": "mandate_scope=school_enrolment"
+          },
+          {
+            "path": "parent.disclosed[type]",
+            "constant": true,
+            "anonymitySet": 6,
+            "cohortSize": 6,
+            "correlatable": false,
+            "leak": "N",
+            "note": "cohort-wide (k=6/6) -- no narrowing",
+            "sample": "type=GuardianshipMandate"
+          },
+          {
+            "path": "parent.disclosed[valid_until]",
+            "constant": true,
+            "anonymitySet": 6,
+            "cohortSize": 6,
+            "correlatable": false,
+            "leak": "N",
+            "note": "cohort-wide (k=6/6) -- no narrowing",
+            "sample": "valid_until=2026-09-30"
+          },
+          {
+            "path": "parent.header",
+            "constant": true,
+            "anonymitySet": 6,
+            "cohortSize": 6,
+            "correlatable": false,
+            "leak": "N",
+            "note": "cohort-wide (k=6/6) -- no narrowing",
+            "sample": "b3Blbi1jb3JlL21hbmRhdGUvdjF8aXNzdWVyPWRpZDpleG..."
+          },
+          {
+            "path": "parent.issuerPublicKey",
+            "constant": true,
+            "anonymitySet": 6,
+            "cohortSize": 6,
+            "correlatable": false,
+            "leak": "N",
+            "note": "cohort-wide (k=6/6) -- no narrowing",
+            "sample": "sks1jRy3dspp8zu0Zr/GmPp+biqARB/HhcXrvsyQBx0nNL..."
+          },
+          {
+            "path": "parent.presentationHeader",
+            "constant": false,
+            "anonymitySet": null,
+            "cohortSize": 6,
+            "correlatable": false,
+            "leak": "N",
+            "note": "varies per presentation",
+            "sample": "bm9uY2U6cnA6c2Nob29sOjVhNTg3MzBiYzc0OGE3ZDgyNm..."
+          },
+          {
+            "path": "parent.proof",
+            "constant": false,
+            "anonymitySet": null,
+            "cohortSize": 6,
+            "correlatable": false,
+            "leak": "N",
+            "note": "varies per presentation",
+            "sample": "tukxIP3tA67AvWWq+56Xvbz0zcxZPlxJ7pSnp58kh0O5+p..."
+          },
+          {
+            "path": "parent.proofByteLength",
+            "constant": true,
+            "anonymitySet": 6,
+            "cohortSize": 6,
+            "correlatable": false,
+            "leak": "N",
+            "note": "cohort-wide (k=6/6) -- no narrowing",
+            "sample": "432"
+          },
+          {
+            "path": "sub.delegatorPublicKey",
+            "constant": false,
+            "anonymitySet": null,
+            "cohortSize": 6,
+            "correlatable": false,
+            "leak": "N",
+            "note": "varies per presentation",
+            "sample": "kX6BQpB82fwNuvZinkiTuvMnvhnINxVO5Cei6oqxSizMwa..."
+          },
+          {
+            "path": "sub.disclosedIndexes",
+            "constant": true,
+            "anonymitySet": 6,
+            "cohortSize": 6,
+            "correlatable": false,
+            "leak": "N",
+            "note": "cohort-wide (k=6/6) -- no narrowing",
+            "sample": "0,2,3"
+          },
+          {
+            "path": "sub.disclosed[sub_scope]",
+            "constant": true,
+            "anonymitySet": 4,
+            "cohortSize": 6,
+            "correlatable": true,
+            "leak": "partial",
+            "note": "shared with 3 other dependent(s) -- anonymity set 4/6",
+            "sample": "sub_scope=school_pickup"
+          },
+          {
+            "path": "sub.disclosed[sub_valid_until]",
+            "constant": true,
+            "anonymitySet": 6,
+            "cohortSize": 6,
+            "correlatable": false,
+            "leak": "N",
+            "note": "cohort-wide (k=6/6) -- no narrowing",
+            "sample": "sub_valid_until=2026-08-12"
+          },
+          {
+            "path": "sub.disclosed[type]",
+            "constant": true,
+            "anonymitySet": 6,
+            "cohortSize": 6,
+            "correlatable": false,
+            "leak": "N",
+            "note": "cohort-wide (k=6/6) -- no narrowing",
+            "sample": "type=GuardianshipSubMandate"
+          },
+          {
+            "path": "sub.header",
+            "constant": true,
+            "anonymitySet": 6,
+            "cohortSize": 6,
+            "correlatable": false,
+            "leak": "N",
+            "note": "cohort-wide (k=6/6) -- no narrowing",
+            "sample": "b3Blbi1jb3JlL3N1Yi1tYW5kYXRlL3YxfGVwb2NoPTIwMj..."
+          },
+          {
+            "path": "sub.presentationHeader",
+            "constant": false,
+            "anonymitySet": null,
+            "cohortSize": 6,
+            "correlatable": false,
+            "leak": "N",
+            "note": "varies per presentation",
+            "sample": "bm9uY2U6cnA6c2Nob29sOjVhNTg3MzBiYzc0OGE3ZDgyNm..."
+          },
+          {
+            "path": "sub.proof",
+            "constant": false,
+            "anonymitySet": null,
+            "cohortSize": 6,
+            "correlatable": false,
+            "leak": "N",
+            "note": "varies per presentation",
+            "sample": "okGOdF+9ZeqzYJGIhTArRyRljNVVL9pwa8byQUX/pf1NK9..."
+          },
+          {
+            "path": "sub.proofByteLength",
+            "constant": true,
+            "anonymitySet": 6,
+            "cohortSize": 6,
+            "correlatable": false,
+            "leak": "N",
+            "note": "cohort-wide (k=6/6) -- no narrowing",
+            "sample": "432"
+          }
+        ],
+        "proofs": {
+          "totalProofs": 32,
+          "distinctProofs": 32,
+          "collisions": 0,
+          "repeatVisitPairs": 2,
+          "pass": true
+        },
+        "clustering": {
+          "clusterCount": 2,
+          "clusterSizes": [
+            12,
+            4
+          ],
+          "targetClusterSize": 12,
+          "targetPresentations": 6,
+          "precision": 0.5,
+          "recall": 1,
+          "bestSingleField": {
+            "path": "parent.disclosed[mandate_scope]",
+            "value": "mandate_scope=school_enrolment",
+            "precision": 0.5,
+            "recall": 1,
+            "f1": 0.6666666666666666,
+            "clusterSize": 12
+          },
+          "exactLinkage": false,
+          "partialLinkage": true,
+          "topEvidence": [
+            {
+              "path": "parent.disclosed[mandate_scope]",
+              "value": "mandate_scope=school_enrolment",
+              "linked": 12
+            },
+            {
+              "path": "sub.disclosed[sub_scope]",
+              "value": "sub_scope=school_pickup",
+              "linked": 12
+            },
+            {
+              "path": "parent.disclosed[mandate_scope]",
+              "value": "mandate_scope=medical_consent",
+              "linked": 4
+            },
+            {
+              "path": "sub.disclosed[sub_scope]",
+              "value": "sub_scope=medical_records_read",
+              "linked": 4
+            }
+          ]
+        },
+        "collusion": {
+          "findings": [
+            {
+              "check": "d1 issuer signature bytes reappear in a presentation",
+              "result": "no",
+              "leak": false
+            },
+            {
+              "check": "d2 an undisclosed signed attribute value appears in the payload anyway",
+              "result": "no",
+              "leak": false
+            },
+            {
+              "check": "d3 issuer trial-verification: candidate credentials that fit a presentation",
+              "result": "anonymity set 6/6/6 of 6 credentials",
+              "leak": false
+            }
+          ],
+          "linked": false
+        }
+      }
+    }
+  ],
+  "crossHop": [
+    {
+      "label": "A-naive (VC-shaped envelope around a BBS proof)  x  B-auditable (delegation pointer + parent status disclosed)",
+      "cohortSize": 6,
+      "sharedAtoms": 12,
+      "hardCorrelators": [
+        {
+          "atom": "b3Blbi1jb3JlL21hbmRhdGUvdjF8aXNzdWVyPWRp...",
+          "anonymitySet": 1,
+          "cohortSize": 6,
+          "persistent": true,
+          "hop1Paths": [
+            "bbs.header"
+          ],
+          "hop2Paths": [
+            "parent.header"
+          ],
+          "hard": true
+        },
+        {
+          "atom": "valid_until=2026-09-14",
+          "anonymitySet": 1,
+          "cohortSize": 6,
+          "persistent": true,
+          "hop1Paths": [
+            "bbs.disclosed[valid_until]"
+          ],
+          "hop2Paths": [
+            "parent.disclosed[valid_until]"
+          ],
+          "hard": true
+        },
+        {
+          "atom": "2026-09-14",
+          "anonymitySet": 1,
+          "cohortSize": 6,
+          "persistent": true,
+          "hop1Paths": [
+            "bbs.disclosed[valid_until]"
+          ],
+          "hop2Paths": [
+            "parent.disclosed[valid_until]"
+          ],
+          "hard": true
+        },
+        {
+          "atom": "revocation_handle=https://status.example...",
+          "anonymitySet": 1,
+          "cohortSize": 6,
+          "persistent": true,
+          "hop1Paths": [
+            "bbs.disclosed[revocation_handle]"
+          ],
+          "hop2Paths": [
+            "parent.disclosed[revocation_handle]"
+          ],
+          "hard": true
+        },
+        {
+          "atom": "https://status.example/mandates/2026-Q3#...",
+          "anonymitySet": 1,
+          "cohortSize": 6,
+          "persistent": true,
+          "hop1Paths": [
+            "bbs.disclosed[revocation_handle]"
+          ],
+          "hop2Paths": [
+            "parent.disclosed[revocation_handle]",
+            "sub.disclosed[parent_revocation_handle]"
+          ],
+          "hard": true
+        },
+        {
+          "atom": "credential_id=urn:uuid:88187683-2ce5-4b6...",
+          "anonymitySet": 1,
+          "cohortSize": 6,
+          "persistent": true,
+          "hop1Paths": [
+            "bbs.disclosed[credential_id]"
+          ],
+          "hop2Paths": [
+            "parent.disclosed[credential_id]"
+          ],
+          "hard": true
+        },
+        {
+          "atom": "urn:uuid:88187683-2ce5-4b69-a93b-c77aaff...",
+          "anonymitySet": 1,
+          "cohortSize": 6,
+          "persistent": true,
+          "hop1Paths": [
+            "bbs.disclosed[credential_id]",
+            "envelope.credentialId"
+          ],
+          "hop2Paths": [
+            "parent.disclosed[credential_id]",
+            "sub.disclosed[parent_credential_id]"
+          ],
+          "hard": true
+        }
+      ],
+      "narrowingCorrelators": [
+        {
+          "atom": "mandate_scope=school_enrolment",
+          "anonymitySet": 4,
+          "cohortSize": 6,
+          "persistent": true,
+          "hop1Paths": [
+            "bbs.disclosed[mandate_scope]"
+          ],
+          "hop2Paths": [
+            "parent.disclosed[mandate_scope]"
+          ],
+          "hard": false
+        },
+        {
+          "atom": "school_enrolment",
+          "anonymitySet": 4,
+          "cohortSize": 6,
+          "persistent": true,
+          "hop1Paths": [
+            "bbs.disclosed[mandate_scope]"
+          ],
+          "hop2Paths": [
+            "parent.disclosed[mandate_scope]"
+          ],
+          "hard": false
+        }
+      ],
+      "pass": false,
+      "correlators": [
+        {
+          "atom": "sks1jRy3dspp8zu0Zr/GmPp+biqARB/HhcXrvsyQ...",
+          "anonymitySet": 6,
+          "cohortSize": 6,
+          "persistent": true,
+          "hop1Paths": [
+            "bbs.issuerPublicKey"
+          ],
+          "hop2Paths": [
+            "parent.issuerPublicKey"
+          ],
+          "hard": false
+        },
+        {
+          "atom": "b3Blbi1jb3JlL21hbmRhdGUvdjF8aXNzdWVyPWRp...",
+          "anonymitySet": 1,
+          "cohortSize": 6,
+          "persistent": true,
+          "hop1Paths": [
+            "bbs.header"
+          ],
+          "hop2Paths": [
+            "parent.header"
+          ],
+          "hard": true
+        },
+        {
+          "atom": "type=GuardianshipMandate",
+          "anonymitySet": 6,
+          "cohortSize": 6,
+          "persistent": true,
+          "hop1Paths": [
+            "bbs.disclosed[type]"
+          ],
+          "hop2Paths": [
+            "parent.disclosed[type]"
+          ],
+          "hard": false
+        },
+        {
+          "atom": "GuardianshipMandate",
+          "anonymitySet": 6,
+          "cohortSize": 6,
+          "persistent": true,
+          "hop1Paths": [
+            "bbs.disclosed[type]"
+          ],
+          "hop2Paths": [
+            "parent.disclosed[type]"
+          ],
+          "hard": false
+        },
+        {
+          "atom": "mandate_scope=school_enrolment",
+          "anonymitySet": 4,
+          "cohortSize": 6,
+          "persistent": true,
+          "hop1Paths": [
+            "bbs.disclosed[mandate_scope]"
+          ],
+          "hop2Paths": [
+            "parent.disclosed[mandate_scope]"
+          ],
+          "hard": false
+        },
+        {
+          "atom": "school_enrolment",
+          "anonymitySet": 4,
+          "cohortSize": 6,
+          "persistent": true,
+          "hop1Paths": [
+            "bbs.disclosed[mandate_scope]"
+          ],
+          "hop2Paths": [
+            "parent.disclosed[mandate_scope]"
+          ],
+          "hard": false
+        },
+        {
+          "atom": "valid_until=2026-09-14",
+          "anonymitySet": 1,
+          "cohortSize": 6,
+          "persistent": true,
+          "hop1Paths": [
+            "bbs.disclosed[valid_until]"
+          ],
+          "hop2Paths": [
+            "parent.disclosed[valid_until]"
+          ],
+          "hard": true
+        },
+        {
+          "atom": "2026-09-14",
+          "anonymitySet": 1,
+          "cohortSize": 6,
+          "persistent": true,
+          "hop1Paths": [
+            "bbs.disclosed[valid_until]"
+          ],
+          "hop2Paths": [
+            "parent.disclosed[valid_until]"
+          ],
+          "hard": true
+        },
+        {
+          "atom": "revocation_handle=https://status.example...",
+          "anonymitySet": 1,
+          "cohortSize": 6,
+          "persistent": true,
+          "hop1Paths": [
+            "bbs.disclosed[revocation_handle]"
+          ],
+          "hop2Paths": [
+            "parent.disclosed[revocation_handle]"
+          ],
+          "hard": true
+        },
+        {
+          "atom": "https://status.example/mandates/2026-Q3#...",
+          "anonymitySet": 1,
+          "cohortSize": 6,
+          "persistent": true,
+          "hop1Paths": [
+            "bbs.disclosed[revocation_handle]"
+          ],
+          "hop2Paths": [
+            "parent.disclosed[revocation_handle]",
+            "sub.disclosed[parent_revocation_handle]"
+          ],
+          "hard": true
+        },
+        {
+          "atom": "credential_id=urn:uuid:88187683-2ce5-4b6...",
+          "anonymitySet": 1,
+          "cohortSize": 6,
+          "persistent": true,
+          "hop1Paths": [
+            "bbs.disclosed[credential_id]"
+          ],
+          "hop2Paths": [
+            "parent.disclosed[credential_id]"
+          ],
+          "hard": true
+        },
+        {
+          "atom": "urn:uuid:88187683-2ce5-4b69-a93b-c77aaff...",
+          "anonymitySet": 1,
+          "cohortSize": 6,
+          "persistent": true,
+          "hop1Paths": [
+            "bbs.disclosed[credential_id]",
+            "envelope.credentialId"
+          ],
+          "hop2Paths": [
+            "parent.disclosed[credential_id]",
+            "sub.disclosed[parent_credential_id]"
+          ],
+          "hard": true
+        }
+      ]
+    },
+    {
+      "label": "A-hardened (cohort-wide header, no status handle, bucketed expiry)  x  B-unlinkable-stable (hop binding kept, parent ids/status removed)",
+      "cohortSize": 6,
+      "sharedAtoms": 8,
+      "hardCorrelators": [],
+      "narrowingCorrelators": [
+        {
+          "atom": "mandate_scope=school_enrolment",
+          "anonymitySet": 4,
+          "cohortSize": 6,
+          "persistent": true,
+          "hop1Paths": [
+            "bbs.disclosed[mandate_scope]"
+          ],
+          "hop2Paths": [
+            "parent.disclosed[mandate_scope]"
+          ],
+          "hard": false
+        },
+        {
+          "atom": "school_enrolment",
+          "anonymitySet": 4,
+          "cohortSize": 6,
+          "persistent": true,
+          "hop1Paths": [
+            "bbs.disclosed[mandate_scope]"
+          ],
+          "hop2Paths": [
+            "parent.disclosed[mandate_scope]"
+          ],
+          "hard": false
+        }
+      ],
+      "pass": true,
+      "correlators": [
+        {
+          "atom": "sks1jRy3dspp8zu0Zr/GmPp+biqARB/HhcXrvsyQ...",
+          "anonymitySet": 6,
+          "cohortSize": 6,
+          "persistent": true,
+          "hop1Paths": [
+            "bbs.issuerPublicKey"
+          ],
+          "hop2Paths": [
+            "parent.issuerPublicKey"
+          ],
+          "hard": false
+        },
+        {
+          "atom": "b3Blbi1jb3JlL21hbmRhdGUvdjF8aXNzdWVyPWRp...",
+          "anonymitySet": 6,
+          "cohortSize": 6,
+          "persistent": true,
+          "hop1Paths": [
+            "bbs.header"
+          ],
+          "hop2Paths": [
+            "parent.header"
+          ],
+          "hard": false
+        },
+        {
+          "atom": "type=GuardianshipMandate",
+          "anonymitySet": 6,
+          "cohortSize": 6,
+          "persistent": true,
+          "hop1Paths": [
+            "bbs.disclosed[type]"
+          ],
+          "hop2Paths": [
+            "parent.disclosed[type]"
+          ],
+          "hard": false
+        },
+        {
+          "atom": "GuardianshipMandate",
+          "anonymitySet": 6,
+          "cohortSize": 6,
+          "persistent": true,
+          "hop1Paths": [
+            "bbs.disclosed[type]"
+          ],
+          "hop2Paths": [
+            "parent.disclosed[type]"
+          ],
+          "hard": false
+        },
+        {
+          "atom": "mandate_scope=school_enrolment",
+          "anonymitySet": 4,
+          "cohortSize": 6,
+          "persistent": true,
+          "hop1Paths": [
+            "bbs.disclosed[mandate_scope]"
+          ],
+          "hop2Paths": [
+            "parent.disclosed[mandate_scope]"
+          ],
+          "hard": false
+        },
+        {
+          "atom": "school_enrolment",
+          "anonymitySet": 4,
+          "cohortSize": 6,
+          "persistent": true,
+          "hop1Paths": [
+            "bbs.disclosed[mandate_scope]"
+          ],
+          "hop2Paths": [
+            "parent.disclosed[mandate_scope]"
+          ],
+          "hard": false
+        },
+        {
+          "atom": "valid_until=2026-09-30",
+          "anonymitySet": 6,
+          "cohortSize": 6,
+          "persistent": true,
+          "hop1Paths": [
+            "bbs.disclosed[valid_until]"
+          ],
+          "hop2Paths": [
+            "parent.disclosed[valid_until]"
+          ],
+          "hard": false
+        },
+        {
+          "atom": "2026-09-30",
+          "anonymitySet": 6,
+          "cohortSize": 6,
+          "persistent": true,
+          "hop1Paths": [
+            "bbs.disclosed[valid_until]"
+          ],
+          "hop2Paths": [
+            "parent.disclosed[valid_until]"
+          ],
+          "hard": false
+        }
+      ]
+    },
+    {
+      "label": "A-hardened (cohort-wide header, no status handle, bucketed expiry)  x  B-unlinkable-fresh (hop binding removed, fresh delegator key per presentation)",
+      "cohortSize": 6,
+      "sharedAtoms": 8,
+      "hardCorrelators": [],
+      "narrowingCorrelators": [
+        {
+          "atom": "mandate_scope=school_enrolment",
+          "anonymitySet": 4,
+          "cohortSize": 6,
+          "persistent": true,
+          "hop1Paths": [
+            "bbs.disclosed[mandate_scope]"
+          ],
+          "hop2Paths": [
+            "parent.disclosed[mandate_scope]"
+          ],
+          "hard": false
+        },
+        {
+          "atom": "school_enrolment",
+          "anonymitySet": 4,
+          "cohortSize": 6,
+          "persistent": true,
+          "hop1Paths": [
+            "bbs.disclosed[mandate_scope]"
+          ],
+          "hop2Paths": [
+            "parent.disclosed[mandate_scope]"
+          ],
+          "hard": false
+        }
+      ],
+      "pass": true,
+      "correlators": [
+        {
+          "atom": "sks1jRy3dspp8zu0Zr/GmPp+biqARB/HhcXrvsyQ...",
+          "anonymitySet": 6,
+          "cohortSize": 6,
+          "persistent": true,
+          "hop1Paths": [
+            "bbs.issuerPublicKey"
+          ],
+          "hop2Paths": [
+            "parent.issuerPublicKey"
+          ],
+          "hard": false
+        },
+        {
+          "atom": "b3Blbi1jb3JlL21hbmRhdGUvdjF8aXNzdWVyPWRp...",
+          "anonymitySet": 6,
+          "cohortSize": 6,
+          "persistent": true,
+          "hop1Paths": [
+            "bbs.header"
+          ],
+          "hop2Paths": [
+            "parent.header"
+          ],
+          "hard": false
+        },
+        {
+          "atom": "type=GuardianshipMandate",
+          "anonymitySet": 6,
+          "cohortSize": 6,
+          "persistent": true,
+          "hop1Paths": [
+            "bbs.disclosed[type]"
+          ],
+          "hop2Paths": [
+            "parent.disclosed[type]"
+          ],
+          "hard": false
+        },
+        {
+          "atom": "GuardianshipMandate",
+          "anonymitySet": 6,
+          "cohortSize": 6,
+          "persistent": true,
+          "hop1Paths": [
+            "bbs.disclosed[type]"
+          ],
+          "hop2Paths": [
+            "parent.disclosed[type]"
+          ],
+          "hard": false
+        },
+        {
+          "atom": "mandate_scope=school_enrolment",
+          "anonymitySet": 4,
+          "cohortSize": 6,
+          "persistent": true,
+          "hop1Paths": [
+            "bbs.disclosed[mandate_scope]"
+          ],
+          "hop2Paths": [
+            "parent.disclosed[mandate_scope]"
+          ],
+          "hard": false
+        },
+        {
+          "atom": "school_enrolment",
+          "anonymitySet": 4,
+          "cohortSize": 6,
+          "persistent": true,
+          "hop1Paths": [
+            "bbs.disclosed[mandate_scope]"
+          ],
+          "hop2Paths": [
+            "parent.disclosed[mandate_scope]"
+          ],
+          "hard": false
+        },
+        {
+          "atom": "valid_until=2026-09-30",
+          "anonymitySet": 6,
+          "cohortSize": 6,
+          "persistent": true,
+          "hop1Paths": [
+            "bbs.disclosed[valid_until]"
+          ],
+          "hop2Paths": [
+            "parent.disclosed[valid_until]"
+          ],
+          "hard": false
+        },
+        {
+          "atom": "2026-09-30",
+          "anonymitySet": 6,
+          "cohortSize": 6,
+          "persistent": true,
+          "hop1Paths": [
+            "bbs.disclosed[valid_until]"
+          ],
+          "hop2Paths": [
+            "parent.disclosed[valid_until]"
+          ],
+          "hard": false
+        }
+      ]
+    }
+  ],
+  "attenuation": [
+    {
+      "profile": "auditable",
+      "attack": "f1 rewrite the disclosed sub_scope value",
+      "accepted": false,
+      "expected": false,
+      "outcome": "rejected: sub-mandate (hop 2) proof failed to verify"
+    },
+    {
+      "profile": "auditable",
+      "attack": "f2 sub-carer self-issues a broader sub-mandate under its own key",
+      "accepted": false,
+      "expected": false,
+      "outcome": "rejected: sub-mandate delegator key != guardian key in the parent mandate"
+    },
+    {
+      "profile": "auditable",
+      "attack": "f3 substitute a different signed attribute at the scope index",
+      "accepted": false,
+      "expected": false,
+      "outcome": "rejected: sub-mandate (hop 2) proof failed to verify"
+    },
+    {
+      "profile": "auditable",
+      "attack": "f4 baseline: honest presentation at the delegated scope",
+      "accepted": true,
+      "expected": true,
+      "outcome": "accepted (correct)"
+    },
+    {
+      "profile": "unlinkableStable",
+      "attack": "f1 rewrite the disclosed sub_scope value",
+      "accepted": false,
+      "expected": false,
+      "outcome": "rejected: sub-mandate (hop 2) proof failed to verify"
+    },
+    {
+      "profile": "unlinkableStable",
+      "attack": "f2 sub-carer self-issues a broader sub-mandate under its own key",
+      "accepted": false,
+      "expected": false,
+      "outcome": "rejected: sub-mandate delegator key != guardian key in the parent mandate"
+    },
+    {
+      "profile": "unlinkableStable",
+      "attack": "f3 substitute a different signed attribute at the scope index",
+      "accepted": false,
+      "expected": false,
+      "outcome": "rejected: sub-mandate (hop 2) proof failed to verify"
+    },
+    {
+      "profile": "unlinkableStable",
+      "attack": "f4 baseline: honest presentation at the delegated scope",
+      "accepted": true,
+      "expected": true,
+      "outcome": "accepted (correct)"
+    },
+    {
+      "profile": "unlinkableFresh",
+      "attack": "f1 rewrite the disclosed sub_scope value",
+      "accepted": false,
+      "expected": false,
+      "outcome": "rejected: sub-mandate (hop 2) proof failed to verify"
+    },
+    {
+      "profile": "unlinkableFresh",
+      "attack": "f2 sub-carer self-issues a broader sub-mandate under its own key",
+      "accepted": true,
+      "expected": false,
+      "outcome": "ESCALATION SUCCEEDED"
+    },
+    {
+      "profile": "unlinkableFresh",
+      "attack": "f3 substitute a different signed attribute at the scope index",
+      "accepted": false,
+      "expected": false,
+      "outcome": "rejected: sub-mandate (hop 2) proof failed to verify"
+    },
+    {
+      "profile": "unlinkableFresh",
+      "attack": "f4 baseline: honest presentation at the delegated scope",
+      "accepted": true,
+      "expected": true,
+      "outcome": "accepted (correct)"
+    }
+  ],
+  "transports": [
+    {
+      "attack": "T1 guardian shares the parent BBS signature with the sub-carer",
+      "accepted": true,
+      "expected": false,
+      "outcome": "ESCALATION SUCCEEDED - sub-carer presents the full parent mandate"
+    },
+    {
+      "attack": "T2 guardian pre-derives a static parent proof (offline sub-carer)",
+      "accepted": false,
+      "expected": false,
+      "outcome": "rejected by a nonce-checking verifier: presentation-header is not a nonce this verifier issued",
+      "extra": {
+        "acceptedByLaxVerifier": true,
+        "parentProofBytesIdenticalAcrossVerifiers": true
+      }
+    }
+  ],
+  "cascading": [
+    {
+      "profile": "auditable",
+      "acceptedBeforeRevocation": true,
+      "acceptedAfterRevocation": false,
+      "parentStatusVisibleToVerifier": true,
+      "pass": true,
+      "note": "rejected after revocation: parent mandate is revoked"
+    },
+    {
+      "profile": "unlinkableStable",
+      "acceptedBeforeRevocation": true,
+      "acceptedAfterRevocation": true,
+      "parentStatusVisibleToVerifier": false,
+      "pass": false,
+      "note": "sub-carer proof STILL VERIFIES after the parent mandate was revoked"
+    },
+    {
+      "profile": "unlinkableFresh",
+      "acceptedBeforeRevocation": true,
+      "acceptedAfterRevocation": true,
+      "parentStatusVisibleToVerifier": false,
+      "pass": false,
+      "note": "sub-carer proof STILL VERIFIES after the parent mandate was revoked"
+    }
+  ],
+  "singleHopRevocation": [
+    {
+      "profile": "naive",
+      "acceptedAfterRevocation": false,
+      "revocationEnforced": true,
+      "note": "rejected: mandate is revoked"
+    },
+    {
+      "profile": "hardened",
+      "acceptedAfterRevocation": true,
+      "revocationEnforced": false,
+      "note": "revoked mandate still verifies: no status handle is shipped to the verifier"
+    }
+  ],
+  "elapsed": "53.0"
+}

@@ -1,0 +1,403 @@
+
+==============================================================================
+Open Core -- P1 repeat-presentation unlinkability: falsification harness
+==============================================================================
+primitive : @digitalbazaar/bbs-signatures@3.1.0 (IETF draft-irtf-cfrg-bbs-signatures-06)
+ciphersuite: BLS12-381-SHA-256
+cohort    : 6 dependents (target = dep:Y), 4 relying parties
+This harness attempts to FALSIFY the unlinkability claim. It cannot prove it.
+
+==============================================================================
+SCENARIO A -- single hop (guardian presents the mandate)
+==============================================================================
+
+### profile: naive -- A-naive (VC-shaped envelope around a BBS proof)
+presentations: 21, accepted by verifiers: 21/21
+
+--- Leak table: A-naive (VC-shaped envelope around a BBS proof) -------------
+k = number of distinct dependents in the corpus sharing this value (k=1 -> exact linkage, k=cohort -> no narrowing)
++------------------------------------------------+-----------+---+---------------+---------+-------------------------------------------------------+
+| field (path in the payload)                    | constant? | k | correlatable? | leak    | note                                                  |
++================================================+===========+===+===============+=========+=======================================================+
+| bbs.disclosedIndexes                           | yes       | 6 | no            | N       | cohort-wide (k=6/6) -- no narrowing                   |
+| bbs.disclosed[credential_id]                   | yes       | 1 | yes           | Y       | unique to the subject (k=1 of 6) -- exact linkage     |
+| bbs.disclosed[issuer_key_id]                   | yes       | 6 | no            | N       | cohort-wide (k=6/6) -- no narrowing                   |
+| bbs.disclosed[mandate_scope]                   | yes       | 4 | yes           | partial | shared with 3 other dependent(s) -- anonymity set 4/6 |
+| bbs.disclosed[revocation_handle]               | yes       | 1 | yes           | Y       | unique to the subject (k=1 of 6) -- exact linkage     |
+| bbs.disclosed[type]                            | yes       | 6 | no            | N       | cohort-wide (k=6/6) -- no narrowing                   |
+| bbs.disclosed[valid_until]                     | yes       | 1 | yes           | Y       | unique to the subject (k=1 of 6) -- exact linkage     |
+| bbs.header                                     | yes       | 1 | yes           | Y       | unique to the subject (k=1 of 6) -- exact linkage     |
+| bbs.issuerPublicKey                            | yes       | 6 | no            | N       | cohort-wide (k=6/6) -- no narrowing                   |
+| bbs.presentationHeader                         | no        | - | no            | N       | varies per presentation                               |
+| bbs.proof                                      | no        | - | no            | N       | varies per presentation                               |
+| bbs.proofByteLength                            | yes       | 6 | no            | N       | cohort-wide (k=6/6) -- no narrowing                   |
+| bbs.totalMessageCount                          | yes       | 6 | no            | N       | cohort-wide (k=6/6) -- no narrowing                   |
+| envelope.credentialId                          | yes       | 1 | yes           | Y       | unique to the subject (k=1 of 6) -- exact linkage     |
+| envelope.credentialStatus.statusListCredential | yes       | 6 | no            | N       | cohort-wide (k=6/6) -- no narrowing                   |
+| envelope.credentialStatus.statusListIndex      | yes       | 1 | yes           | Y       | unique to the subject (k=1 of 6) -- exact linkage     |
+| envelope.credentialStatus.type                 | yes       | 6 | no            | N       | cohort-wide (k=6/6) -- no narrowing                   |
+| envelope.holderKeyId                           | yes       | 1 | yes           | Y       | unique to the subject (k=1 of 6) -- exact linkage     |
+| envelope.issuerKeyId                           | yes       | 6 | no            | N       | cohort-wide (k=6/6) -- no narrowing                   |
++------------------------------------------------+-----------+---+---------------+---------+-------------------------------------------------------+
+
+(c) proof randomisation: 21/21 derived proofs distinct, repeat-visit pairs exercised: 2 -> PASS
+
+Generic clustering adversary (no field allowlist, colluding verifiers):
+  clusters recovered: 2 (sizes 15,6)
+  transitive closure over all shared values: target cluster 15 payloads, precision 0.40, recall 1.00
+  best SINGLE discriminating field: bbs.header = b3Blbi1jb3JlL21hbmRhdGUvdjF8aXNzdWVyPWRpZDpleG...
+    -> groups 6 payloads, precision 1.00, recall 1.00
+  -> EXACT LINKAGE: all of the target's presentations, and only those, are linked
+  strongest linking evidence:
+     15 payloads share  bbs.disclosed[mandate_scope] = mandate_scope=school_enrolment
+      6 payloads share  bbs.header = b3Blbi1jb3JlL21hbmRhdGUvdjF8aXNzdWVyPWRpZDpleG...
+      6 payloads share  bbs.disclosed[valid_until] = valid_until=2026-09-14
+      6 payloads share  bbs.disclosed[revocation_handle] = revocation_handle=https://status.example/manda...
+      6 payloads share  bbs.disclosed[credential_id] = credential_id=urn:uuid:88187683-2ce5-4b69-a93b...
+
+(d) issuer + verifier collusion:
+  [ ok ] d1 issuer signature bytes reappear in a presentation: no
+  [ ok ] d2 an undisclosed signed attribute value appears in the payload anyway: no
+  [LEAK] d3 issuer trial-verification: candidate credentials that fit a presentation: anonymity set 1/1/1 of 6 credentials
+
+VERDICT for this profile: FALSIFIED
+
+### profile: hardened -- A-hardened (cohort-wide header, no status handle, bucketed expiry)
+presentations: 21, accepted by verifiers: 21/21
+
+--- Leak table: A-hardened (cohort-wide header, no status handle, bucketed expiry) 
+k = number of distinct dependents in the corpus sharing this value (k=1 -> exact linkage, k=cohort -> no narrowing)
++------------------------------+-----------+---+---------------+---------+-------------------------------------------------------+
+| field (path in the payload)  | constant? | k | correlatable? | leak    | note                                                  |
++==============================+===========+===+===============+=========+=======================================================+
+| bbs.disclosedIndexes         | yes       | 6 | no            | N       | cohort-wide (k=6/6) -- no narrowing                   |
+| bbs.disclosed[mandate_scope] | yes       | 4 | yes           | partial | shared with 3 other dependent(s) -- anonymity set 4/6 |
+| bbs.disclosed[type]          | yes       | 6 | no            | N       | cohort-wide (k=6/6) -- no narrowing                   |
+| bbs.disclosed[valid_until]   | yes       | 6 | no            | N       | cohort-wide (k=6/6) -- no narrowing                   |
+| bbs.header                   | yes       | 6 | no            | N       | cohort-wide (k=6/6) -- no narrowing                   |
+| bbs.issuerPublicKey          | yes       | 6 | no            | N       | cohort-wide (k=6/6) -- no narrowing                   |
+| bbs.presentationHeader       | no        | - | no            | N       | varies per presentation                               |
+| bbs.proof                    | no        | - | no            | N       | varies per presentation                               |
+| bbs.proofByteLength          | yes       | 6 | no            | N       | cohort-wide (k=6/6) -- no narrowing                   |
+| bbs.totalMessageCount        | yes       | 6 | no            | N       | cohort-wide (k=6/6) -- no narrowing                   |
++------------------------------+-----------+---+---------------+---------+-------------------------------------------------------+
+
+(c) proof randomisation: 21/21 derived proofs distinct, repeat-visit pairs exercised: 2 -> PASS
+
+Generic clustering adversary (no field allowlist, colluding verifiers):
+  clusters recovered: 2 (sizes 15,6)
+  transitive closure over all shared values: target cluster 15 payloads, precision 0.40, recall 1.00
+  best SINGLE discriminating field: bbs.disclosed[mandate_scope] = mandate_scope=school_enrolment
+    -> groups 15 payloads, precision 0.40, recall 1.00
+  -> partial narrowing only
+  strongest linking evidence:
+     15 payloads share  bbs.disclosed[mandate_scope] = mandate_scope=school_enrolment
+      6 payloads share  bbs.disclosed[mandate_scope] = mandate_scope=medical_consent
+
+(d) issuer + verifier collusion:
+  [ ok ] d1 issuer signature bytes reappear in a presentation: no
+  [ ok ] d2 an undisclosed signed attribute value appears in the payload anyway: no
+  [ ok ] d3 issuer trial-verification: candidate credentials that fit a presentation: anonymity set 6/6/6 of 6 credentials
+
+VERDICT for this profile: NOT-FALSIFIED
+
+--- Revocation reachability, single hop (context for P3) --------------------
++----------+---------------------------------+----------------------+-----------------------------------------------------------------------------+
+| profile  | revoked mandate still accepted? | revocation enforced? | note                                                                        |
++==========+=================================+======================+=============================================================================+
+| naive    | no                              | yes                  | rejected: mandate is revoked                                                |
+| hardened | YES                             | NO                   | revoked mandate still verifies: no status handle is shipped to the verifier |
++----------+---------------------------------+----------------------+-----------------------------------------------------------------------------+
+
+==============================================================================
+SCENARIO B -- two hops (guardian -> temporary sub-carer)
+==============================================================================
+
+### profile: auditable -- B-auditable (delegation pointer + parent status disclosed)
+presentations: 16, accepted: 16, verifier could check attenuation in 16, could check parent revocation in 16
+
+--- Leak table: B-auditable (delegation pointer + parent status disclosed) --
+k = number of distinct dependents in the corpus sharing this value (k=1 -> exact linkage, k=cohort -> no narrowing)
++-----------------------------------------+-----------+---+---------------+---------+-------------------------------------------------------+
+| field (path in the payload)             | constant? | k | correlatable? | leak    | note                                                  |
++=========================================+===========+===+===============+=========+=======================================================+
+| parent.disclosedIndexes                 | yes       | 6 | no            | N       | cohort-wide (k=6/6) -- no narrowing                   |
+| parent.disclosed[credential_id]         | yes       | 1 | yes           | Y       | unique to the subject (k=1 of 6) -- exact linkage     |
+| parent.disclosed[guardian_key]          | yes       | 1 | yes           | Y       | unique to the subject (k=1 of 6) -- exact linkage     |
+| parent.disclosed[mandate_scope]         | yes       | 4 | yes           | partial | shared with 3 other dependent(s) -- anonymity set 4/6 |
+| parent.disclosed[revocation_handle]     | yes       | 1 | yes           | Y       | unique to the subject (k=1 of 6) -- exact linkage     |
+| parent.disclosed[type]                  | yes       | 6 | no            | N       | cohort-wide (k=6/6) -- no narrowing                   |
+| parent.disclosed[valid_until]           | yes       | 1 | yes           | Y       | unique to the subject (k=1 of 6) -- exact linkage     |
+| parent.header                           | yes       | 1 | yes           | Y       | unique to the subject (k=1 of 6) -- exact linkage     |
+| parent.issuerPublicKey                  | yes       | 6 | no            | N       | cohort-wide (k=6/6) -- no narrowing                   |
+| parent.presentationHeader               | no        | - | no            | N       | varies per presentation                               |
+| parent.proof                            | no        | - | no            | N       | varies per presentation                               |
+| parent.proofByteLength                  | yes       | 6 | no            | N       | cohort-wide (k=6/6) -- no narrowing                   |
+| sub.disclosedIndexes                    | yes       | 6 | no            | N       | cohort-wide (k=6/6) -- no narrowing                   |
+| sub.disclosed[delegator_key]            | yes       | 1 | yes           | Y       | unique to the subject (k=1 of 6) -- exact linkage     |
+| sub.disclosed[parent_credential_id]     | yes       | 1 | yes           | Y       | unique to the subject (k=1 of 6) -- exact linkage     |
+| sub.disclosed[parent_revocation_handle] | yes       | 1 | yes           | Y       | unique to the subject (k=1 of 6) -- exact linkage     |
+| sub.disclosed[sub_scope]                | yes       | 4 | yes           | partial | shared with 3 other dependent(s) -- anonymity set 4/6 |
+| sub.disclosed[sub_valid_until]          | yes       | 6 | no            | N       | cohort-wide (k=6/6) -- no narrowing                   |
+| sub.disclosed[subcarer_key]             | yes       | 1 | yes           | Y       | unique to the subject (k=1 of 6) -- exact linkage     |
+| sub.disclosed[type]                     | yes       | 6 | no            | N       | cohort-wide (k=6/6) -- no narrowing                   |
+| sub.header                              | yes       | 1 | yes           | Y       | unique to the subject (k=1 of 6) -- exact linkage     |
+| sub.presentationHeader                  | no        | - | no            | N       | varies per presentation                               |
+| sub.proof                               | no        | - | no            | N       | varies per presentation                               |
+| sub.proofByteLength                     | yes       | 6 | no            | N       | cohort-wide (k=6/6) -- no narrowing                   |
++-----------------------------------------+-----------+---+---------------+---------+-------------------------------------------------------+
+
+(c) proof randomisation: 32/32 derived proofs distinct, repeat-visit pairs exercised: 2 -> PASS
+
+Generic clustering adversary (no field allowlist, colluding verifiers):
+  clusters recovered: 2 (sizes 12,4)
+  transitive closure over all shared values: target cluster 12 payloads, precision 0.50, recall 1.00
+  best SINGLE discriminating field: parent.header = b3Blbi1jb3JlL21hbmRhdGUvdjF8aXNzdWVyPWRpZDpleG...
+    -> groups 6 payloads, precision 1.00, recall 1.00
+  -> EXACT LINKAGE: all of the target's presentations, and only those, are linked
+  strongest linking evidence:
+     12 payloads share  parent.disclosed[mandate_scope] = mandate_scope=school_enrolment
+     12 payloads share  sub.disclosed[sub_scope] = sub_scope=school_pickup
+      6 payloads share  parent.header = b3Blbi1jb3JlL21hbmRhdGUvdjF8aXNzdWVyPWRpZDpleG...
+      6 payloads share  parent.disclosed[valid_until] = valid_until=2026-09-14
+      6 payloads share  parent.disclosed[guardian_key] = guardian_key=ixahi1eVeBhgWIMMBUw4Nbuz8NzYjG7cK...
+
+(d) issuer + verifier collusion:
+  [ ok ] d1 issuer signature bytes reappear in a presentation: no
+  [ ok ] d2 an undisclosed signed attribute value appears in the payload anyway: no
+  [LEAK] d3 issuer trial-verification: candidate credentials that fit a presentation: anonymity set 1/1/1 of 6 credentials
+
+VERDICT for this profile: FALSIFIED
+
+### profile: unlinkableStable -- B-unlinkable-stable (hop binding kept, parent ids/status removed)
+presentations: 16, accepted: 16, verifier could check attenuation in 16, could check parent revocation in 0
+
+--- Leak table: B-unlinkable-stable (hop binding kept, parent ids/status removed) 
+k = number of distinct dependents in the corpus sharing this value (k=1 -> exact linkage, k=cohort -> no narrowing)
++---------------------------------+-----------+---+---------------+---------+-------------------------------------------------------+
+| field (path in the payload)     | constant? | k | correlatable? | leak    | note                                                  |
++=================================+===========+===+===============+=========+=======================================================+
+| parent.disclosedIndexes         | yes       | 6 | no            | N       | cohort-wide (k=6/6) -- no narrowing                   |
+| parent.disclosed[guardian_key]  | yes       | 1 | yes           | Y       | unique to the subject (k=1 of 6) -- exact linkage     |
+| parent.disclosed[mandate_scope] | yes       | 4 | yes           | partial | shared with 3 other dependent(s) -- anonymity set 4/6 |
+| parent.disclosed[type]          | yes       | 6 | no            | N       | cohort-wide (k=6/6) -- no narrowing                   |
+| parent.disclosed[valid_until]   | yes       | 6 | no            | N       | cohort-wide (k=6/6) -- no narrowing                   |
+| parent.header                   | yes       | 6 | no            | N       | cohort-wide (k=6/6) -- no narrowing                   |
+| parent.issuerPublicKey          | yes       | 6 | no            | N       | cohort-wide (k=6/6) -- no narrowing                   |
+| parent.presentationHeader       | no        | - | no            | N       | varies per presentation                               |
+| parent.proof                    | no        | - | no            | N       | varies per presentation                               |
+| parent.proofByteLength          | yes       | 6 | no            | N       | cohort-wide (k=6/6) -- no narrowing                   |
+| sub.disclosedIndexes            | yes       | 6 | no            | N       | cohort-wide (k=6/6) -- no narrowing                   |
+| sub.disclosed[delegator_key]    | yes       | 1 | yes           | Y       | unique to the subject (k=1 of 6) -- exact linkage     |
+| sub.disclosed[sub_scope]        | yes       | 4 | yes           | partial | shared with 3 other dependent(s) -- anonymity set 4/6 |
+| sub.disclosed[sub_valid_until]  | yes       | 6 | no            | N       | cohort-wide (k=6/6) -- no narrowing                   |
+| sub.disclosed[type]             | yes       | 6 | no            | N       | cohort-wide (k=6/6) -- no narrowing                   |
+| sub.header                      | yes       | 6 | no            | N       | cohort-wide (k=6/6) -- no narrowing                   |
+| sub.presentationHeader          | no        | - | no            | N       | varies per presentation                               |
+| sub.proof                       | no        | - | no            | N       | varies per presentation                               |
+| sub.proofByteLength             | yes       | 6 | no            | N       | cohort-wide (k=6/6) -- no narrowing                   |
++---------------------------------+-----------+---+---------------+---------+-------------------------------------------------------+
+
+(c) proof randomisation: 32/32 derived proofs distinct, repeat-visit pairs exercised: 2 -> PASS
+
+Generic clustering adversary (no field allowlist, colluding verifiers):
+  clusters recovered: 2 (sizes 12,4)
+  transitive closure over all shared values: target cluster 12 payloads, precision 0.50, recall 1.00
+  best SINGLE discriminating field: parent.disclosed[guardian_key] = guardian_key=ixahi1eVeBhgWIMMBUw4Nbuz8NzYjG7cK...
+    -> groups 6 payloads, precision 1.00, recall 1.00
+  -> EXACT LINKAGE: all of the target's presentations, and only those, are linked
+  strongest linking evidence:
+     12 payloads share  parent.disclosed[mandate_scope] = mandate_scope=school_enrolment
+     12 payloads share  sub.disclosed[sub_scope] = sub_scope=school_pickup
+      6 payloads share  parent.disclosed[guardian_key] = guardian_key=ixahi1eVeBhgWIMMBUw4Nbuz8NzYjG7cK...
+      6 payloads share  sub.disclosed[delegator_key] = delegator_key=ixahi1eVeBhgWIMMBUw4Nbuz8NzYjG7c...
+      4 payloads share  parent.disclosed[mandate_scope] = mandate_scope=medical_consent
+
+(d) issuer + verifier collusion:
+  [ ok ] d1 issuer signature bytes reappear in a presentation: no
+  [ ok ] d2 an undisclosed signed attribute value appears in the payload anyway: no
+  [ ok ] d3 issuer trial-verification: candidate credentials that fit a presentation: anonymity set 6/6/6 of 6 credentials
+
+VERDICT for this profile: FALSIFIED
+
+### profile: unlinkableFresh -- B-unlinkable-fresh (hop binding removed, fresh delegator key per presentation)
+presentations: 16, accepted: 16, verifier could check attenuation in 0, could check parent revocation in 0
+
+--- Leak table: B-unlinkable-fresh (hop binding removed, fresh delegator key per presentation) 
+k = number of distinct dependents in the corpus sharing this value (k=1 -> exact linkage, k=cohort -> no narrowing)
++---------------------------------+-----------+---+---------------+---------+-------------------------------------------------------+
+| field (path in the payload)     | constant? | k | correlatable? | leak    | note                                                  |
++=================================+===========+===+===============+=========+=======================================================+
+| parent.disclosedIndexes         | yes       | 6 | no            | N       | cohort-wide (k=6/6) -- no narrowing                   |
+| parent.disclosed[mandate_scope] | yes       | 4 | yes           | partial | shared with 3 other dependent(s) -- anonymity set 4/6 |
+| parent.disclosed[type]          | yes       | 6 | no            | N       | cohort-wide (k=6/6) -- no narrowing                   |
+| parent.disclosed[valid_until]   | yes       | 6 | no            | N       | cohort-wide (k=6/6) -- no narrowing                   |
+| parent.header                   | yes       | 6 | no            | N       | cohort-wide (k=6/6) -- no narrowing                   |
+| parent.issuerPublicKey          | yes       | 6 | no            | N       | cohort-wide (k=6/6) -- no narrowing                   |
+| parent.presentationHeader       | no        | - | no            | N       | varies per presentation                               |
+| parent.proof                    | no        | - | no            | N       | varies per presentation                               |
+| parent.proofByteLength          | yes       | 6 | no            | N       | cohort-wide (k=6/6) -- no narrowing                   |
+| sub.delegatorPublicKey          | no        | - | no            | N       | varies per presentation                               |
+| sub.disclosedIndexes            | yes       | 6 | no            | N       | cohort-wide (k=6/6) -- no narrowing                   |
+| sub.disclosed[sub_scope]        | yes       | 4 | yes           | partial | shared with 3 other dependent(s) -- anonymity set 4/6 |
+| sub.disclosed[sub_valid_until]  | yes       | 6 | no            | N       | cohort-wide (k=6/6) -- no narrowing                   |
+| sub.disclosed[type]             | yes       | 6 | no            | N       | cohort-wide (k=6/6) -- no narrowing                   |
+| sub.header                      | yes       | 6 | no            | N       | cohort-wide (k=6/6) -- no narrowing                   |
+| sub.presentationHeader          | no        | - | no            | N       | varies per presentation                               |
+| sub.proof                       | no        | - | no            | N       | varies per presentation                               |
+| sub.proofByteLength             | yes       | 6 | no            | N       | cohort-wide (k=6/6) -- no narrowing                   |
++---------------------------------+-----------+---+---------------+---------+-------------------------------------------------------+
+
+(c) proof randomisation: 32/32 derived proofs distinct, repeat-visit pairs exercised: 2 -> PASS
+
+Generic clustering adversary (no field allowlist, colluding verifiers):
+  clusters recovered: 2 (sizes 12,4)
+  transitive closure over all shared values: target cluster 12 payloads, precision 0.50, recall 1.00
+  best SINGLE discriminating field: parent.disclosed[mandate_scope] = mandate_scope=school_enrolment
+    -> groups 12 payloads, precision 0.50, recall 1.00
+  -> partial narrowing only
+  strongest linking evidence:
+     12 payloads share  parent.disclosed[mandate_scope] = mandate_scope=school_enrolment
+     12 payloads share  sub.disclosed[sub_scope] = sub_scope=school_pickup
+      4 payloads share  parent.disclosed[mandate_scope] = mandate_scope=medical_consent
+      4 payloads share  sub.disclosed[sub_scope] = sub_scope=medical_records_read
+
+(d) issuer + verifier collusion:
+  [ ok ] d1 issuer signature bytes reappear in a presentation: no
+  [ ok ] d2 an undisclosed signed attribute value appears in the payload anyway: no
+  [ ok ] d3 issuer trial-verification: candidate credentials that fit a presentation: anonymity set 6/6/6 of 6 credentials
+
+VERDICT for this profile: NOT-FALSIFIED
+
+==============================================================================
+(e) CROSS-HOP UNLINKABILITY
+==============================================================================
+
+--- (e) cross-hop: A-naive (VC-shaped envelope around a BBS proof)  x  B-auditable (delegation pointer + parent status disclosed) 
++---------------------------------------------+---+------------------------+----------------------------------+-------------------------------------+---------+
+| shared atom                                 | k | in every presentation? | hop1 field                       | hop2 field                          | leak    |
++=============================================+===+========================+==================================+=====================================+=========+
+| sks1jRy3dspp8zu0Zr/GmPp+biqARB/HhcXrvsyQ... | 6 | yes                    | bbs.issuerPublicKey              | parent.issuerPublicKey              | N       |
+| b3Blbi1jb3JlL21hbmRhdGUvdjF8aXNzdWVyPWRp... | 1 | yes                    | bbs.header                       | parent.header                       | Y       |
+| type=GuardianshipMandate                    | 6 | yes                    | bbs.disclosed[type]              | parent.disclosed[type]              | N       |
+| GuardianshipMandate                         | 6 | yes                    | bbs.disclosed[type]              | parent.disclosed[type]              | N       |
+| mandate_scope=school_enrolment              | 4 | yes                    | bbs.disclosed[mandate_scope]     | parent.disclosed[mandate_scope]     | partial |
+| school_enrolment                            | 4 | yes                    | bbs.disclosed[mandate_scope]     | parent.disclosed[mandate_scope]     | partial |
+| valid_until=2026-09-14                      | 1 | yes                    | bbs.disclosed[valid_until]       | parent.disclosed[valid_until]       | Y       |
+| 2026-09-14                                  | 1 | yes                    | bbs.disclosed[valid_until]       | parent.disclosed[valid_until]       | Y       |
+| revocation_handle=https://status.example... | 1 | yes                    | bbs.disclosed[revocation_handle] | parent.disclosed[revocation_handle] | Y       |
+| https://status.example/mandates/2026-Q3#... | 1 | yes                    | bbs.disclosed[revocation_handle] | parent.disclosed[revocation_handle] | Y       |
+| credential_id=urn:uuid:88187683-2ce5-4b6... | 1 | yes                    | bbs.disclosed[credential_id]     | parent.disclosed[credential_id]     | Y       |
+| urn:uuid:88187683-2ce5-4b69-a93b-c77aaff... | 1 | yes                    | bbs.disclosed[credential_id]     | parent.disclosed[credential_id]     | Y       |
++---------------------------------------------+---+------------------------+----------------------------------+-------------------------------------+---------+
+  (e) CROSS-HOP UNLINKABILITY: FAIL -- 7 correlator(s) uniquely identify the dependent
+
+--- (e) cross-hop: A-hardened (cohort-wide header, no status handle, bucketed expiry)  x  B-unlinkable-stable (hop binding kept, parent ids/status removed) 
++---------------------------------------------+---+------------------------+------------------------------+---------------------------------+---------+
+| shared atom                                 | k | in every presentation? | hop1 field                   | hop2 field                      | leak    |
++=============================================+===+========================+==============================+=================================+=========+
+| sks1jRy3dspp8zu0Zr/GmPp+biqARB/HhcXrvsyQ... | 6 | yes                    | bbs.issuerPublicKey          | parent.issuerPublicKey          | N       |
+| b3Blbi1jb3JlL21hbmRhdGUvdjF8aXNzdWVyPWRp... | 6 | yes                    | bbs.header                   | parent.header                   | N       |
+| type=GuardianshipMandate                    | 6 | yes                    | bbs.disclosed[type]          | parent.disclosed[type]          | N       |
+| GuardianshipMandate                         | 6 | yes                    | bbs.disclosed[type]          | parent.disclosed[type]          | N       |
+| mandate_scope=school_enrolment              | 4 | yes                    | bbs.disclosed[mandate_scope] | parent.disclosed[mandate_scope] | partial |
+| school_enrolment                            | 4 | yes                    | bbs.disclosed[mandate_scope] | parent.disclosed[mandate_scope] | partial |
+| valid_until=2026-09-30                      | 6 | yes                    | bbs.disclosed[valid_until]   | parent.disclosed[valid_until]   | N       |
+| 2026-09-30                                  | 6 | yes                    | bbs.disclosed[valid_until]   | parent.disclosed[valid_until]   | N       |
++---------------------------------------------+---+------------------------+------------------------------+---------------------------------+---------+
+  (e) CROSS-HOP UNLINKABILITY: PASS
+
+--- (e) cross-hop: A-hardened (cohort-wide header, no status handle, bucketed expiry)  x  B-unlinkable-fresh (hop binding removed, fresh delegator key per presentation) 
++---------------------------------------------+---+------------------------+------------------------------+---------------------------------+---------+
+| shared atom                                 | k | in every presentation? | hop1 field                   | hop2 field                      | leak    |
++=============================================+===+========================+==============================+=================================+=========+
+| sks1jRy3dspp8zu0Zr/GmPp+biqARB/HhcXrvsyQ... | 6 | yes                    | bbs.issuerPublicKey          | parent.issuerPublicKey          | N       |
+| b3Blbi1jb3JlL21hbmRhdGUvdjF8aXNzdWVyPWRp... | 6 | yes                    | bbs.header                   | parent.header                   | N       |
+| type=GuardianshipMandate                    | 6 | yes                    | bbs.disclosed[type]          | parent.disclosed[type]          | N       |
+| GuardianshipMandate                         | 6 | yes                    | bbs.disclosed[type]          | parent.disclosed[type]          | N       |
+| mandate_scope=school_enrolment              | 4 | yes                    | bbs.disclosed[mandate_scope] | parent.disclosed[mandate_scope] | partial |
+| school_enrolment                            | 4 | yes                    | bbs.disclosed[mandate_scope] | parent.disclosed[mandate_scope] | partial |
+| valid_until=2026-09-30                      | 6 | yes                    | bbs.disclosed[valid_until]   | parent.disclosed[valid_until]   | N       |
+| 2026-09-30                                  | 6 | yes                    | bbs.disclosed[valid_until]   | parent.disclosed[valid_until]   | N       |
++---------------------------------------------+---+------------------------+------------------------------+---------------------------------+---------+
+  (e) CROSS-HOP UNLINKABILITY: PASS
+
+==============================================================================
+(f) ATTENUATION -- active scope-escalation attempts
+==============================================================================
++------------------+------------------------------------------------------------------+-----------+----------+--------+---------------------------------------------------------------------------+
+| chain profile    | attack                                                           | accepted? | expected | result | outcome                                                                   |
++==================+==================================================================+===========+==========+========+===========================================================================+
+| auditable        | f1 rewrite the disclosed sub_scope value                         | no        | reject   | PASS   | rejected: sub-mandate (hop 2) proof failed to verify                      |
+| auditable        | f2 sub-carer self-issues a broader sub-mandate under its own key | no        | reject   | PASS   | rejected: sub-mandate delegator key != guardian key in the parent mandate |
+| auditable        | f3 substitute a different signed attribute at the scope index    | no        | reject   | PASS   | rejected: sub-mandate (hop 2) proof failed to verify                      |
+| auditable        | f4 baseline: honest presentation at the delegated scope          | YES       | accept   | PASS   | accepted (correct)                                                        |
+| unlinkableStable | f1 rewrite the disclosed sub_scope value                         | no        | reject   | PASS   | rejected: sub-mandate (hop 2) proof failed to verify                      |
+| unlinkableStable | f2 sub-carer self-issues a broader sub-mandate under its own key | no        | reject   | PASS   | rejected: sub-mandate delegator key != guardian key in the parent mandate |
+| unlinkableStable | f3 substitute a different signed attribute at the scope index    | no        | reject   | PASS   | rejected: sub-mandate (hop 2) proof failed to verify                      |
+| unlinkableStable | f4 baseline: honest presentation at the delegated scope          | YES       | accept   | PASS   | accepted (correct)                                                        |
+| unlinkableFresh  | f1 rewrite the disclosed sub_scope value                         | no        | reject   | PASS   | rejected: sub-mandate (hop 2) proof failed to verify                      |
+| unlinkableFresh  | f2 sub-carer self-issues a broader sub-mandate under its own key | YES       | reject   | FAIL   | ESCALATION SUCCEEDED                                                      |
+| unlinkableFresh  | f3 substitute a different signed attribute at the scope index    | no        | reject   | PASS   | rejected: sub-mandate (hop 2) proof failed to verify                      |
+| unlinkableFresh  | f4 baseline: honest presentation at the delegated scope          | YES       | accept   | PASS   | accepted (correct)                                                        |
++------------------+------------------------------------------------------------------+-----------+----------+--------+---------------------------------------------------------------------------+
+
+(f) ATTENUATION: FAIL -- 1 escalation(s) succeeded
+    FAIL: [unlinkableFresh] f2 sub-carer self-issues a broader sub-mandate under its own key -> ESCALATION SUCCEEDED
+
+--- delegation transport attacks (how hop 2 obtains a hop-1 proof) ----------
+  [FAIL] T1 guardian shares the parent BBS signature with the sub-carer
+         ESCALATION SUCCEEDED - sub-carer presents the full parent mandate
+  [PASS] T2 guardian pre-derives a static parent proof (offline sub-carer)
+         rejected by a nonce-checking verifier: presentation-header is not a nonce this verifier issued
+         accepted by a verifier that does not check nonce freshness: YES
+         parent proof bytes identical across two verifiers: YES (hard linkability leak)
+
+==============================================================================
+(g) CASCADING REVOCATION -- revoke the parent, re-present as sub-carer
+==============================================================================
++------------------+----------------------+----------------------+--------+---------------------------------------------------------------------+
+| chain profile    | ok before revocation | still accepted after | result | note                                                                |
++==================+======================+======================+========+=====================================================================+
+| auditable        | yes                  | no                   | PASS   | rejected after revocation: parent mandate is revoked                |
+| unlinkableStable | yes                  | YES                  | FAIL   | sub-carer proof STILL VERIFIES after the parent mandate was revoked |
+| unlinkableFresh  | yes                  | YES                  | FAIL   | sub-carer proof STILL VERIFIES after the parent mandate was revoked |
++------------------+----------------------+----------------------+--------+---------------------------------------------------------------------+
+
+(g) CASCADING REVOCATION: FAIL for unlinkableStable, unlinkableFresh
+
+==============================================================================
+SUMMARY
+==============================================================================
++--------------+------------------+---------------+-----------------------------------------------------------------------------------------------------------------------------+
+| scenario     | profile          | P1 verdict    | detail                                                                                                                      |
++==============+==================+===============+=============================================================================================================================+
+| A single-hop | naive            | FALSIFIED     | 7 hard correlator(s): bbs.disclosed[credential_id], bbs.disclosed[revocation_handle], bbs.disclosed[valid_until]            |
+| A single-hop | hardened         | NOT-FALSIFIED | no k=1 correlator found in this harness                                                                                     |
+| B multi-hop  | auditable        | FALSIFIED     | 10 hard correlator(s): parent.disclosed[credential_id], parent.disclosed[guardian_key], parent.disclosed[revocation_handle] |
+| B multi-hop  | unlinkableStable | FALSIFIED     | 2 hard correlator(s): parent.disclosed[guardian_key], sub.disclosed[delegator_key]                                          |
+| B multi-hop  | unlinkableFresh  | NOT-FALSIFIED | no k=1 correlator found in this harness                                                                                     |
++--------------+------------------+---------------+-----------------------------------------------------------------------------------------------------------------------------+
++-----------------------------+-----------------------------+------------------+
+| cross-hop pair              | (e) cross-hop unlinkability | hard correlators |
++=============================+=============================+==================+
+| naive x auditable           | FAIL                        | 7                |
+| hardened x unlinkableStable | PASS                        | 0                |
+| hardened x unlinkableFresh  | PASS                        | 0                |
++-----------------------------+-----------------------------+------------------+
++------------------+-----------------+--------------------------+-----------------------+--------------------------+
+| chain profile    | P1 within hop 2 | (e) cross-hop unlinkable | (f) attenuation holds | (g) cascading revocation |
++==================+=================+==========================+=======================+==========================+
+| auditable        | FALSIFIED       | FAIL                     | PASS                  | PASS                     |
+| unlinkableStable | FALSIFIED       | PASS                     | PASS                  | FAIL                     |
+| unlinkableFresh  | NOT-FALSIFIED   | PASS                     | FAIL                  | FAIL                     |
++------------------+-----------------+--------------------------+-----------------------+--------------------------+
+
+Note on (e) vs "P1 within hop 2": (e) only asks whether a GUARDIAN presentation
+can be tied to a SUB-CARER presentation. A profile can pass (e) and still be
+FALSIFIED for P1, because the sub-carer's own presentations link to each other.
+
+runtime: 52.6s
+
+NOTE: a "NOT-FALSIFIED" verdict means this harness found no structural correlator.
+It is NOT a proof of unlinkability. See FINDINGS.md for limitations.
