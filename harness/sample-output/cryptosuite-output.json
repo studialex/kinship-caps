@@ -1,0 +1,2232 @@
+{
+  "libraries": [
+    {
+      "p": "@digitalbazaar/bbs-2023-cryptosuite",
+      "v": "2.0.1"
+    },
+    {
+      "p": "@digitalbazaar/data-integrity",
+      "v": "2.5.0"
+    },
+    {
+      "p": "@digitalbazaar/vc",
+      "v": "7.3.0"
+    },
+    {
+      "p": "@digitalbazaar/di-sd-primitives",
+      "v": "3.3.0"
+    },
+    {
+      "p": "@digitalbazaar/bls12-381-multikey",
+      "v": "2.2.0"
+    },
+    {
+      "p": "@digitalbazaar/bbs-signatures",
+      "v": "3.1.0"
+    },
+    {
+      "p": "jsonld",
+      "v": "9.0.0"
+    },
+    {
+      "p": "rdf-canonize",
+      "v": "5.0.0"
+    }
+  ],
+  "spec": "W3C Data Integrity BBS Cryptosuites v1.0, Candidate Recommendation Draft 10 September 2026 (consulted); implementation covers the bbs-2023 baseline feature only (derived-proof CBOR tag d95d03)",
+  "policies": [
+    {
+      "key": "naive",
+      "label": "C-naive (mandatory: /issuer, /validUntil, /credentialStatus)",
+      "mandatoryPointers": [
+        "/issuer",
+        "/validUntil",
+        "/credentialStatus"
+      ],
+      "selectivePointers": [
+        "/credentialSubject/mandate/scope"
+      ],
+      "verdict": "FALSIFIED",
+      "verified": "21/21",
+      "table": [
+        {
+          "path": "@context",
+          "constant": true,
+          "anonymitySet": 6,
+          "cohortSize": 6,
+          "correlatable": false,
+          "leak": "N",
+          "note": "cohort-wide (k=6/6) -- no narrowing",
+          "sample": "[\"https://www.w3.org/ns/credentials/v2\",\"https..."
+        },
+        {
+          "path": "credentialStatus.id",
+          "constant": true,
+          "anonymitySet": 1,
+          "cohortSize": 6,
+          "correlatable": true,
+          "leak": "Y",
+          "note": "unique to the subject (k=1 of 6) -- exact linkage",
+          "sample": "https://status.example/mandates/2026-Q3#0"
+        },
+        {
+          "path": "credentialStatus.statusListCredential",
+          "constant": true,
+          "anonymitySet": 6,
+          "cohortSize": 6,
+          "correlatable": false,
+          "leak": "N",
+          "note": "cohort-wide (k=6/6) -- no narrowing",
+          "sample": "https://status.example/mandates/2026-Q3"
+        },
+        {
+          "path": "credentialStatus.statusListIndex",
+          "constant": true,
+          "anonymitySet": 1,
+          "cohortSize": 6,
+          "correlatable": true,
+          "leak": "Y",
+          "note": "unique to the subject (k=1 of 6) -- exact linkage",
+          "sample": "0"
+        },
+        {
+          "path": "credentialStatus.statusPurpose",
+          "constant": true,
+          "anonymitySet": 6,
+          "cohortSize": 6,
+          "correlatable": false,
+          "leak": "N",
+          "note": "cohort-wide (k=6/6) -- no narrowing",
+          "sample": "revocation"
+        },
+        {
+          "path": "credentialStatus.type",
+          "constant": true,
+          "anonymitySet": 6,
+          "cohortSize": 6,
+          "correlatable": false,
+          "leak": "N",
+          "note": "cohort-wide (k=6/6) -- no narrowing",
+          "sample": "BitstringStatusListEntry"
+        },
+        {
+          "path": "credentialSubject.mandate.scope",
+          "constant": true,
+          "anonymitySet": 4,
+          "cohortSize": 6,
+          "correlatable": true,
+          "leak": "partial",
+          "note": "shared with 3 other dependent(s) -- anonymity set 4/6",
+          "sample": "school_enrolment"
+        },
+        {
+          "path": "credentialSubject.mandate.type",
+          "constant": true,
+          "anonymitySet": 6,
+          "cohortSize": 6,
+          "correlatable": false,
+          "leak": "N",
+          "note": "cohort-wide (k=6/6) -- no narrowing",
+          "sample": "Mandate"
+        },
+        {
+          "path": "credentialSubject.type",
+          "constant": true,
+          "anonymitySet": 6,
+          "cohortSize": 6,
+          "correlatable": false,
+          "leak": "N",
+          "note": "cohort-wide (k=6/6) -- no narrowing",
+          "sample": "Guardian"
+        },
+        {
+          "path": "decoded.bbsProof",
+          "constant": false,
+          "anonymitySet": null,
+          "cohortSize": 6,
+          "correlatable": false,
+          "leak": "N",
+          "note": "varies per presentation",
+          "sample": "kwc0t/sewB9wwZzM05ES6YW7cIdxfCRrH0lwehxoco+zJ4..."
+        },
+        {
+          "path": "decoded.bbsProofByteLength",
+          "constant": true,
+          "anonymitySet": 6,
+          "cohortSize": 6,
+          "correlatable": false,
+          "leak": "N",
+          "note": "cohort-wide (k=6/6) -- no narrowing",
+          "sample": "432"
+        },
+        {
+          "path": "decoded.bnodeRank.Guardian",
+          "constant": true,
+          "anonymitySet": 4,
+          "cohortSize": 6,
+          "correlatable": true,
+          "leak": "partial",
+          "note": "shared with 3 other dependent(s) -- anonymity set 4/6",
+          "sample": "Guardian@b2"
+        },
+        {
+          "path": "decoded.bnodeRank.Mandate",
+          "constant": true,
+          "anonymitySet": 3,
+          "cohortSize": 6,
+          "correlatable": true,
+          "leak": "partial",
+          "note": "shared with 2 other dependent(s) -- anonymity set 3/6",
+          "sample": "Mandate@b0"
+        },
+        {
+          "path": "decoded.cborTag",
+          "constant": true,
+          "anonymitySet": 6,
+          "cohortSize": 6,
+          "correlatable": false,
+          "leak": "N",
+          "note": "cohort-wide (k=6/6) -- no narrowing",
+          "sample": "d95d03"
+        },
+        {
+          "path": "decoded.documentShape",
+          "constant": true,
+          "anonymitySet": 6,
+          "cohortSize": 6,
+          "correlatable": false,
+          "leak": "N",
+          "note": "cohort-wide (k=6/6) -- no narrowing",
+          "sample": "@context|@context[2]|credentialStatus|credenti..."
+        },
+        {
+          "path": "decoded.labelMap",
+          "constant": true,
+          "anonymitySet": 3,
+          "cohortSize": 6,
+          "correlatable": true,
+          "leak": "partial",
+          "note": "shared with 2 other dependent(s) -- anonymity set 3/6",
+          "sample": "[[\"c14n0\",\"b2\"],[\"c14n1\",\"b0\"]]"
+        },
+        {
+          "path": "decoded.labelMapSize",
+          "constant": true,
+          "anonymitySet": 6,
+          "cohortSize": 6,
+          "correlatable": false,
+          "leak": "N",
+          "note": "cohort-wide (k=6/6) -- no narrowing",
+          "sample": "2"
+        },
+        {
+          "path": "decoded.mandatoryHash",
+          "constant": true,
+          "anonymitySet": 1,
+          "cohortSize": 6,
+          "correlatable": true,
+          "leak": "Y",
+          "note": "unique to the subject (k=1 of 6) -- exact linkage",
+          "sample": "713699220c0f7951c34acfbc2e607e9d4241e5b7b73b87..."
+        },
+        {
+          "path": "decoded.mandatoryIndexes",
+          "constant": true,
+          "anonymitySet": 6,
+          "cohortSize": 6,
+          "correlatable": false,
+          "leak": "N",
+          "note": "cohort-wide (k=6/6) -- no narrowing",
+          "sample": "[0,1,2,3,4,5,6,8,9]"
+        },
+        {
+          "path": "decoded.mandatoryNQuadCount",
+          "constant": true,
+          "anonymitySet": 6,
+          "cohortSize": 6,
+          "correlatable": false,
+          "leak": "N",
+          "note": "cohort-wide (k=6/6) -- no narrowing",
+          "sample": "9"
+        },
+        {
+          "path": "decoded.mandatoryNQuads",
+          "constant": true,
+          "anonymitySet": 1,
+          "cohortSize": 6,
+          "correlatable": true,
+          "leak": "Y",
+          "note": "unique to the subject (k=1 of 6) -- exact linkage",
+          "sample": "[\"<https://status.example/mandates/2026-Q3#0> ..."
+        },
+        {
+          "path": "decoded.presentationHeader",
+          "constant": false,
+          "anonymitySet": null,
+          "cohortSize": 6,
+          "correlatable": false,
+          "leak": "N",
+          "note": "varies per presentation",
+          "sample": "nonce:rp:school:73651958805b58a65b064d35"
+        },
+        {
+          "path": "decoded.proofValueByteLength",
+          "constant": false,
+          "anonymitySet": null,
+          "cohortSize": 6,
+          "correlatable": false,
+          "leak": "N",
+          "note": "varies per presentation",
+          "sample": "502"
+        },
+        {
+          "path": "decoded.revealedNQuadCount",
+          "constant": true,
+          "anonymitySet": 6,
+          "cohortSize": 6,
+          "correlatable": false,
+          "leak": "N",
+          "note": "cohort-wide (k=6/6) -- no narrowing",
+          "sample": "14"
+        },
+        {
+          "path": "decoded.selectiveIndexes",
+          "constant": true,
+          "anonymitySet": 3,
+          "cohortSize": 6,
+          "correlatable": true,
+          "leak": "partial",
+          "note": "shared with 2 other dependent(s) -- anonymity set 3/6",
+          "sample": "[0,2,3,6,9]"
+        },
+        {
+          "path": "id",
+          "constant": true,
+          "anonymitySet": 1,
+          "cohortSize": 6,
+          "correlatable": true,
+          "leak": "Y",
+          "note": "unique to the subject (k=1 of 6) -- exact linkage",
+          "sample": "urn:uuid:40942845-2c55-4d67-ac03-9d224b2902db"
+        },
+        {
+          "path": "issuer",
+          "constant": true,
+          "anonymitySet": 6,
+          "cohortSize": 6,
+          "correlatable": false,
+          "leak": "N",
+          "note": "cohort-wide (k=6/6) -- no narrowing",
+          "sample": "https://issuer.example/mandate-registry"
+        },
+        {
+          "path": "proof.cryptosuite",
+          "constant": true,
+          "anonymitySet": 6,
+          "cohortSize": 6,
+          "correlatable": false,
+          "leak": "N",
+          "note": "cohort-wide (k=6/6) -- no narrowing",
+          "sample": "bbs-2023"
+        },
+        {
+          "path": "proof.proofPurpose",
+          "constant": true,
+          "anonymitySet": 6,
+          "cohortSize": 6,
+          "correlatable": false,
+          "leak": "N",
+          "note": "cohort-wide (k=6/6) -- no narrowing",
+          "sample": "assertionMethod"
+        },
+        {
+          "path": "proof.proofValue",
+          "constant": false,
+          "anonymitySet": null,
+          "cohortSize": 6,
+          "correlatable": false,
+          "leak": "N",
+          "note": "varies per presentation",
+          "sample": "u2V0DhVkBsJMHNLf7HsAfcMGczNOREumFu3CHcXwkax9Jc..."
+        },
+        {
+          "path": "proof.type",
+          "constant": true,
+          "anonymitySet": 6,
+          "cohortSize": 6,
+          "correlatable": false,
+          "leak": "N",
+          "note": "cohort-wide (k=6/6) -- no narrowing",
+          "sample": "DataIntegrityProof"
+        },
+        {
+          "path": "proof.verificationMethod",
+          "constant": true,
+          "anonymitySet": 6,
+          "cohortSize": 6,
+          "correlatable": false,
+          "leak": "N",
+          "note": "cohort-wide (k=6/6) -- no narrowing",
+          "sample": "https://issuer.example/mandate-registry#zUC74s..."
+        },
+        {
+          "path": "type",
+          "constant": true,
+          "anonymitySet": 6,
+          "cohortSize": 6,
+          "correlatable": false,
+          "leak": "N",
+          "note": "cohort-wide (k=6/6) -- no narrowing",
+          "sample": "[\"VerifiableCredential\",\"GuardianshipMandateCr..."
+        },
+        {
+          "path": "validUntil",
+          "constant": true,
+          "anonymitySet": 1,
+          "cohortSize": 6,
+          "correlatable": true,
+          "leak": "Y",
+          "note": "unique to the subject (k=1 of 6) -- exact linkage",
+          "sample": "2026-09-14T23:59:59Z"
+        }
+      ],
+      "mitigationCandidate": false,
+      "mechanisms": [
+        "credentialStatus.id",
+        "credentialStatus.statusListIndex",
+        "decoded.mandatoryHash",
+        "decoded.mandatoryNQuads",
+        "id",
+        "validUntil",
+        "issuer collusion"
+      ],
+      "clustering": {
+        "clusterCount": 1,
+        "clusterSizes": [
+          21
+        ],
+        "targetClusterSize": 21,
+        "targetPresentations": 6,
+        "precision": 0.2857142857142857,
+        "recall": 1,
+        "bestSingleField": {
+          "path": "id",
+          "value": "urn:uuid:40942845-2c55-4d67-ac03-9d224b2902db",
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "clusterSize": 6
+        },
+        "exactLinkage": true,
+        "partialLinkage": false,
+        "topEvidence": [
+          {
+            "path": "credentialSubject.mandate.scope",
+            "value": "school_enrolment",
+            "linked": 15
+          },
+          {
+            "path": "decoded.bnodeRank.Guardian",
+            "value": "Guardian@b2",
+            "linked": 15
+          },
+          {
+            "path": "decoded.proofValueByteLength",
+            "value": "502",
+            "linked": 14
+          },
+          {
+            "path": "decoded.labelMap",
+            "value": "[[\"c14n0\",\"b2\"],[\"c14n1\",\"b0\"]]",
+            "linked": 12
+          },
+          {
+            "path": "decoded.selectiveIndexes",
+            "value": "[0,2,3,6,9]",
+            "linked": 12
+          },
+          {
+            "path": "decoded.bnodeRank.Mandate",
+            "value": "Mandate@b0",
+            "linked": 12
+          },
+          {
+            "path": "id",
+            "value": "urn:uuid:40942845-2c55-4d67-ac03-9d224b2902db",
+            "linked": 6
+          },
+          {
+            "path": "validUntil",
+            "value": "2026-09-14T23:59:59Z",
+            "linked": 6
+          }
+        ]
+      },
+      "conjunction": {
+        "pathsUsed": 30,
+        "groupSize": 6,
+        "subjectsInGroup": 1,
+        "precision": 1,
+        "recall": 1,
+        "exactLinkage": true
+      },
+      "monteCarlo": null,
+      "randomisation": {
+        "total": 21,
+        "distinctBbsProof": 21,
+        "distinctProofValue": 21,
+        "pass": true
+      },
+      "collusion": {
+        "findings": [
+          {
+            "check": "d1 base-proof material (BBS signature, BBS header, HMAC key) reappears",
+            "result": "no",
+            "leak": false
+          },
+          {
+            "check": "d2 a withheld claim value appears in the payload anyway",
+            "result": "no",
+            "leak": false
+          },
+          {
+            "check": "d3 issuer re-derives every credential, matches non-random proof parts",
+            "result": "anonymity set 1/1/1/1/1/1 of 6 -- 6/6 presentations pinned to dep:Y by name",
+            "leak": true
+          },
+          {
+            "check": "d3b same, using ONLY labelMap + mandatory/selective indexes (document ignored)",
+            "result": "anonymity set 3/3/3/3/3/3 of 6",
+            "leak": false
+          }
+        ],
+        "linked": true
+      },
+      "revocation": {
+        "statusEntryInCredential": true,
+        "statusEntryDisclosed": true,
+        "acceptedAfterRevocation": false,
+        "note": "rejected: status check failed: credential is revoked"
+      },
+      "mandatoryQuads": [
+        {
+          "quad": "<https://status.example/mandates/2026-Q3#0> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://www.w3.org/ns/credentials/status#BitstringStatusListEntry> .",
+          "k": 1,
+          "cohort": 6
+        },
+        {
+          "quad": "<https://status.example/mandates/2026-Q3#0> <https://www.w3.org/ns/credentials/status#statusListCredential> <https://status.example/mandates/2026-Q3> .",
+          "k": 1,
+          "cohort": 6
+        },
+        {
+          "quad": "<https://status.example/mandates/2026-Q3#0> <https://www.w3.org/ns/credentials/status#statusListIndex> \"0\" .",
+          "k": 1,
+          "cohort": 6
+        },
+        {
+          "quad": "<https://status.example/mandates/2026-Q3#0> <https://www.w3.org/ns/credentials/status#statusPurpose> \"revocation\" .",
+          "k": 1,
+          "cohort": 6
+        },
+        {
+          "quad": "<urn:uuid:40942845-2c55-4d67-ac03-9d224b2902db> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://kinship-caps.example/vocab#GuardianshipMandateCredential> .",
+          "k": 1,
+          "cohort": 6
+        },
+        {
+          "quad": "<urn:uuid:40942845-2c55-4d67-ac03-9d224b2902db> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://www.w3.org/2018/credentials#VerifiableCredential> .",
+          "k": 1,
+          "cohort": 6
+        },
+        {
+          "quad": "<urn:uuid:40942845-2c55-4d67-ac03-9d224b2902db> <https://www.w3.org/2018/credentials#credentialStatus> <https://status.example/mandates/2026-Q3#0> .",
+          "k": 1,
+          "cohort": 6
+        },
+        {
+          "quad": "<urn:uuid:40942845-2c55-4d67-ac03-9d224b2902db> <https://www.w3.org/2018/credentials#issuer> <https://issuer.example/mandate-registry> .",
+          "k": 1,
+          "cohort": 6
+        },
+        {
+          "quad": "<urn:uuid:40942845-2c55-4d67-ac03-9d224b2902db> <https://www.w3.org/2018/credentials#validUntil> \"2026-09-14T23:59:59Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime> .",
+          "k": 1,
+          "cohort": 6
+        }
+      ],
+      "sampleDerivedCredential": {
+        "@context": [
+          "https://www.w3.org/ns/credentials/v2",
+          "https://kinship-caps.example/contexts/mandate/v1"
+        ],
+        "id": "urn:uuid:40942845-2c55-4d67-ac03-9d224b2902db",
+        "type": [
+          "VerifiableCredential",
+          "GuardianshipMandateCredential"
+        ],
+        "issuer": "https://issuer.example/mandate-registry",
+        "validUntil": "2026-09-14T23:59:59Z",
+        "credentialStatus": {
+          "id": "https://status.example/mandates/2026-Q3#0",
+          "type": "BitstringStatusListEntry",
+          "statusPurpose": "revocation",
+          "statusListIndex": "0",
+          "statusListCredential": "https://status.example/mandates/2026-Q3"
+        },
+        "credentialSubject": {
+          "type": "Guardian",
+          "mandate": {
+            "type": "Mandate",
+            "scope": "school_enrolment"
+          }
+        },
+        "proof": {
+          "type": "DataIntegrityProof",
+          "verificationMethod": "https://issuer.example/mandate-registry#zUC74sdCzm8MXwEhywDxJE4w15zqN7ARgdqKZmaBJUdcJqBMxoyjuRgZVbKpmiwuMScJcmzFdKDPEpdu4bnJqBYvjnm8tV46C8KaU973gt5Dxhg8Un7upS9tBsbYta5ZBTvAaMp",
+          "cryptosuite": "bbs-2023",
+          "proofPurpose": "assertionMethod",
+          "proofValue": "u2V0DhVkBsJMHNLf7HsAfcMGczNOREumFu3CHcXwkax9JcHocaHKPsyeKCttVKpyD2X0zoRrku7Xg19iRqf8tPEA6864rePhWTvom-mRhhvgh0imWrp_cWn05WgQ8MKIetLAGbi0BM7K2BfIkLNqfrMvzR-2tyDKMC7KE3nu2udyLxWeBIKnVRslhW_BZ1pv3Rwdgbe89TjRa71tKtq9Bl5Z1EScjxqxb8b1h8UZUlA0_56j-nOF7Y4_G7LCHC-VAv3tJLdEPsgc6v7_uQ1iId6BOU1BBZQ1vxD9sAvV59VMhIDWpGrlqSQjU5_V9VqKiC43JCLwmgkFdeVf_HH9aVf_amYc-lrVkCCeH3a6fNtQUwt_V5r4GKSwwEH428MeTyWovqu3OqHzqLgFyoKRz1jrS21UQRhJZ4jVVHMJnLwcx7M_vrDFY2MzeGw4eyDsgl9UukjYNkS_pzCnbpIjNJQlM5PLT4o7AY6zO4QnptNlRWxt3aKlcOZ_tzvm8vYZQ2GWt0tqzmDD2OGJU4hzU0UHZ347ZgNUz0jVYUaldHa1cUhQVxYxhEP_HQqB2tfD75WHnAbepyKIAAgEAiQABAgMEBQYICYUAAgMGCVgobm9uY2U6cnA6c2Nob29sOjczNjUxOTU4ODA1YjU4YTY1YjA2NGQzNQ"
+        },
+        "decoded": {
+          "cborTag": "d95d03",
+          "bbsProof": "kwc0t/sewB9wwZzM05ES6YW7cIdxfCRrH0lwehxoco+zJ4oK21UqnIPZfTOhGuS7teDX2JGp/y08QDrzrit4+FZO+ib6ZGGG+CHSKZaun9xafTlaBDwwoh60sAZuLQEzsrYF8iQs2p+sy/NH7a3IMowLsoTee7a53IvFZ4EgqdVGyWFb8FnWm/dHB2Bt7z1ONFrvW0q2r0GXlnURJyPGrFvxvWHxRlSUDT/nqP6c4Xtjj8bssIcL5UC/e0kt0Q+yBzq/v+5DWIh3oE5TUEFlDW/EP2wC9Xn1UyEgNakauWpJCNTn9X1WoqILjckIvCaCQV15V/8cf1pV/9qZhz6WtWQIJ4fdrp821BTC39XmvgYpLDAQfjbwx5PJai+q7c6ofOouAXKgpHPWOtLbVRBGElniNVUcwmcvBzHsz++sMVjYzN4bDh7IOyCX1S6SNg2RL+nMKdukiM0lCUzk8tPijsBjrM7hCem02VFbG3doqVw5n+3O+by9hlDYZa3S2rOYMPY4YlTiHNTRQdnfjtmA1TPSNVhRqV0drVxSFBXFjGEQ/8dCoHa18PvlYecBt6nI",
+          "bbsProofByteLength": 432,
+          "proofValueByteLength": 502,
+          "labelMap": "[[\"c14n0\",\"b2\"],[\"c14n1\",\"b0\"]]",
+          "labelMapSize": 2,
+          "mandatoryIndexes": "[0,1,2,3,4,5,6,8,9]",
+          "selectiveIndexes": "[0,2,3,6,9]",
+          "presentationHeader": "nonce:rp:school:73651958805b58a65b064d35",
+          "revealedNQuadCount": 14,
+          "mandatoryNQuadCount": 9,
+          "mandatoryHash": "713699220c0f7951c34acfbc2e607e9d4241e5b7b73b8790f75688c255a7aef0",
+          "mandatoryNQuads": "[\"<https://status.example/mandates/2026-Q3#0> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://www.w3.org/ns/credentials/status#BitstringStatusListEntry> .\\n\",\"<https://status.example/mandates/2026-Q3#0> <https://www.w3.org/ns/credentials/status#statusListCredential> <https://status.example/mandates/2026-Q3> .\\n\",\"<https://status.example/mandates/2026-Q3#0> <https://www.w3.org/ns/credentials/status#statusListIndex> \\\"0\\\" .\\n\",\"<https://status.example/mandates/2026-Q3#0> <https://www.w3.org/ns/credentials/status#statusPurpose> \\\"revocation\\\" .\\n\",\"<urn:uuid:40942845-2c55-4d67-ac03-9d224b2902db> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://kinship-caps.example/vocab#GuardianshipMandateCredential> .\\n\",\"<urn:uuid:40942845-2c55-4d67-ac03-9d224b2902db> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://www.w3.org/2018/credentials#VerifiableCredential> .\\n\",\"<urn:uuid:40942845-2c55-4d67-ac03-9d224b2902db> <https://www.w3.org/2018/credentials#credentialStatus> <https://status.example/mandates/2026-Q3#0> .\\n\",\"<urn:uuid:40942845-2c55-4d67-ac03-9d224b2902db> <https://www.w3.org/2018/credentials#issuer> <https://issuer.example/mandate-registry> .\\n\",\"<urn:uuid:40942845-2c55-4d67-ac03-9d224b2902db> <https://www.w3.org/2018/credentials#validUntil> \\\"2026-09-14T23:59:59Z\\\"^^<http://www.w3.org/2001/XMLSchema#dateTime> .\\n\"]",
+          "documentShape": "@context|@context[2]|credentialStatus|credentialStatus.id|credentialStatus.statusListCredential|credentialStatus.statusListIndex|credentialStatus.statusPurpose|credentialStatus.type|credentialSubject|credentialSubject.mandate|credentialSubject.mandate.scope|credentialSubject.mandate.type|credentialSubject.type|id|issuer|type|type[2]|validUntil",
+          "bnodeRank": {
+            "Mandate": "Mandate@b0",
+            "Guardian": "Guardian@b2"
+          }
+        }
+      }
+    },
+    {
+      "key": "minimal",
+      "label": "C-minimal (mandatory: none -- the cryptosuite minimum)",
+      "mandatoryPointers": [],
+      "selectivePointers": [
+        "/issuer",
+        "/credentialSubject/mandate/scope"
+      ],
+      "verdict": "FALSIFIED",
+      "verified": "21/21",
+      "table": [
+        {
+          "path": "@context",
+          "constant": true,
+          "anonymitySet": 6,
+          "cohortSize": 6,
+          "correlatable": false,
+          "leak": "N",
+          "note": "cohort-wide (k=6/6) -- no narrowing",
+          "sample": "[\"https://www.w3.org/ns/credentials/v2\",\"https..."
+        },
+        {
+          "path": "credentialSubject.mandate.scope",
+          "constant": true,
+          "anonymitySet": 4,
+          "cohortSize": 6,
+          "correlatable": true,
+          "leak": "partial",
+          "note": "shared with 3 other dependent(s) -- anonymity set 4/6",
+          "sample": "school_enrolment"
+        },
+        {
+          "path": "credentialSubject.mandate.type",
+          "constant": true,
+          "anonymitySet": 6,
+          "cohortSize": 6,
+          "correlatable": false,
+          "leak": "N",
+          "note": "cohort-wide (k=6/6) -- no narrowing",
+          "sample": "Mandate"
+        },
+        {
+          "path": "credentialSubject.type",
+          "constant": true,
+          "anonymitySet": 6,
+          "cohortSize": 6,
+          "correlatable": false,
+          "leak": "N",
+          "note": "cohort-wide (k=6/6) -- no narrowing",
+          "sample": "Guardian"
+        },
+        {
+          "path": "decoded.bbsProof",
+          "constant": false,
+          "anonymitySet": null,
+          "cohortSize": 6,
+          "correlatable": false,
+          "leak": "N",
+          "note": "varies per presentation",
+          "sample": "pwjzuSk7rFrRNOsPDYDKZZCvGl//AefS3FRQF12dr6+I6Y..."
+        },
+        {
+          "path": "decoded.bbsProofByteLength",
+          "constant": true,
+          "anonymitySet": 6,
+          "cohortSize": 6,
+          "correlatable": false,
+          "leak": "N",
+          "note": "cohort-wide (k=6/6) -- no narrowing",
+          "sample": "624"
+        },
+        {
+          "path": "decoded.bnodeRank.Guardian",
+          "constant": true,
+          "anonymitySet": 3,
+          "cohortSize": 6,
+          "correlatable": true,
+          "leak": "partial",
+          "note": "shared with 2 other dependent(s) -- anonymity set 3/6",
+          "sample": "Guardian@b1"
+        },
+        {
+          "path": "decoded.bnodeRank.Mandate",
+          "constant": true,
+          "anonymitySet": 2,
+          "cohortSize": 6,
+          "correlatable": true,
+          "leak": "partial",
+          "note": "shared with 1 other dependent(s) -- anonymity set 2/6",
+          "sample": "Mandate@b2"
+        },
+        {
+          "path": "decoded.cborTag",
+          "constant": true,
+          "anonymitySet": 6,
+          "cohortSize": 6,
+          "correlatable": false,
+          "leak": "N",
+          "note": "cohort-wide (k=6/6) -- no narrowing",
+          "sample": "d95d03"
+        },
+        {
+          "path": "decoded.documentShape",
+          "constant": true,
+          "anonymitySet": 6,
+          "cohortSize": 6,
+          "correlatable": false,
+          "leak": "N",
+          "note": "cohort-wide (k=6/6) -- no narrowing",
+          "sample": "@context|@context[2]|credentialSubject|credent..."
+        },
+        {
+          "path": "decoded.labelMap",
+          "constant": true,
+          "anonymitySet": 2,
+          "cohortSize": 6,
+          "correlatable": true,
+          "leak": "partial",
+          "note": "shared with 1 other dependent(s) -- anonymity set 2/6",
+          "sample": "[[\"c14n0\",\"b1\"],[\"c14n1\",\"b2\"]]"
+        },
+        {
+          "path": "decoded.labelMapSize",
+          "constant": true,
+          "anonymitySet": 6,
+          "cohortSize": 6,
+          "correlatable": false,
+          "leak": "N",
+          "note": "cohort-wide (k=6/6) -- no narrowing",
+          "sample": "2"
+        },
+        {
+          "path": "decoded.mandatoryHash",
+          "constant": true,
+          "anonymitySet": 6,
+          "cohortSize": 6,
+          "correlatable": false,
+          "leak": "N",
+          "note": "cohort-wide (k=6/6) -- no narrowing",
+          "sample": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b93..."
+        },
+        {
+          "path": "decoded.mandatoryIndexes",
+          "constant": true,
+          "anonymitySet": 6,
+          "cohortSize": 6,
+          "correlatable": false,
+          "leak": "N",
+          "note": "cohort-wide (k=6/6) -- no narrowing",
+          "sample": "[]"
+        },
+        {
+          "path": "decoded.mandatoryNQuadCount",
+          "constant": true,
+          "anonymitySet": 6,
+          "cohortSize": 6,
+          "correlatable": false,
+          "leak": "N",
+          "note": "cohort-wide (k=6/6) -- no narrowing",
+          "sample": "0"
+        },
+        {
+          "path": "decoded.mandatoryNQuads",
+          "constant": true,
+          "anonymitySet": 6,
+          "cohortSize": 6,
+          "correlatable": false,
+          "leak": "N",
+          "note": "cohort-wide (k=6/6) -- no narrowing",
+          "sample": "[]"
+        },
+        {
+          "path": "decoded.presentationHeader",
+          "constant": false,
+          "anonymitySet": null,
+          "cohortSize": 6,
+          "correlatable": false,
+          "leak": "N",
+          "note": "varies per presentation",
+          "sample": "nonce:rp:school:20286c6bcc9b834e131dbfe6"
+        },
+        {
+          "path": "decoded.proofValueByteLength",
+          "constant": false,
+          "anonymitySet": null,
+          "cohortSize": 6,
+          "correlatable": false,
+          "leak": "N",
+          "note": "varies per presentation",
+          "sample": "688"
+        },
+        {
+          "path": "decoded.revealedNQuadCount",
+          "constant": true,
+          "anonymitySet": 6,
+          "cohortSize": 6,
+          "correlatable": false,
+          "leak": "N",
+          "note": "cohort-wide (k=6/6) -- no narrowing",
+          "sample": "8"
+        },
+        {
+          "path": "decoded.selectiveIndexes",
+          "constant": true,
+          "anonymitySet": 2,
+          "cohortSize": 6,
+          "correlatable": true,
+          "leak": "partial",
+          "note": "shared with 1 other dependent(s) -- anonymity set 2/6",
+          "sample": "[4,5,7,8,13,16,17,18]"
+        },
+        {
+          "path": "id",
+          "constant": true,
+          "anonymitySet": 1,
+          "cohortSize": 6,
+          "correlatable": true,
+          "leak": "Y",
+          "note": "unique to the subject (k=1 of 6) -- exact linkage",
+          "sample": "urn:uuid:40942845-2c55-4d67-ac03-9d224b2902db"
+        },
+        {
+          "path": "issuer",
+          "constant": true,
+          "anonymitySet": 6,
+          "cohortSize": 6,
+          "correlatable": false,
+          "leak": "N",
+          "note": "cohort-wide (k=6/6) -- no narrowing",
+          "sample": "https://issuer.example/mandate-registry"
+        },
+        {
+          "path": "proof.cryptosuite",
+          "constant": true,
+          "anonymitySet": 6,
+          "cohortSize": 6,
+          "correlatable": false,
+          "leak": "N",
+          "note": "cohort-wide (k=6/6) -- no narrowing",
+          "sample": "bbs-2023"
+        },
+        {
+          "path": "proof.proofPurpose",
+          "constant": true,
+          "anonymitySet": 6,
+          "cohortSize": 6,
+          "correlatable": false,
+          "leak": "N",
+          "note": "cohort-wide (k=6/6) -- no narrowing",
+          "sample": "assertionMethod"
+        },
+        {
+          "path": "proof.proofValue",
+          "constant": false,
+          "anonymitySet": null,
+          "cohortSize": 6,
+          "correlatable": false,
+          "leak": "N",
+          "note": "varies per presentation",
+          "sample": "u2V0DhVkCcKcI87kpO6xa0TTrDw2AymWQrxpf_wHn0txUU..."
+        },
+        {
+          "path": "proof.type",
+          "constant": true,
+          "anonymitySet": 6,
+          "cohortSize": 6,
+          "correlatable": false,
+          "leak": "N",
+          "note": "cohort-wide (k=6/6) -- no narrowing",
+          "sample": "DataIntegrityProof"
+        },
+        {
+          "path": "proof.verificationMethod",
+          "constant": true,
+          "anonymitySet": 6,
+          "cohortSize": 6,
+          "correlatable": false,
+          "leak": "N",
+          "note": "cohort-wide (k=6/6) -- no narrowing",
+          "sample": "https://issuer.example/mandate-registry#zUC74s..."
+        },
+        {
+          "path": "type",
+          "constant": true,
+          "anonymitySet": 6,
+          "cohortSize": 6,
+          "correlatable": false,
+          "leak": "N",
+          "note": "cohort-wide (k=6/6) -- no narrowing",
+          "sample": "[\"VerifiableCredential\",\"GuardianshipMandateCr..."
+        }
+      ],
+      "mitigationCandidate": false,
+      "mechanisms": [
+        "id",
+        "issuer collusion"
+      ],
+      "clustering": {
+        "clusterCount": 1,
+        "clusterSizes": [
+          21
+        ],
+        "targetClusterSize": 21,
+        "targetPresentations": 6,
+        "precision": 0.2857142857142857,
+        "recall": 1,
+        "bestSingleField": {
+          "path": "id",
+          "value": "urn:uuid:40942845-2c55-4d67-ac03-9d224b2902db",
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "clusterSize": 6
+        },
+        "exactLinkage": true,
+        "partialLinkage": false,
+        "topEvidence": [
+          {
+            "path": "credentialSubject.mandate.scope",
+            "value": "school_enrolment",
+            "linked": 15
+          },
+          {
+            "path": "decoded.proofValueByteLength",
+            "value": "688",
+            "linked": 14
+          },
+          {
+            "path": "decoded.bnodeRank.Guardian",
+            "value": "Guardian@b1",
+            "linked": 12
+          },
+          {
+            "path": "decoded.labelMap",
+            "value": "[[\"c14n0\",\"b1\"],[\"c14n1\",\"b2\"]]",
+            "linked": 9
+          },
+          {
+            "path": "decoded.selectiveIndexes",
+            "value": "[4,5,7,8,13,16,17,18]",
+            "linked": 9
+          },
+          {
+            "path": "decoded.bnodeRank.Mandate",
+            "value": "Mandate@b2",
+            "linked": 9
+          },
+          {
+            "path": "decoded.bnodeRank.Mandate",
+            "value": "Mandate@b0",
+            "linked": 9
+          },
+          {
+            "path": "decoded.bnodeRank.Guardian",
+            "value": "Guardian@b2",
+            "linked": 9
+          }
+        ]
+      },
+      "conjunction": {
+        "pathsUsed": 24,
+        "groupSize": 6,
+        "subjectsInGroup": 1,
+        "precision": 1,
+        "recall": 1,
+        "exactLinkage": true
+      },
+      "monteCarlo": null,
+      "randomisation": {
+        "total": 21,
+        "distinctBbsProof": 21,
+        "distinctProofValue": 21,
+        "pass": true
+      },
+      "collusion": {
+        "findings": [
+          {
+            "check": "d1 base-proof material (BBS signature, BBS header, HMAC key) reappears",
+            "result": "no",
+            "leak": false
+          },
+          {
+            "check": "d2 a withheld claim value appears in the payload anyway",
+            "result": "no",
+            "leak": false
+          },
+          {
+            "check": "d3 issuer re-derives every credential, matches non-random proof parts",
+            "result": "anonymity set 1/1/1/1/1/1 of 6 -- 6/6 presentations pinned to dep:Y by name",
+            "leak": true
+          },
+          {
+            "check": "d3b same, using ONLY labelMap + mandatory/selective indexes (document ignored)",
+            "result": "anonymity set 1/1/1/1/1/1 of 6",
+            "leak": true
+          }
+        ],
+        "linked": true
+      },
+      "revocation": {
+        "statusEntryInCredential": true,
+        "statusEntryDisclosed": false,
+        "acceptedAfterRevocation": true,
+        "note": "revoked credential still verifies: status entry not disclosed"
+      },
+      "mandatoryQuads": [],
+      "sampleDerivedCredential": {
+        "@context": [
+          "https://www.w3.org/ns/credentials/v2",
+          "https://kinship-caps.example/contexts/mandate/v1"
+        ],
+        "id": "urn:uuid:40942845-2c55-4d67-ac03-9d224b2902db",
+        "type": [
+          "VerifiableCredential",
+          "GuardianshipMandateCredential"
+        ],
+        "issuer": "https://issuer.example/mandate-registry",
+        "credentialSubject": {
+          "type": "Guardian",
+          "mandate": {
+            "type": "Mandate",
+            "scope": "school_enrolment"
+          }
+        },
+        "proof": {
+          "type": "DataIntegrityProof",
+          "verificationMethod": "https://issuer.example/mandate-registry#zUC74sdCzm8MXwEhywDxJE4w15zqN7ARgdqKZmaBJUdcJqBMxoyjuRgZVbKpmiwuMScJcmzFdKDPEpdu4bnJqBYvjnm8tV46C8KaU973gt5Dxhg8Un7upS9tBsbYta5ZBTvAaMp",
+          "cryptosuite": "bbs-2023",
+          "proofPurpose": "assertionMethod",
+          "proofValue": "u2V0DhVkCcKcI87kpO6xa0TTrDw2AymWQrxpf_wHn0txUUBddna-viOmMpT6omTsxfNVxbATMYbirIQOlLhuUMrwlIptLmmpFObfdXgd6Y7F_2uuPoJm4RNqyNRVuKTXqsUrJ19ztS4luyTMimkvluauU4CgRaaLR9F1i2T1iNWP-HDOD0Thdi8ehn9OXkpeKN-27LAd8nmZkD9EBuvvW-HF7mYi1zqIB2Sk5Asq0RQqKk9xXq6T9S6ZboZ7rrkO-SgI9emtrUYQwsu-jShvXXPQt-CJqhEkpMW4U8YitGrCBU10qigFcuwrmiHt_CcTZL_8JX2q0yDLAhi4Z6xySquWrJUNnsRZgXOUR9ZyHRwHUlSFmssp-C-AAixDYvXVAdhZ4UNlHFtxD-jW_psVc33vj_m6FbpByLRWb2AHip9TRTi5Wlx5yzndYpGuMbT838dEW5HEif23XL5u0W2Mf91GFjLmCtyieQqkrE8_R9smfVaSvKYpybiOcyr9nCAtgE1sCZBc9LiTG0o3wVroKyodrSssN7UFChSwFkFA9LDd5B032Wf8kD4P9VdeHgsQTZKhMb6eLREwpmUlFxkDlLGUHZw8g7Sda6n6FaiPpswFYW74Coy4hRbNI_OUX7NseaiOnyaFENKMKHcNsbRpYhGx84Z43zcVvNayaVbs2C5zQeiFbIafUoGD5KKVL54AGZZATWiCL_Q3a-NVE6fPX9CwxWD2K_rB_ZVAU1xDkIIvIktMDbsoqQloOxEMfoHIMZ6U65Vkj1IkSWo8yA6T4Lgwbxbdppm44lC7Ey7X8N9LJ9odU9rD-Tr0zjwZw7O8EPN6wGmK82aIAAQECgIgEBQcIDRARElgobm9uY2U6cnA6c2Nob29sOjIwMjg2YzZiY2M5YjgzNGUxMzFkYmZlNg"
+        },
+        "decoded": {
+          "cborTag": "d95d03",
+          "bbsProof": "pwjzuSk7rFrRNOsPDYDKZZCvGl//AefS3FRQF12dr6+I6YylPqiZOzF81XFsBMxhuKshA6UuG5QyvCUim0uaakU5t91eB3pjsX/a64+gmbhE2rI1FW4pNeqxSsnX3O1LiW7JMyKaS+W5q5TgKBFpotH0XWLZPWI1Y/4cM4PROF2Lx6Gf05eSl4o37bssB3yeZmQP0QG6+9b4cXuZiLXOogHZKTkCyrRFCoqT3FerpP1LpluhnuuuQ75KAj16a2tRhDCy76NKG9dc9C34ImqESSkxbhTxiK0asIFTXSqKAVy7CuaIe38JxNkv/wlfarTIMsCGLhnrHJKq5aslQ2exFmBc5RH1nIdHAdSVIWayyn4L4ACLENi9dUB2FnhQ2UcW3EP6Nb+mxVzfe+P+boVukHItFZvYAeKn1NFOLlaXHnLOd1ika4xtPzfx0RbkcSJ/bdcvm7RbYx/3UYWMuYK3KJ5CqSsTz9H2yZ9VpK8pinJuI5zKv2cIC2ATWwJkFz0uJMbSjfBWugrKh2tKyw3tQUKFLAWQUD0sN3kHTfZZ/yQPg/1V14eCxBNkqExvp4tETCmZSUXGQOUsZQdnDyDtJ1rqfoVqI+mzAVhbvgKjLiFFs0j85Rfs2x5qI6fJoUQ0owodw2xtGliEbHzhnjfNxW81rJpVuzYLnNB6IVshp9SgYPkopUvngAZlkBNaIIv9Ddr41UTp89f0LDFYPYr+sH9lUBTXEOQgi8iS0wNuyipCWg7EQx+gcgxnpTrlWSPUiRJajzIDpPguDBvFt2mmbjiULsTLtfw30sn2h1T2sP5OvTOPBnDs7wQ83rAaYrzZ",
+          "bbsProofByteLength": 624,
+          "proofValueByteLength": 688,
+          "labelMap": "[[\"c14n0\",\"b1\"],[\"c14n1\",\"b2\"]]",
+          "labelMapSize": 2,
+          "mandatoryIndexes": "[]",
+          "selectiveIndexes": "[4,5,7,8,13,16,17,18]",
+          "presentationHeader": "nonce:rp:school:20286c6bcc9b834e131dbfe6",
+          "revealedNQuadCount": 8,
+          "mandatoryNQuadCount": 0,
+          "mandatoryHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "mandatoryNQuads": "[]",
+          "documentShape": "@context|@context[2]|credentialSubject|credentialSubject.mandate|credentialSubject.mandate.scope|credentialSubject.mandate.type|credentialSubject.type|id|issuer|type|type[2]",
+          "bnodeRank": {
+            "Guardian": "Guardian@b1",
+            "Mandate": "Mandate@b2"
+          }
+        }
+      }
+    },
+    {
+      "key": "hardened",
+      "label": "C-hardened (mandatory: /issuer + epoch-bucketed /validUntil; no id, no status)",
+      "mandatoryPointers": [
+        "/issuer",
+        "/validUntil"
+      ],
+      "selectivePointers": [
+        "/credentialSubject/mandate/scope"
+      ],
+      "verdict": "FALSIFIED",
+      "verified": "21/21",
+      "table": [
+        {
+          "path": "@context",
+          "constant": true,
+          "anonymitySet": 6,
+          "cohortSize": 6,
+          "correlatable": false,
+          "leak": "N",
+          "note": "cohort-wide (k=6/6) -- no narrowing",
+          "sample": "[\"https://www.w3.org/ns/credentials/v2\",\"https..."
+        },
+        {
+          "path": "credentialSubject.mandate.scope",
+          "constant": true,
+          "anonymitySet": 4,
+          "cohortSize": 6,
+          "correlatable": true,
+          "leak": "partial",
+          "note": "shared with 3 other dependent(s) -- anonymity set 4/6",
+          "sample": "school_enrolment"
+        },
+        {
+          "path": "credentialSubject.mandate.type",
+          "constant": true,
+          "anonymitySet": 6,
+          "cohortSize": 6,
+          "correlatable": false,
+          "leak": "N",
+          "note": "cohort-wide (k=6/6) -- no narrowing",
+          "sample": "Mandate"
+        },
+        {
+          "path": "credentialSubject.type",
+          "constant": true,
+          "anonymitySet": 6,
+          "cohortSize": 6,
+          "correlatable": false,
+          "leak": "N",
+          "note": "cohort-wide (k=6/6) -- no narrowing",
+          "sample": "Guardian"
+        },
+        {
+          "path": "decoded.bbsProof",
+          "constant": false,
+          "anonymitySet": null,
+          "cohortSize": 6,
+          "correlatable": false,
+          "leak": "N",
+          "note": "varies per presentation",
+          "sample": "hI3fJoD2+ayzcZRDeowzfYRPwaWu2gfT6mg33Ow9uWoJmz..."
+        },
+        {
+          "path": "decoded.bbsProofByteLength",
+          "constant": true,
+          "anonymitySet": 6,
+          "cohortSize": 6,
+          "correlatable": false,
+          "leak": "N",
+          "note": "cohort-wide (k=6/6) -- no narrowing",
+          "sample": "432"
+        },
+        {
+          "path": "decoded.bnodeRank.Guardian",
+          "constant": true,
+          "anonymitySet": 2,
+          "cohortSize": 6,
+          "correlatable": true,
+          "leak": "partial",
+          "note": "shared with 1 other dependent(s) -- anonymity set 2/6",
+          "sample": "Guardian@b0"
+        },
+        {
+          "path": "decoded.bnodeRank.GuardianshipMandateCredential+VerifiableCredential",
+          "constant": true,
+          "anonymitySet": 1,
+          "cohortSize": 6,
+          "correlatable": true,
+          "leak": "Y",
+          "note": "unique to the subject (k=1 of 6) -- exact linkage",
+          "sample": "GuardianshipMandateCredential+VerifiableCreden..."
+        },
+        {
+          "path": "decoded.bnodeRank.Mandate",
+          "constant": true,
+          "anonymitySet": 1,
+          "cohortSize": 6,
+          "correlatable": true,
+          "leak": "Y",
+          "note": "unique to the subject (k=1 of 6) -- exact linkage",
+          "sample": "Mandate@b3"
+        },
+        {
+          "path": "decoded.cborTag",
+          "constant": true,
+          "anonymitySet": 6,
+          "cohortSize": 6,
+          "correlatable": false,
+          "leak": "N",
+          "note": "cohort-wide (k=6/6) -- no narrowing",
+          "sample": "d95d03"
+        },
+        {
+          "path": "decoded.documentShape",
+          "constant": true,
+          "anonymitySet": 6,
+          "cohortSize": 6,
+          "correlatable": false,
+          "leak": "N",
+          "note": "cohort-wide (k=6/6) -- no narrowing",
+          "sample": "@context|@context[2]|credentialSubject|credent..."
+        },
+        {
+          "path": "decoded.labelMap",
+          "constant": true,
+          "anonymitySet": 1,
+          "cohortSize": 6,
+          "correlatable": true,
+          "leak": "Y",
+          "note": "unique to the subject (k=1 of 6) -- exact linkage",
+          "sample": "[[\"c14n0\",\"b0\"],[\"c14n1\",\"b2\"],[\"c14n2\",\"b3\"]]"
+        },
+        {
+          "path": "decoded.labelMapSize",
+          "constant": true,
+          "anonymitySet": 6,
+          "cohortSize": 6,
+          "correlatable": false,
+          "leak": "N",
+          "note": "cohort-wide (k=6/6) -- no narrowing",
+          "sample": "3"
+        },
+        {
+          "path": "decoded.mandatoryHash",
+          "constant": true,
+          "anonymitySet": 1,
+          "cohortSize": 6,
+          "correlatable": true,
+          "leak": "Y",
+          "note": "unique to the subject (k=1 of 6) -- exact linkage",
+          "sample": "ea9306cb1417ca05f92437a982faf72d7224fdf0a65abd..."
+        },
+        {
+          "path": "decoded.mandatoryIndexes",
+          "constant": true,
+          "anonymitySet": 1,
+          "cohortSize": 6,
+          "correlatable": true,
+          "leak": "Y",
+          "note": "unique to the subject (k=1 of 6) -- exact linkage",
+          "sample": "[2,3,5,6]"
+        },
+        {
+          "path": "decoded.mandatoryNQuadCount",
+          "constant": true,
+          "anonymitySet": 6,
+          "cohortSize": 6,
+          "correlatable": false,
+          "leak": "N",
+          "note": "cohort-wide (k=6/6) -- no narrowing",
+          "sample": "4"
+        },
+        {
+          "path": "decoded.mandatoryNQuads",
+          "constant": true,
+          "anonymitySet": 1,
+          "cohortSize": 6,
+          "correlatable": true,
+          "leak": "Y",
+          "note": "unique to the subject (k=1 of 6) -- exact linkage",
+          "sample": "[\"_:b2 <http://www.w3.org/1999/02/22-rdf-synta..."
+        },
+        {
+          "path": "decoded.presentationHeader",
+          "constant": false,
+          "anonymitySet": null,
+          "cohortSize": 6,
+          "correlatable": false,
+          "leak": "N",
+          "note": "varies per presentation",
+          "sample": "nonce:rp:school:d6f6584ac2c4fe61d4f00282"
+        },
+        {
+          "path": "decoded.proofValueByteLength",
+          "constant": false,
+          "anonymitySet": null,
+          "cohortSize": 6,
+          "correlatable": false,
+          "leak": "N",
+          "note": "varies per presentation",
+          "sample": "499"
+        },
+        {
+          "path": "decoded.revealedNQuadCount",
+          "constant": true,
+          "anonymitySet": 6,
+          "cohortSize": 6,
+          "correlatable": false,
+          "leak": "N",
+          "note": "cohort-wide (k=6/6) -- no narrowing",
+          "sample": "9"
+        },
+        {
+          "path": "decoded.selectiveIndexes",
+          "constant": true,
+          "anonymitySet": 1,
+          "cohortSize": 6,
+          "correlatable": true,
+          "leak": "Y",
+          "note": "unique to the subject (k=1 of 6) -- exact linkage",
+          "sample": "[0,3,6,8,9]"
+        },
+        {
+          "path": "issuer",
+          "constant": true,
+          "anonymitySet": 6,
+          "cohortSize": 6,
+          "correlatable": false,
+          "leak": "N",
+          "note": "cohort-wide (k=6/6) -- no narrowing",
+          "sample": "https://issuer.example/mandate-registry"
+        },
+        {
+          "path": "proof.cryptosuite",
+          "constant": true,
+          "anonymitySet": 6,
+          "cohortSize": 6,
+          "correlatable": false,
+          "leak": "N",
+          "note": "cohort-wide (k=6/6) -- no narrowing",
+          "sample": "bbs-2023"
+        },
+        {
+          "path": "proof.proofPurpose",
+          "constant": true,
+          "anonymitySet": 6,
+          "cohortSize": 6,
+          "correlatable": false,
+          "leak": "N",
+          "note": "cohort-wide (k=6/6) -- no narrowing",
+          "sample": "assertionMethod"
+        },
+        {
+          "path": "proof.proofValue",
+          "constant": false,
+          "anonymitySet": null,
+          "cohortSize": 6,
+          "correlatable": false,
+          "leak": "N",
+          "note": "varies per presentation",
+          "sample": "u2V0DhVkBsISN3yaA9vmss3GUQ3qMM32ET8GlrtoH0-poN..."
+        },
+        {
+          "path": "proof.type",
+          "constant": true,
+          "anonymitySet": 6,
+          "cohortSize": 6,
+          "correlatable": false,
+          "leak": "N",
+          "note": "cohort-wide (k=6/6) -- no narrowing",
+          "sample": "DataIntegrityProof"
+        },
+        {
+          "path": "proof.verificationMethod",
+          "constant": true,
+          "anonymitySet": 6,
+          "cohortSize": 6,
+          "correlatable": false,
+          "leak": "N",
+          "note": "cohort-wide (k=6/6) -- no narrowing",
+          "sample": "https://issuer.example/mandate-registry#zUC74s..."
+        },
+        {
+          "path": "type",
+          "constant": true,
+          "anonymitySet": 6,
+          "cohortSize": 6,
+          "correlatable": false,
+          "leak": "N",
+          "note": "cohort-wide (k=6/6) -- no narrowing",
+          "sample": "[\"VerifiableCredential\",\"GuardianshipMandateCr..."
+        },
+        {
+          "path": "validUntil",
+          "constant": true,
+          "anonymitySet": 6,
+          "cohortSize": 6,
+          "correlatable": false,
+          "leak": "N",
+          "note": "cohort-wide (k=6/6) -- no narrowing",
+          "sample": "2026-09-30T23:59:59Z"
+        }
+      ],
+      "mitigationCandidate": false,
+      "mechanisms": [
+        "decoded.bnodeRank.GuardianshipMandateCredential+VerifiableCredential",
+        "decoded.bnodeRank.Mandate",
+        "decoded.labelMap",
+        "decoded.mandatoryHash",
+        "decoded.mandatoryIndexes",
+        "decoded.mandatoryNQuads",
+        "decoded.selectiveIndexes",
+        "issuer collusion",
+        "HMAC label tag (target unique in 26/30 cohorts)"
+      ],
+      "clustering": {
+        "clusterCount": 1,
+        "clusterSizes": [
+          21
+        ],
+        "targetClusterSize": 21,
+        "targetPresentations": 6,
+        "precision": 0.2857142857142857,
+        "recall": 1,
+        "bestSingleField": {
+          "path": "decoded.labelMap",
+          "value": "[[\"c14n0\",\"b0\"],[\"c14n1\",\"b2\"],[\"c14n2\",\"b3\"]]",
+          "precision": 1,
+          "recall": 1,
+          "f1": 1,
+          "clusterSize": 6
+        },
+        "exactLinkage": true,
+        "partialLinkage": false,
+        "topEvidence": [
+          {
+            "path": "credentialSubject.mandate.scope",
+            "value": "school_enrolment",
+            "linked": 15
+          },
+          {
+            "path": "decoded.proofValueByteLength",
+            "value": "499",
+            "linked": 14
+          },
+          {
+            "path": "decoded.mandatoryIndexes",
+            "value": "[0,1,3,4]",
+            "linked": 12
+          },
+          {
+            "path": "decoded.mandatoryHash",
+            "value": "c12ad8e3a940758d5ff75acbb360195811c2354f5b7773...",
+            "linked": 12
+          },
+          {
+            "path": "decoded.mandatoryNQuads",
+            "value": "[\"_:b0 <http://www.w3.org/1999/02/22-rdf-synta...",
+            "linked": 12
+          },
+          {
+            "path": "decoded.bnodeRank.GuardianshipMandateCredential+VerifiableCredential",
+            "value": "GuardianshipMandateCredential+VerifiableCreden...",
+            "linked": 12
+          },
+          {
+            "path": "decoded.bnodeRank.Guardian",
+            "value": "Guardian@b0",
+            "linked": 9
+          },
+          {
+            "path": "decoded.bnodeRank.Mandate",
+            "value": "Mandate@b1",
+            "linked": 9
+          }
+        ]
+      },
+      "conjunction": {
+        "pathsUsed": 25,
+        "groupSize": 6,
+        "subjectsInGroup": 1,
+        "precision": 1,
+        "recall": 1,
+        "exactLinkage": true
+      },
+      "monteCarlo": {
+        "reps": 30,
+        "unique": 26,
+        "pUnique": 0.8666666666666667,
+        "uniqueProofPartsOnly": 26,
+        "pUniqueProofPartsOnly": 0.8666666666666667
+      },
+      "randomisation": {
+        "total": 21,
+        "distinctBbsProof": 21,
+        "distinctProofValue": 21,
+        "pass": true
+      },
+      "collusion": {
+        "findings": [
+          {
+            "check": "d1 base-proof material (BBS signature, BBS header, HMAC key) reappears",
+            "result": "no",
+            "leak": false
+          },
+          {
+            "check": "d2 a withheld claim value appears in the payload anyway",
+            "result": "no",
+            "leak": false
+          },
+          {
+            "check": "d3 issuer re-derives every credential, matches non-random proof parts",
+            "result": "anonymity set 1/1/1/1/1/1 of 6 -- 6/6 presentations pinned to dep:Y by name",
+            "leak": true
+          },
+          {
+            "check": "d3b same, using ONLY labelMap + mandatory/selective indexes (document ignored)",
+            "result": "anonymity set 1/1/1/1/1/1 of 6",
+            "leak": true
+          }
+        ],
+        "linked": true
+      },
+      "revocation": {
+        "statusEntryInCredential": false,
+        "statusEntryDisclosed": false,
+        "acceptedAfterRevocation": true,
+        "note": "no status entry exists (short-lived credential model)"
+      },
+      "mandatoryQuads": [
+        {
+          "quad": "_:b2 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://kinship-caps.example/vocab#GuardianshipMandateCredential> .",
+          "k": 1,
+          "cohort": 6
+        },
+        {
+          "quad": "_:b2 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://www.w3.org/2018/credentials#VerifiableCredential> .",
+          "k": 1,
+          "cohort": 6
+        },
+        {
+          "quad": "_:b2 <https://www.w3.org/2018/credentials#issuer> <https://issuer.example/mandate-registry> .",
+          "k": 1,
+          "cohort": 6
+        },
+        {
+          "quad": "_:b2 <https://www.w3.org/2018/credentials#validUntil> \"2026-09-30T23:59:59Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime> .",
+          "k": 1,
+          "cohort": 6
+        }
+      ],
+      "sampleDerivedCredential": {
+        "@context": [
+          "https://www.w3.org/ns/credentials/v2",
+          "https://kinship-caps.example/contexts/mandate/v1"
+        ],
+        "type": [
+          "VerifiableCredential",
+          "GuardianshipMandateCredential"
+        ],
+        "issuer": "https://issuer.example/mandate-registry",
+        "validUntil": "2026-09-30T23:59:59Z",
+        "credentialSubject": {
+          "type": "Guardian",
+          "mandate": {
+            "type": "Mandate",
+            "scope": "school_enrolment"
+          }
+        },
+        "proof": {
+          "type": "DataIntegrityProof",
+          "verificationMethod": "https://issuer.example/mandate-registry#zUC74sdCzm8MXwEhywDxJE4w15zqN7ARgdqKZmaBJUdcJqBMxoyjuRgZVbKpmiwuMScJcmzFdKDPEpdu4bnJqBYvjnm8tV46C8KaU973gt5Dxhg8Un7upS9tBsbYta5ZBTvAaMp",
+          "cryptosuite": "bbs-2023",
+          "proofPurpose": "assertionMethod",
+          "proofValue": "u2V0DhVkBsISN3yaA9vmss3GUQ3qMM32ET8GlrtoH0-poN9zsPblqCZs0BarAQbqkkHOQvU1G0qvqzRVsqS8o89Jo8VySgKRQrl6gJKfnR6XMAReq6l18hBTgR_iPfhMOW7PT7WPyv6kFZdHYhNIdUbvf0K5NTTafD8vjMrR-zisV73ngzB_eWdNFiC8g8adP4VaViolEo2qNMwnAPClBO7GyryFilHig8QMySmeIBvxdcjPByCV8GwB7U8P5LZ_bRA-YKw5fvMyeh3baq4xvKOuW0JTpXdQ98zOr1PxN7U9Hg8ALSIycqBzj8DOmH7j7lxkeIhmUTCXK1vfgu-BXk4jIQT1HkBGJjePXQSMF6h2uZMpvNTfQY2wOKRQEgNuLWp9nV8Cqr3rWAUYZPxZTHhiOZ1RKauMvxsWuiheZ_Zi8kKJtUbMKS7lbNHzyzYVTtslxyjGkHmjwNdeP4sPkl1GATeLhuJGGFDwUKyQBE1A2QO5b0Hz8B4VZy3IwGK0WTMog6dXHf5gIJiZoJuUGDbFiZuUT3hgHC3EMJU20eyWgPJuCD8enJETLKaxh0GgecThYyg0amaMAAAECAgOEAgMFBoUAAwYICVgobm9uY2U6cnA6c2Nob29sOmQ2ZjY1ODRhYzJjNGZlNjFkNGYwMDI4Mg"
+        },
+        "decoded": {
+          "cborTag": "d95d03",
+          "bbsProof": "hI3fJoD2+ayzcZRDeowzfYRPwaWu2gfT6mg33Ow9uWoJmzQFqsBBuqSQc5C9TUbSq+rNFWypLyjz0mjxXJKApFCuXqAkp+dHpcwBF6rqXXyEFOBH+I9+Ew5bs9PtY/K/qQVl0diE0h1Ru9/Qrk1NNp8Py+MytH7OKxXveeDMH95Z00WILyDxp0/hVpWKiUSjao0zCcA8KUE7sbKvIWKUeKDxAzJKZ4gG/F1yM8HIJXwbAHtTw/ktn9tED5grDl+8zJ6HdtqrjG8o65bQlOld1D3zM6vU/E3tT0eDwAtIjJyoHOPwM6YfuPuXGR4iGZRMJcrW9+C74FeTiMhBPUeQEYmN49dBIwXqHa5kym81N9BjbA4pFASA24tan2dXwKqvetYBRhk/FlMeGI5nVEpq4y/Gxa6KF5n9mLyQom1RswpLuVs0fPLNhVO2yXHKMaQeaPA114/iw+SXUYBN4uG4kYYUPBQrJAETUDZA7lvQfPwHhVnLcjAYrRZMyiDp1cd/mAgmJmgm5QYNsWJm5RPeGAcLcQwlTbR7JaA8m4IPx6ckRMsprGHQaB5xOFjKDRqZ",
+          "bbsProofByteLength": 432,
+          "proofValueByteLength": 499,
+          "labelMap": "[[\"c14n0\",\"b0\"],[\"c14n1\",\"b2\"],[\"c14n2\",\"b3\"]]",
+          "labelMapSize": 3,
+          "mandatoryIndexes": "[2,3,5,6]",
+          "selectiveIndexes": "[0,3,6,8,9]",
+          "presentationHeader": "nonce:rp:school:d6f6584ac2c4fe61d4f00282",
+          "revealedNQuadCount": 9,
+          "mandatoryNQuadCount": 4,
+          "mandatoryHash": "ea9306cb1417ca05f92437a982faf72d7224fdf0a65abdb3953c85fd72ef052a",
+          "mandatoryNQuads": "[\"_:b2 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://kinship-caps.example/vocab#GuardianshipMandateCredential> .\\n\",\"_:b2 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://www.w3.org/2018/credentials#VerifiableCredential> .\\n\",\"_:b2 <https://www.w3.org/2018/credentials#issuer> <https://issuer.example/mandate-registry> .\\n\",\"_:b2 <https://www.w3.org/2018/credentials#validUntil> \\\"2026-09-30T23:59:59Z\\\"^^<http://www.w3.org/2001/XMLSchema#dateTime> .\\n\"]",
+          "documentShape": "@context|@context[2]|credentialSubject|credentialSubject.mandate|credentialSubject.mandate.scope|credentialSubject.mandate.type|credentialSubject.type|issuer|type|type[2]|validUntil",
+          "bnodeRank": {
+            "Guardian": "Guardian@b0",
+            "GuardianshipMandateCredential+VerifiableCredential": "GuardianshipMandateCredential+VerifiableCredential@b2",
+            "Mandate": "Mandate@b3"
+          }
+        }
+      }
+    },
+    {
+      "key": "hardenedFlat",
+      "label": "C-hardened+flat (mitigation candidate: 1 blank node, epoch-scoped id)",
+      "mandatoryPointers": [
+        "/issuer",
+        "/validUntil"
+      ],
+      "selectivePointers": [
+        "/credentialSubject/scope"
+      ],
+      "verdict": "NOT-FALSIFIED",
+      "verified": "21/21",
+      "table": [
+        {
+          "path": "@context",
+          "constant": true,
+          "anonymitySet": 6,
+          "cohortSize": 6,
+          "correlatable": false,
+          "leak": "N",
+          "note": "cohort-wide (k=6/6) -- no narrowing",
+          "sample": "[\"https://www.w3.org/ns/credentials/v2\",\"https..."
+        },
+        {
+          "path": "credentialSubject.scope",
+          "constant": true,
+          "anonymitySet": 4,
+          "cohortSize": 6,
+          "correlatable": true,
+          "leak": "partial",
+          "note": "shared with 3 other dependent(s) -- anonymity set 4/6",
+          "sample": "school_enrolment"
+        },
+        {
+          "path": "credentialSubject.type",
+          "constant": true,
+          "anonymitySet": 6,
+          "cohortSize": 6,
+          "correlatable": false,
+          "leak": "N",
+          "note": "cohort-wide (k=6/6) -- no narrowing",
+          "sample": "Guardian"
+        },
+        {
+          "path": "decoded.bbsProof",
+          "constant": false,
+          "anonymitySet": null,
+          "cohortSize": 6,
+          "correlatable": false,
+          "leak": "N",
+          "note": "varies per presentation",
+          "sample": "scw5TBanLfg1CGYcdqG8lump/PdgKlNHpvwlXN888kNvmV..."
+        },
+        {
+          "path": "decoded.bbsProofByteLength",
+          "constant": true,
+          "anonymitySet": 6,
+          "cohortSize": 6,
+          "correlatable": false,
+          "leak": "N",
+          "note": "cohort-wide (k=6/6) -- no narrowing",
+          "sample": "368"
+        },
+        {
+          "path": "decoded.bnodeRank.Guardian",
+          "constant": true,
+          "anonymitySet": 6,
+          "cohortSize": 6,
+          "correlatable": false,
+          "leak": "N",
+          "note": "cohort-wide (k=6/6) -- no narrowing",
+          "sample": "Guardian@b0"
+        },
+        {
+          "path": "decoded.cborTag",
+          "constant": true,
+          "anonymitySet": 6,
+          "cohortSize": 6,
+          "correlatable": false,
+          "leak": "N",
+          "note": "cohort-wide (k=6/6) -- no narrowing",
+          "sample": "d95d03"
+        },
+        {
+          "path": "decoded.documentShape",
+          "constant": true,
+          "anonymitySet": 6,
+          "cohortSize": 6,
+          "correlatable": false,
+          "leak": "N",
+          "note": "cohort-wide (k=6/6) -- no narrowing",
+          "sample": "@context|@context[2]|credentialSubject|credent..."
+        },
+        {
+          "path": "decoded.labelMap",
+          "constant": true,
+          "anonymitySet": 6,
+          "cohortSize": 6,
+          "correlatable": false,
+          "leak": "N",
+          "note": "cohort-wide (k=6/6) -- no narrowing",
+          "sample": "[[\"c14n0\",\"b0\"]]"
+        },
+        {
+          "path": "decoded.labelMapSize",
+          "constant": true,
+          "anonymitySet": 6,
+          "cohortSize": 6,
+          "correlatable": false,
+          "leak": "N",
+          "note": "cohort-wide (k=6/6) -- no narrowing",
+          "sample": "1"
+        },
+        {
+          "path": "decoded.mandatoryHash",
+          "constant": true,
+          "anonymitySet": 6,
+          "cohortSize": 6,
+          "correlatable": false,
+          "leak": "N",
+          "note": "cohort-wide (k=6/6) -- no narrowing",
+          "sample": "8bf8050e1fdfe08cc0fed3c020f78bf5ff67bde910a833..."
+        },
+        {
+          "path": "decoded.mandatoryIndexes",
+          "constant": true,
+          "anonymitySet": 6,
+          "cohortSize": 6,
+          "correlatable": false,
+          "leak": "N",
+          "note": "cohort-wide (k=6/6) -- no narrowing",
+          "sample": "[0,1,3,4]"
+        },
+        {
+          "path": "decoded.mandatoryNQuadCount",
+          "constant": true,
+          "anonymitySet": 6,
+          "cohortSize": 6,
+          "correlatable": false,
+          "leak": "N",
+          "note": "cohort-wide (k=6/6) -- no narrowing",
+          "sample": "4"
+        },
+        {
+          "path": "decoded.mandatoryNQuads",
+          "constant": true,
+          "anonymitySet": 6,
+          "cohortSize": 6,
+          "correlatable": false,
+          "leak": "N",
+          "note": "cohort-wide (k=6/6) -- no narrowing",
+          "sample": "[\"<urn:kinship-caps:mandate-epoch:2026-Q3> <ht..."
+        },
+        {
+          "path": "decoded.presentationHeader",
+          "constant": false,
+          "anonymitySet": null,
+          "cohortSize": 6,
+          "correlatable": false,
+          "leak": "N",
+          "note": "varies per presentation",
+          "sample": "nonce:rp:school:58c0afa218b4298a341b8e54"
+        },
+        {
+          "path": "decoded.proofValueByteLength",
+          "constant": false,
+          "anonymitySet": null,
+          "cohortSize": 6,
+          "correlatable": false,
+          "leak": "N",
+          "note": "varies per presentation",
+          "sample": "429"
+        },
+        {
+          "path": "decoded.revealedNQuadCount",
+          "constant": true,
+          "anonymitySet": 6,
+          "cohortSize": 6,
+          "correlatable": false,
+          "leak": "N",
+          "note": "cohort-wide (k=6/6) -- no narrowing",
+          "sample": "7"
+        },
+        {
+          "path": "decoded.selectiveIndexes",
+          "constant": true,
+          "anonymitySet": 6,
+          "cohortSize": 6,
+          "correlatable": false,
+          "leak": "N",
+          "note": "cohort-wide (k=6/6) -- no narrowing",
+          "sample": "[0,2,5]"
+        },
+        {
+          "path": "id",
+          "constant": true,
+          "anonymitySet": 6,
+          "cohortSize": 6,
+          "correlatable": false,
+          "leak": "N",
+          "note": "cohort-wide (k=6/6) -- no narrowing",
+          "sample": "urn:kinship-caps:mandate-epoch:2026-Q3"
+        },
+        {
+          "path": "issuer",
+          "constant": true,
+          "anonymitySet": 6,
+          "cohortSize": 6,
+          "correlatable": false,
+          "leak": "N",
+          "note": "cohort-wide (k=6/6) -- no narrowing",
+          "sample": "https://issuer.example/mandate-registry"
+        },
+        {
+          "path": "proof.cryptosuite",
+          "constant": true,
+          "anonymitySet": 6,
+          "cohortSize": 6,
+          "correlatable": false,
+          "leak": "N",
+          "note": "cohort-wide (k=6/6) -- no narrowing",
+          "sample": "bbs-2023"
+        },
+        {
+          "path": "proof.proofPurpose",
+          "constant": true,
+          "anonymitySet": 6,
+          "cohortSize": 6,
+          "correlatable": false,
+          "leak": "N",
+          "note": "cohort-wide (k=6/6) -- no narrowing",
+          "sample": "assertionMethod"
+        },
+        {
+          "path": "proof.proofValue",
+          "constant": false,
+          "anonymitySet": null,
+          "cohortSize": 6,
+          "correlatable": false,
+          "leak": "N",
+          "note": "varies per presentation",
+          "sample": "u2V0DhVkBcLHMOUwWpy34NQhmHHahvJbpqfz3YCpTR6b8J..."
+        },
+        {
+          "path": "proof.type",
+          "constant": true,
+          "anonymitySet": 6,
+          "cohortSize": 6,
+          "correlatable": false,
+          "leak": "N",
+          "note": "cohort-wide (k=6/6) -- no narrowing",
+          "sample": "DataIntegrityProof"
+        },
+        {
+          "path": "proof.verificationMethod",
+          "constant": true,
+          "anonymitySet": 6,
+          "cohortSize": 6,
+          "correlatable": false,
+          "leak": "N",
+          "note": "cohort-wide (k=6/6) -- no narrowing",
+          "sample": "https://issuer.example/mandate-registry#zUC74s..."
+        },
+        {
+          "path": "type",
+          "constant": true,
+          "anonymitySet": 6,
+          "cohortSize": 6,
+          "correlatable": false,
+          "leak": "N",
+          "note": "cohort-wide (k=6/6) -- no narrowing",
+          "sample": "[\"VerifiableCredential\",\"GuardianshipMandateCr..."
+        },
+        {
+          "path": "validUntil",
+          "constant": true,
+          "anonymitySet": 6,
+          "cohortSize": 6,
+          "correlatable": false,
+          "leak": "N",
+          "note": "cohort-wide (k=6/6) -- no narrowing",
+          "sample": "2026-09-30T23:59:59Z"
+        }
+      ],
+      "mitigationCandidate": true,
+      "mechanisms": [],
+      "clustering": {
+        "clusterCount": 1,
+        "clusterSizes": [
+          21
+        ],
+        "targetClusterSize": 21,
+        "targetPresentations": 6,
+        "precision": 0.2857142857142857,
+        "recall": 1,
+        "bestSingleField": {
+          "path": "credentialSubject.scope",
+          "value": "school_enrolment",
+          "precision": 0.4,
+          "recall": 1,
+          "f1": 0.5714285714285715,
+          "clusterSize": 15
+        },
+        "exactLinkage": false,
+        "partialLinkage": true,
+        "topEvidence": [
+          {
+            "path": "credentialSubject.scope",
+            "value": "school_enrolment",
+            "linked": 15
+          },
+          {
+            "path": "decoded.proofValueByteLength",
+            "value": "429",
+            "linked": 14
+          },
+          {
+            "path": "decoded.proofValueByteLength",
+            "value": "430",
+            "linked": 6
+          },
+          {
+            "path": "credentialSubject.scope",
+            "value": "medical_consent",
+            "linked": 6
+          }
+        ]
+      },
+      "conjunction": {
+        "pathsUsed": 23,
+        "groupSize": 15,
+        "subjectsInGroup": 4,
+        "precision": 0.4,
+        "recall": 1,
+        "exactLinkage": false
+      },
+      "monteCarlo": {
+        "reps": 30,
+        "unique": 0,
+        "pUnique": 0,
+        "uniqueProofPartsOnly": 0,
+        "pUniqueProofPartsOnly": 0
+      },
+      "randomisation": {
+        "total": 21,
+        "distinctBbsProof": 21,
+        "distinctProofValue": 21,
+        "pass": true
+      },
+      "collusion": {
+        "findings": [
+          {
+            "check": "d1 base-proof material (BBS signature, BBS header, HMAC key) reappears",
+            "result": "no",
+            "leak": false
+          },
+          {
+            "check": "d2 a withheld claim value appears in the payload anyway",
+            "result": "no",
+            "leak": false
+          },
+          {
+            "check": "d3 issuer re-derives every credential, matches non-random proof parts",
+            "result": "anonymity set 4/4/4/4/4/4 of 6",
+            "leak": false
+          },
+          {
+            "check": "d3b same, using ONLY labelMap + mandatory/selective indexes (document ignored)",
+            "result": "anonymity set 6/6/6/6/6/6 of 6",
+            "leak": false
+          }
+        ],
+        "linked": false
+      },
+      "revocation": {
+        "statusEntryInCredential": false,
+        "statusEntryDisclosed": false,
+        "acceptedAfterRevocation": true,
+        "note": "no status entry exists (short-lived credential model)"
+      },
+      "mandatoryQuads": [
+        {
+          "quad": "<urn:kinship-caps:mandate-epoch:2026-Q3> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://kinship-caps.example/vocab#GuardianshipMandateCredential> .",
+          "k": 6,
+          "cohort": 6
+        },
+        {
+          "quad": "<urn:kinship-caps:mandate-epoch:2026-Q3> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://www.w3.org/2018/credentials#VerifiableCredential> .",
+          "k": 6,
+          "cohort": 6
+        },
+        {
+          "quad": "<urn:kinship-caps:mandate-epoch:2026-Q3> <https://www.w3.org/2018/credentials#issuer> <https://issuer.example/mandate-registry> .",
+          "k": 6,
+          "cohort": 6
+        },
+        {
+          "quad": "<urn:kinship-caps:mandate-epoch:2026-Q3> <https://www.w3.org/2018/credentials#validUntil> \"2026-09-30T23:59:59Z\"^^<http://www.w3.org/2001/XMLSchema#dateTime> .",
+          "k": 6,
+          "cohort": 6
+        }
+      ],
+      "sampleDerivedCredential": {
+        "@context": [
+          "https://www.w3.org/ns/credentials/v2",
+          "https://kinship-caps.example/contexts/mandate/v1"
+        ],
+        "id": "urn:kinship-caps:mandate-epoch:2026-Q3",
+        "type": [
+          "VerifiableCredential",
+          "GuardianshipMandateCredential"
+        ],
+        "issuer": "https://issuer.example/mandate-registry",
+        "validUntil": "2026-09-30T23:59:59Z",
+        "credentialSubject": {
+          "type": "Guardian",
+          "scope": "school_enrolment"
+        },
+        "proof": {
+          "type": "DataIntegrityProof",
+          "verificationMethod": "https://issuer.example/mandate-registry#zUC74sdCzm8MXwEhywDxJE4w15zqN7ARgdqKZmaBJUdcJqBMxoyjuRgZVbKpmiwuMScJcmzFdKDPEpdu4bnJqBYvjnm8tV46C8KaU973gt5Dxhg8Un7upS9tBsbYta5ZBTvAaMp",
+          "cryptosuite": "bbs-2023",
+          "proofPurpose": "assertionMethod",
+          "proofValue": "u2V0DhVkBcLHMOUwWpy34NQhmHHahvJbpqfz3YCpTR6b8JVzfPPJDb5leOaxg4f8p0WCsn3y-SYPICUXA6vg6HLGaO3Gkbv0PQO17JEfZFsS3hVcT8WAN_65k9ytpwlfWT45vptmmg7UZCh3dHKBejfmx_7zLlulnhExESi0UT6YP_hNsnCdNBij5XwpXaX2_gxl1YTQiAynw2_arQ-Act16KhsE-9JtTG10NhxRGRp5crbJdv_mtZV1qVgqrND3jihxhUhk10QCISksTGb5qf-g6fKnGPhUYBkR_hLVxZf5PyAxq22PsgapWcxzuNHDTJEKM_ay-IWfvThHr7tQX1ApPe5sUUNJ2rf2BIJNE37q9b_mskZxfBEt2_8f3ZC86ViiEBiUjvdQrVd6jfcy0OnZGDOIk8e9VOgZAvPjVAP7u_pcQnn2ESVG6YdxDY11A3cgsAwjVHGrr0Ir4-6obQnDqlqa1HacgAQ6LyMd40ZWKUpDWGDVMoQAAhAABAwSDAAIFWChub25jZTpycDpzY2hvb2w6NThjMGFmYTIxOGI0Mjk4YTM0MWI4ZTU0"
+        },
+        "decoded": {
+          "cborTag": "d95d03",
+          "bbsProof": "scw5TBanLfg1CGYcdqG8lump/PdgKlNHpvwlXN888kNvmV45rGDh/ynRYKyffL5Jg8gJRcDq+DocsZo7caRu/Q9A7XskR9kWxLeFVxPxYA3/rmT3K2nCV9ZPjm+m2aaDtRkKHd0coF6N+bH/vMuW6WeETERKLRRPpg/+E2ycJ00GKPlfCldpfb+DGXVhNCIDKfDb9qtD4By3XoqGwT70m1MbXQ2HFEZGnlytsl2/+a1lXWpWCqs0PeOKHGFSGTXRAIhKSxMZvmp/6Dp8qcY+FRgGRH+EtXFl/k/IDGrbY+yBqlZzHO40cNMkQoz9rL4hZ+9OEevu1BfUCk97mxRQ0nat/YEgk0Tfur1v+ayRnF8ES3b/x/dkLzpWKIQGJSO91CtV3qN9zLQ6dkYM4iTx71U6BkC8+NUA/u7+lxCefYRJUbph3ENjXUDdyCwDCNUcauvQivj7qhtCcOqWprUdpyABDovIx3jRlYpSkNYYNUw=",
+          "bbsProofByteLength": 368,
+          "proofValueByteLength": 429,
+          "labelMap": "[[\"c14n0\",\"b0\"]]",
+          "labelMapSize": 1,
+          "mandatoryIndexes": "[0,1,3,4]",
+          "selectiveIndexes": "[0,2,5]",
+          "presentationHeader": "nonce:rp:school:58c0afa218b4298a341b8e54",
+          "revealedNQuadCount": 7,
+          "mandatoryNQuadCount": 4,
+          "mandatoryHash": "8bf8050e1fdfe08cc0fed3c020f78bf5ff67bde910a833a4f3fb0e991efbb973",
+          "mandatoryNQuads": "[\"<urn:kinship-caps:mandate-epoch:2026-Q3> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://kinship-caps.example/vocab#GuardianshipMandateCredential> .\\n\",\"<urn:kinship-caps:mandate-epoch:2026-Q3> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://www.w3.org/2018/credentials#VerifiableCredential> .\\n\",\"<urn:kinship-caps:mandate-epoch:2026-Q3> <https://www.w3.org/2018/credentials#issuer> <https://issuer.example/mandate-registry> .\\n\",\"<urn:kinship-caps:mandate-epoch:2026-Q3> <https://www.w3.org/2018/credentials#validUntil> \\\"2026-09-30T23:59:59Z\\\"^^<http://www.w3.org/2001/XMLSchema#dateTime> .\\n\"]",
+          "documentShape": "@context|@context[2]|credentialSubject|credentialSubject.scope|credentialSubject.type|id|issuer|type|type[2]|validUntil",
+          "bnodeRank": {
+            "Guardian": "Guardian@b0"
+          }
+        }
+      }
+    }
+  ],
+  "sweep": [
+    {
+      "key": "S1",
+      "label": "nested subject + per-credential id (as in C-naive/C-minimal)",
+      "N": 3,
+      "m": 2,
+      "trials": 30,
+      "distinctTags": 6,
+      "distinctLabelMaps": 6,
+      "distinctSelectiveIndexes": 6,
+      "theory": 6,
+      "specBound": 3,
+      "bits": 2.584962500721156,
+      "pUniqueIn6": 0.401877572016461,
+      "sanityVerified": "3/3"
+    },
+    {
+      "key": "S2",
+      "label": "nested subject, no credential id (as in C-hardened)",
+      "N": 4,
+      "m": 3,
+      "trials": 30,
+      "distinctTags": 17,
+      "distinctLabelMaps": 17,
+      "distinctSelectiveIndexes": 11,
+      "theory": 24,
+      "specBound": 4,
+      "bits": 4.584962500721156,
+      "pUniqueIn6": 0.8083193429703577,
+      "sanityVerified": "3/3"
+    },
+    {
+      "key": "S3",
+      "label": "flat subject, no credential id",
+      "N": 2,
+      "m": 2,
+      "trials": 30,
+      "distinctTags": 2,
+      "distinctLabelMaps": 2,
+      "distinctSelectiveIndexes": 2,
+      "theory": 2,
+      "specBound": 1,
+      "bits": 1,
+      "pUniqueIn6": 0.03125,
+      "sanityVerified": "3/3"
+    },
+    {
+      "key": "S4",
+      "label": "flat subject + epoch-scoped (cohort-wide) credential id",
+      "N": 1,
+      "m": 1,
+      "trials": 30,
+      "distinctTags": 1,
+      "distinctLabelMaps": 1,
+      "distinctSelectiveIndexes": 1,
+      "theory": 1,
+      "specBound": 1,
+      "bits": 0,
+      "pUniqueIn6": 0,
+      "sanityVerified": "3/3"
+    }
+  ],
+  "ordering": {
+    "results": [
+      {
+        "hidden": "aaa_hidden_scope",
+        "revealedSubject": "{\"type\":\"Guardian\",\"scope\":[\"school_enrolment\"]}",
+        "selectiveIndexes": [
+          "[0,2,6]"
+        ]
+      },
+      {
+        "hidden": "zzz_hidden_scope",
+        "revealedSubject": "{\"type\":\"Guardian\",\"scope\":[\"school_enrolment\"]}",
+        "selectiveIndexes": [
+          "[0,2,5]"
+        ]
+      }
+    ],
+    "revealedDocumentsIdentical": true,
+    "indexesDiffer": true,
+    "deterministic": true
+  },
+  "crossHop": [
+    {
+      "key": "hardened",
+      "hop2Pointers": [
+        "/credentialSubject/mandate/scope",
+        "/credentialSubject/guardianKey"
+      ],
+      "reps": 20,
+      "unique": 15,
+      "pUnique": 0.75,
+      "pass": false,
+      "hardCorrelators": [
+        {
+          "atom": "Guardian@b2",
+          "anonymitySet": 1,
+          "cohortSize": 6,
+          "persistent": true,
+          "hop1Paths": [
+            "decoded.bnodeRank.Guardian"
+          ],
+          "hop2Paths": [
+            "parent.decoded.bnodeRank.Guardian"
+          ],
+          "hard": true
+        }
+      ],
+      "narrowing": [
+        {
+          "atom": "school_enrolment",
+          "anonymitySet": 4,
+          "cohortSize": 6,
+          "persistent": true,
+          "hop1Paths": [
+            "credentialSubject.mandate.scope"
+          ],
+          "hop2Paths": [
+            "parent.credentialSubject.mandate.scope"
+          ],
+          "hard": false
+        },
+        {
+          "atom": "[0,1,3,4]",
+          "anonymitySet": 2,
+          "cohortSize": 6,
+          "persistent": true,
+          "hop1Paths": [
+            "decoded.mandatoryIndexes"
+          ],
+          "hop2Paths": [
+            "parent.decoded.mandatoryIndexes"
+          ],
+          "hard": false
+        },
+        {
+          "atom": "c12ad8e3a940758d5ff75acbb360195811c2354f...",
+          "anonymitySet": 2,
+          "cohortSize": 6,
+          "persistent": true,
+          "hop1Paths": [
+            "decoded.mandatoryHash"
+          ],
+          "hop2Paths": [
+            "parent.decoded.mandatoryHash"
+          ],
+          "hard": false
+        },
+        {
+          "atom": "[\"_:b0 <http://www.w3.org/1999/02/22-rdf...",
+          "anonymitySet": 2,
+          "cohortSize": 6,
+          "persistent": true,
+          "hop1Paths": [
+            "decoded.mandatoryNQuads"
+          ],
+          "hop2Paths": [
+            "parent.decoded.mandatoryNQuads"
+          ],
+          "hard": false
+        },
+        {
+          "atom": "GuardianshipMandateCredential+Verifiable...",
+          "anonymitySet": 2,
+          "cohortSize": 6,
+          "persistent": true,
+          "hop1Paths": [
+            "decoded.bnodeRank.GuardianshipMandateCredential+VerifiableCredential"
+          ],
+          "hop2Paths": [
+            "parent.decoded.bnodeRank.GuardianshipMandateCredential+VerifiableCredential"
+          ],
+          "hard": false
+        },
+        {
+          "atom": "Mandate@b3",
+          "anonymitySet": 3,
+          "cohortSize": 6,
+          "persistent": true,
+          "hop1Paths": [
+            "decoded.bnodeRank.Mandate"
+          ],
+          "hop2Paths": [
+            "parent.decoded.bnodeRank.Mandate"
+          ],
+          "hard": false
+        }
+      ]
+    },
+    {
+      "key": "hardenedFlat",
+      "hop2Pointers": [
+        "/credentialSubject/scope",
+        "/credentialSubject/guardianKey"
+      ],
+      "reps": 20,
+      "unique": 0,
+      "pUnique": 0,
+      "pass": true,
+      "hardCorrelators": [],
+      "narrowing": [
+        {
+          "atom": "school_enrolment",
+          "anonymitySet": 4,
+          "cohortSize": 6,
+          "persistent": true,
+          "hop1Paths": [
+            "credentialSubject.scope"
+          ],
+          "hop2Paths": [
+            "parent.credentialSubject.scope"
+          ],
+          "hard": false
+        }
+      ]
+    }
+  ],
+  "elapsed": "195.3"
+}

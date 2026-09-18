@@ -1,0 +1,496 @@
+
+==============================================================================
+Open Core -- P1 re-run against the W3C bbs-2023 cryptosuite (Scenario A)
+==============================================================================
+  @digitalbazaar/bbs-2023-cryptosuite      2.0.1
+  @digitalbazaar/data-integrity            2.5.0
+  @digitalbazaar/vc                        7.3.0
+  @digitalbazaar/di-sd-primitives          3.3.0
+  @digitalbazaar/bls12-381-multikey        2.2.0
+  @digitalbazaar/bbs-signatures            3.1.0
+  jsonld                                   9.0.0
+  rdf-canonize                             5.0.0
+spec     : W3C Data Integrity BBS Cryptosuites v1.0, CR Draft 10 Sep 2026 (consulted);
+           implementation: bbs-2023 BASELINE feature only (derived-proof tag d95d03)
+cohort   : 6 dependents (target = dep:Y), 4 relying parties; target presents 6x
+payload  : the derived VC exactly as received, PLUS `decoded.*` = what any verifier
+           obtains by parsing proof.proofValue (the BBS proof is inside it)
+This harness attempts to FALSIFY P1. It cannot prove it.
+
+==============================================================================
+POLICY naive: C-naive (mandatory: /issuer, /validUntil, /credentialStatus)
+==============================================================================
+mandatoryPointers : ["/issuer","/validUntil","/credentialStatus"]
+selectivePointers : ["/credentialSubject/mandate/scope"]
+presentations     : 21, verified by @digitalbazaar/vc: 21/21
+
+--- Leak table (naive) ------------------------------------------------------
+k = number of distinct dependents sharing this value (k=1 exact linkage, k=6 none)
++---------------------------------------+-----------+---+---------------+---------+-------------------------------------------------------+
+| field (path in the payload)           | constant? | k | correlatable? | leak    | note                                                  |
++=======================================+===========+===+===============+=========+=======================================================+
+| @context                              | yes       | 6 | no            | N       | cohort-wide (k=6/6) -- no narrowing                   |
+| credentialStatus.id                   | yes       | 1 | yes           | Y       | unique to the subject (k=1 of 6) -- exact linkage     |
+| credentialStatus.statusListCredential | yes       | 6 | no            | N       | cohort-wide (k=6/6) -- no narrowing                   |
+| credentialStatus.statusListIndex      | yes       | 1 | yes           | Y       | unique to the subject (k=1 of 6) -- exact linkage     |
+| credentialStatus.statusPurpose        | yes       | 6 | no            | N       | cohort-wide (k=6/6) -- no narrowing                   |
+| credentialStatus.type                 | yes       | 6 | no            | N       | cohort-wide (k=6/6) -- no narrowing                   |
+| credentialSubject.mandate.scope       | yes       | 4 | yes           | partial | shared with 3 other dependent(s) -- anonymity set 4/6 |
+| credentialSubject.mandate.type        | yes       | 6 | no            | N       | cohort-wide (k=6/6) -- no narrowing                   |
+| credentialSubject.type                | yes       | 6 | no            | N       | cohort-wide (k=6/6) -- no narrowing                   |
+| decoded.bbsProof                      | no        | - | no            | N       | varies per presentation                               |
+| decoded.bbsProofByteLength            | yes       | 6 | no            | N       | cohort-wide (k=6/6) -- no narrowing                   |
+| decoded.bnodeRank.Guardian            | yes       | 4 | yes           | partial | shared with 3 other dependent(s) -- anonymity set 4/6 |
+| decoded.bnodeRank.Mandate             | yes       | 3 | yes           | partial | shared with 2 other dependent(s) -- anonymity set 3/6 |
+| decoded.cborTag                       | yes       | 6 | no            | N       | cohort-wide (k=6/6) -- no narrowing                   |
+| decoded.documentShape                 | yes       | 6 | no            | N       | cohort-wide (k=6/6) -- no narrowing                   |
+| decoded.labelMap                      | yes       | 3 | yes           | partial | shared with 2 other dependent(s) -- anonymity set 3/6 |
+| decoded.labelMapSize                  | yes       | 6 | no            | N       | cohort-wide (k=6/6) -- no narrowing                   |
+| decoded.mandatoryHash                 | yes       | 1 | yes           | Y       | unique to the subject (k=1 of 6) -- exact linkage     |
+| decoded.mandatoryIndexes              | yes       | 6 | no            | N       | cohort-wide (k=6/6) -- no narrowing                   |
+| decoded.mandatoryNQuadCount           | yes       | 6 | no            | N       | cohort-wide (k=6/6) -- no narrowing                   |
+| decoded.mandatoryNQuads               | yes       | 1 | yes           | Y       | unique to the subject (k=1 of 6) -- exact linkage     |
+| decoded.presentationHeader            | no        | - | no            | N       | varies per presentation                               |
+| decoded.proofValueByteLength          | no        | - | no            | N       | varies per presentation                               |
+| decoded.revealedNQuadCount            | yes       | 6 | no            | N       | cohort-wide (k=6/6) -- no narrowing                   |
+| decoded.selectiveIndexes              | yes       | 3 | yes           | partial | shared with 2 other dependent(s) -- anonymity set 3/6 |
+| id                                    | yes       | 1 | yes           | Y       | unique to the subject (k=1 of 6) -- exact linkage     |
+| issuer                                | yes       | 6 | no            | N       | cohort-wide (k=6/6) -- no narrowing                   |
+| proof.cryptosuite                     | yes       | 6 | no            | N       | cohort-wide (k=6/6) -- no narrowing                   |
+| proof.proofPurpose                    | yes       | 6 | no            | N       | cohort-wide (k=6/6) -- no narrowing                   |
+| proof.proofValue                      | no        | - | no            | N       | varies per presentation                               |
+| proof.type                            | yes       | 6 | no            | N       | cohort-wide (k=6/6) -- no narrowing                   |
+| proof.verificationMethod              | yes       | 6 | no            | N       | cohort-wide (k=6/6) -- no narrowing                   |
+| type                                  | yes       | 6 | no            | N       | cohort-wide (k=6/6) -- no narrowing                   |
+| validUntil                            | yes       | 1 | yes           | Y       | unique to the subject (k=1 of 6) -- exact linkage     |
++---------------------------------------+-----------+---+---------------+---------+-------------------------------------------------------+
+
+(c) randomisation: 21/21 distinct bbsProof, 21/21 distinct proofValue -> PASS
+
+Generic clustering adversary (no allowlist):
+  best single field: id  -> precision 1.00, recall 1.00
+  -> EXACT LINKAGE of the target's presentations
+Conjunction adversary (tuple of all 30 non-random fields): target group 6 payloads from 1 dependent(s), precision 1.00, recall 1.00 -> EXACT LINKAGE
+
+(d) issuer + verifier collusion:
+  [ ok ] d1 base-proof material (BBS signature, BBS header, HMAC key) reappears: no
+  [ ok ] d2 a withheld claim value appears in the payload anyway: no
+  [LEAK] d3 issuer re-derives every credential, matches non-random proof parts: anonymity set 1/1/1/1/1/1 of 6 -- 6/6 presentations pinned to dep:Y by name
+  [ ok ] d3b same, using ONLY labelMap + mandatory/selective indexes (document ignored): anonymity set 3/3/3/3/3/3 of 6
+
+(h) mandatory-disclosed statements, their count and hash:
+    credentialStatus.id                constant=yes k=1  leak=Y
+    credentialStatus.statusListCredential constant=yes k=6  leak=N
+    credentialStatus.statusListIndex   constant=yes k=1  leak=Y
+    credentialStatus.statusPurpose     constant=yes k=6  leak=N
+    credentialStatus.type              constant=yes k=6  leak=N
+    decoded.mandatoryHash              constant=yes k=1  leak=Y
+    decoded.mandatoryIndexes           constant=yes k=6  leak=N
+    decoded.mandatoryNQuadCount        constant=yes k=6  leak=N
+    decoded.mandatoryNQuads            constant=yes k=1  leak=Y
+    decoded.revealedNQuadCount         constant=yes k=6  leak=N
+    issuer                             constant=yes k=6  leak=N
+    validUntil                         constant=yes k=1  leak=Y
+    per mandatory N-Quad (as the verifier canonicalises it):
+      k=1/6  <https://status.example/mandates/2026-Q3#0> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://www.w3....
+      k=1/6  <https://status.example/mandates/2026-Q3#0> <https://www.w3.org/ns/credentials/status#statusListCredential> <h...
+      k=1/6  <https://status.example/mandates/2026-Q3#0> <https://www.w3.org/ns/credentials/status#statusListIndex> "0" .
+      k=1/6  <https://status.example/mandates/2026-Q3#0> <https://www.w3.org/ns/credentials/status#statusPurpose> "revocati...
+      k=1/6  <urn:uuid:40942845-2c55-4d67-ac03-9d224b2902db> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://kin...
+      k=1/6  <urn:uuid:40942845-2c55-4d67-ac03-9d224b2902db> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://www...
+      k=1/6  <urn:uuid:40942845-2c55-4d67-ac03-9d224b2902db> <https://www.w3.org/2018/credentials#credentialStatus> <https:...
+      k=1/6  <urn:uuid:40942845-2c55-4d67-ac03-9d224b2902db> <https://www.w3.org/2018/credentials#issuer> <https://issuer.e...
+      k=1/6  <urn:uuid:40942845-2c55-4d67-ac03-9d224b2902db> <https://www.w3.org/2018/credentials#validUntil> "2026-09-14T2...
+
+(i) proof object / proofValue envelope:
+    decoded.bbsProof                   constant=no  k=-  leak=N
+    decoded.cborTag                    constant=yes k=6  leak=N
+    decoded.presentationHeader         constant=no  k=-  leak=N
+    proof.cryptosuite                  constant=yes k=6  leak=N
+    proof.proofPurpose                 constant=yes k=6  leak=N
+    proof.proofValue                   constant=no  k=-  leak=N
+    proof.type                         constant=yes k=6  leak=N
+    proof.verificationMethod           constant=yes k=6  leak=N
+
+(j) document structure fingerprint:
+    @context                           constant=yes k=6  leak=N
+    decoded.bbsProofByteLength         constant=yes k=6  leak=N
+    decoded.documentShape              constant=yes k=6  leak=N
+    decoded.labelMapSize               constant=yes k=6  leak=N
+    decoded.proofValueByteLength       constant=no  k=-  leak=N
+    decoded.revealedNQuadCount         constant=yes k=6  leak=N
+    type                               constant=yes k=6  leak=N
+
+(k) HMAC label replacement and index lists:
+    decoded.labelMap                   constant=yes k=3  leak=partial
+    decoded.mandatoryHash              constant=yes k=1  leak=Y
+    decoded.mandatoryIndexes           constant=yes k=6  leak=N
+    decoded.selectiveIndexes           constant=yes k=3  leak=partial
+
+revocation: status entry in credential=true, disclosed=true, revoked credential accepted=no -- rejected: status check failed: credential is revoked
+
+VERDICT (naive): FALSIFIED via credentialStatus.id; credentialStatus.statusListIndex; decoded.mandatoryHash; decoded.mandatoryNQuads; id; validUntil; issuer collusion
+
+==============================================================================
+POLICY minimal: C-minimal (mandatory: none -- the cryptosuite minimum)
+==============================================================================
+mandatoryPointers : []
+selectivePointers : ["/issuer","/credentialSubject/mandate/scope"]
+presentations     : 21, verified by @digitalbazaar/vc: 21/21
+
+--- Leak table (minimal) ----------------------------------------------------
+k = number of distinct dependents sharing this value (k=1 exact linkage, k=6 none)
++---------------------------------+-----------+---+---------------+---------+-------------------------------------------------------+
+| field (path in the payload)     | constant? | k | correlatable? | leak    | note                                                  |
++=================================+===========+===+===============+=========+=======================================================+
+| @context                        | yes       | 6 | no            | N       | cohort-wide (k=6/6) -- no narrowing                   |
+| credentialSubject.mandate.scope | yes       | 4 | yes           | partial | shared with 3 other dependent(s) -- anonymity set 4/6 |
+| credentialSubject.mandate.type  | yes       | 6 | no            | N       | cohort-wide (k=6/6) -- no narrowing                   |
+| credentialSubject.type          | yes       | 6 | no            | N       | cohort-wide (k=6/6) -- no narrowing                   |
+| decoded.bbsProof                | no        | - | no            | N       | varies per presentation                               |
+| decoded.bbsProofByteLength      | yes       | 6 | no            | N       | cohort-wide (k=6/6) -- no narrowing                   |
+| decoded.bnodeRank.Guardian      | yes       | 3 | yes           | partial | shared with 2 other dependent(s) -- anonymity set 3/6 |
+| decoded.bnodeRank.Mandate       | yes       | 2 | yes           | partial | shared with 1 other dependent(s) -- anonymity set 2/6 |
+| decoded.cborTag                 | yes       | 6 | no            | N       | cohort-wide (k=6/6) -- no narrowing                   |
+| decoded.documentShape           | yes       | 6 | no            | N       | cohort-wide (k=6/6) -- no narrowing                   |
+| decoded.labelMap                | yes       | 2 | yes           | partial | shared with 1 other dependent(s) -- anonymity set 2/6 |
+| decoded.labelMapSize            | yes       | 6 | no            | N       | cohort-wide (k=6/6) -- no narrowing                   |
+| decoded.mandatoryHash           | yes       | 6 | no            | N       | cohort-wide (k=6/6) -- no narrowing                   |
+| decoded.mandatoryIndexes        | yes       | 6 | no            | N       | cohort-wide (k=6/6) -- no narrowing                   |
+| decoded.mandatoryNQuadCount     | yes       | 6 | no            | N       | cohort-wide (k=6/6) -- no narrowing                   |
+| decoded.mandatoryNQuads         | yes       | 6 | no            | N       | cohort-wide (k=6/6) -- no narrowing                   |
+| decoded.presentationHeader      | no        | - | no            | N       | varies per presentation                               |
+| decoded.proofValueByteLength    | no        | - | no            | N       | varies per presentation                               |
+| decoded.revealedNQuadCount      | yes       | 6 | no            | N       | cohort-wide (k=6/6) -- no narrowing                   |
+| decoded.selectiveIndexes        | yes       | 2 | yes           | partial | shared with 1 other dependent(s) -- anonymity set 2/6 |
+| id                              | yes       | 1 | yes           | Y       | unique to the subject (k=1 of 6) -- exact linkage     |
+| issuer                          | yes       | 6 | no            | N       | cohort-wide (k=6/6) -- no narrowing                   |
+| proof.cryptosuite               | yes       | 6 | no            | N       | cohort-wide (k=6/6) -- no narrowing                   |
+| proof.proofPurpose              | yes       | 6 | no            | N       | cohort-wide (k=6/6) -- no narrowing                   |
+| proof.proofValue                | no        | - | no            | N       | varies per presentation                               |
+| proof.type                      | yes       | 6 | no            | N       | cohort-wide (k=6/6) -- no narrowing                   |
+| proof.verificationMethod        | yes       | 6 | no            | N       | cohort-wide (k=6/6) -- no narrowing                   |
+| type                            | yes       | 6 | no            | N       | cohort-wide (k=6/6) -- no narrowing                   |
++---------------------------------+-----------+---+---------------+---------+-------------------------------------------------------+
+
+(c) randomisation: 21/21 distinct bbsProof, 21/21 distinct proofValue -> PASS
+
+Generic clustering adversary (no allowlist):
+  best single field: id  -> precision 1.00, recall 1.00
+  -> EXACT LINKAGE of the target's presentations
+Conjunction adversary (tuple of all 24 non-random fields): target group 6 payloads from 1 dependent(s), precision 1.00, recall 1.00 -> EXACT LINKAGE
+
+(d) issuer + verifier collusion:
+  [ ok ] d1 base-proof material (BBS signature, BBS header, HMAC key) reappears: no
+  [ ok ] d2 a withheld claim value appears in the payload anyway: no
+  [LEAK] d3 issuer re-derives every credential, matches non-random proof parts: anonymity set 1/1/1/1/1/1 of 6 -- 6/6 presentations pinned to dep:Y by name
+  [LEAK] d3b same, using ONLY labelMap + mandatory/selective indexes (document ignored): anonymity set 1/1/1/1/1/1 of 6
+
+(h) mandatory-disclosed statements, their count and hash:
+    decoded.mandatoryHash              constant=yes k=6  leak=N
+    decoded.mandatoryIndexes           constant=yes k=6  leak=N
+    decoded.mandatoryNQuadCount        constant=yes k=6  leak=N
+    decoded.mandatoryNQuads            constant=yes k=6  leak=N
+    decoded.revealedNQuadCount         constant=yes k=6  leak=N
+    issuer                             constant=yes k=6  leak=N
+    per mandatory N-Quad (as the verifier canonicalises it):
+      (no mandatory statements)
+
+(i) proof object / proofValue envelope:
+    decoded.bbsProof                   constant=no  k=-  leak=N
+    decoded.cborTag                    constant=yes k=6  leak=N
+    decoded.presentationHeader         constant=no  k=-  leak=N
+    proof.cryptosuite                  constant=yes k=6  leak=N
+    proof.proofPurpose                 constant=yes k=6  leak=N
+    proof.proofValue                   constant=no  k=-  leak=N
+    proof.type                         constant=yes k=6  leak=N
+    proof.verificationMethod           constant=yes k=6  leak=N
+
+(j) document structure fingerprint:
+    @context                           constant=yes k=6  leak=N
+    decoded.bbsProofByteLength         constant=yes k=6  leak=N
+    decoded.documentShape              constant=yes k=6  leak=N
+    decoded.labelMapSize               constant=yes k=6  leak=N
+    decoded.proofValueByteLength       constant=no  k=-  leak=N
+    decoded.revealedNQuadCount         constant=yes k=6  leak=N
+    type                               constant=yes k=6  leak=N
+
+(k) HMAC label replacement and index lists:
+    decoded.labelMap                   constant=yes k=2  leak=partial
+    decoded.mandatoryHash              constant=yes k=6  leak=N
+    decoded.mandatoryIndexes           constant=yes k=6  leak=N
+    decoded.selectiveIndexes           constant=yes k=2  leak=partial
+
+revocation: status entry in credential=true, disclosed=false, revoked credential accepted=YES -- revoked credential still verifies: status entry not disclosed
+
+VERDICT (minimal): FALSIFIED via id; issuer collusion
+
+==============================================================================
+POLICY hardened: C-hardened (mandatory: /issuer + epoch-bucketed /validUntil; no id, no status)
+==============================================================================
+mandatoryPointers : ["/issuer","/validUntil"]
+selectivePointers : ["/credentialSubject/mandate/scope"]
+presentations     : 21, verified by @digitalbazaar/vc: 21/21
+
+--- Leak table (hardened) ---------------------------------------------------
+k = number of distinct dependents sharing this value (k=1 exact linkage, k=6 none)
++----------------------------------------------------------------------+-----------+---+---------------+---------+-------------------------------------------------------+
+| field (path in the payload)                                          | constant? | k | correlatable? | leak    | note                                                  |
++======================================================================+===========+===+===============+=========+=======================================================+
+| @context                                                             | yes       | 6 | no            | N       | cohort-wide (k=6/6) -- no narrowing                   |
+| credentialSubject.mandate.scope                                      | yes       | 4 | yes           | partial | shared with 3 other dependent(s) -- anonymity set 4/6 |
+| credentialSubject.mandate.type                                       | yes       | 6 | no            | N       | cohort-wide (k=6/6) -- no narrowing                   |
+| credentialSubject.type                                               | yes       | 6 | no            | N       | cohort-wide (k=6/6) -- no narrowing                   |
+| decoded.bbsProof                                                     | no        | - | no            | N       | varies per presentation                               |
+| decoded.bbsProofByteLength                                           | yes       | 6 | no            | N       | cohort-wide (k=6/6) -- no narrowing                   |
+| decoded.bnodeRank.Guardian                                           | yes       | 2 | yes           | partial | shared with 1 other dependent(s) -- anonymity set 2/6 |
+| decoded.bnodeRank.GuardianshipMandateCredential+VerifiableCredential | yes       | 1 | yes           | Y       | unique to the subject (k=1 of 6) -- exact linkage     |
+| decoded.bnodeRank.Mandate                                            | yes       | 1 | yes           | Y       | unique to the subject (k=1 of 6) -- exact linkage     |
+| decoded.cborTag                                                      | yes       | 6 | no            | N       | cohort-wide (k=6/6) -- no narrowing                   |
+| decoded.documentShape                                                | yes       | 6 | no            | N       | cohort-wide (k=6/6) -- no narrowing                   |
+| decoded.labelMap                                                     | yes       | 1 | yes           | Y       | unique to the subject (k=1 of 6) -- exact linkage     |
+| decoded.labelMapSize                                                 | yes       | 6 | no            | N       | cohort-wide (k=6/6) -- no narrowing                   |
+| decoded.mandatoryHash                                                | yes       | 1 | yes           | Y       | unique to the subject (k=1 of 6) -- exact linkage     |
+| decoded.mandatoryIndexes                                             | yes       | 1 | yes           | Y       | unique to the subject (k=1 of 6) -- exact linkage     |
+| decoded.mandatoryNQuadCount                                          | yes       | 6 | no            | N       | cohort-wide (k=6/6) -- no narrowing                   |
+| decoded.mandatoryNQuads                                              | yes       | 1 | yes           | Y       | unique to the subject (k=1 of 6) -- exact linkage     |
+| decoded.presentationHeader                                           | no        | - | no            | N       | varies per presentation                               |
+| decoded.proofValueByteLength                                         | no        | - | no            | N       | varies per presentation                               |
+| decoded.revealedNQuadCount                                           | yes       | 6 | no            | N       | cohort-wide (k=6/6) -- no narrowing                   |
+| decoded.selectiveIndexes                                             | yes       | 1 | yes           | Y       | unique to the subject (k=1 of 6) -- exact linkage     |
+| issuer                                                               | yes       | 6 | no            | N       | cohort-wide (k=6/6) -- no narrowing                   |
+| proof.cryptosuite                                                    | yes       | 6 | no            | N       | cohort-wide (k=6/6) -- no narrowing                   |
+| proof.proofPurpose                                                   | yes       | 6 | no            | N       | cohort-wide (k=6/6) -- no narrowing                   |
+| proof.proofValue                                                     | no        | - | no            | N       | varies per presentation                               |
+| proof.type                                                           | yes       | 6 | no            | N       | cohort-wide (k=6/6) -- no narrowing                   |
+| proof.verificationMethod                                             | yes       | 6 | no            | N       | cohort-wide (k=6/6) -- no narrowing                   |
+| type                                                                 | yes       | 6 | no            | N       | cohort-wide (k=6/6) -- no narrowing                   |
+| validUntil                                                           | yes       | 6 | no            | N       | cohort-wide (k=6/6) -- no narrowing                   |
++----------------------------------------------------------------------+-----------+---+---------------+---------+-------------------------------------------------------+
+
+(c) randomisation: 21/21 distinct bbsProof, 21/21 distinct proofValue -> PASS
+
+Generic clustering adversary (no allowlist):
+  best single field: decoded.labelMap  -> precision 1.00, recall 1.00
+  -> EXACT LINKAGE of the target's presentations
+Conjunction adversary (tuple of all 25 non-random fields): target group 6 payloads from 1 dependent(s), precision 1.00, recall 1.00 -> EXACT LINKAGE
+Cohort Monte Carlo (30 fresh cohorts, new HMAC keys each): target exactly linkable in 26/30 = 87% (proof-internal parts alone: 26/30)
+
+(d) issuer + verifier collusion:
+  [ ok ] d1 base-proof material (BBS signature, BBS header, HMAC key) reappears: no
+  [ ok ] d2 a withheld claim value appears in the payload anyway: no
+  [LEAK] d3 issuer re-derives every credential, matches non-random proof parts: anonymity set 1/1/1/1/1/1 of 6 -- 6/6 presentations pinned to dep:Y by name
+  [LEAK] d3b same, using ONLY labelMap + mandatory/selective indexes (document ignored): anonymity set 1/1/1/1/1/1 of 6
+
+(h) mandatory-disclosed statements, their count and hash:
+    decoded.mandatoryHash              constant=yes k=1  leak=Y
+    decoded.mandatoryIndexes           constant=yes k=1  leak=Y
+    decoded.mandatoryNQuadCount        constant=yes k=6  leak=N
+    decoded.mandatoryNQuads            constant=yes k=1  leak=Y
+    decoded.revealedNQuadCount         constant=yes k=6  leak=N
+    issuer                             constant=yes k=6  leak=N
+    validUntil                         constant=yes k=6  leak=N
+    per mandatory N-Quad (as the verifier canonicalises it):
+      k=1/6  _:b2 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://kinship-caps.example/vocab#GuardianshipMandate...
+      k=1/6  _:b2 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://www.w3.org/2018/credentials#VerifiableCredenti...
+      k=1/6  _:b2 <https://www.w3.org/2018/credentials#issuer> <https://issuer.example/mandate-registry> .
+      k=1/6  _:b2 <https://www.w3.org/2018/credentials#validUntil> "2026-09-30T23:59:59Z"^^<http://www.w3.org/2001/XMLSchem...
+
+(i) proof object / proofValue envelope:
+    decoded.bbsProof                   constant=no  k=-  leak=N
+    decoded.cborTag                    constant=yes k=6  leak=N
+    decoded.presentationHeader         constant=no  k=-  leak=N
+    proof.cryptosuite                  constant=yes k=6  leak=N
+    proof.proofPurpose                 constant=yes k=6  leak=N
+    proof.proofValue                   constant=no  k=-  leak=N
+    proof.type                         constant=yes k=6  leak=N
+    proof.verificationMethod           constant=yes k=6  leak=N
+
+(j) document structure fingerprint:
+    @context                           constant=yes k=6  leak=N
+    decoded.bbsProofByteLength         constant=yes k=6  leak=N
+    decoded.documentShape              constant=yes k=6  leak=N
+    decoded.labelMapSize               constant=yes k=6  leak=N
+    decoded.proofValueByteLength       constant=no  k=-  leak=N
+    decoded.revealedNQuadCount         constant=yes k=6  leak=N
+    type                               constant=yes k=6  leak=N
+
+(k) HMAC label replacement and index lists:
+    decoded.labelMap                   constant=yes k=1  leak=Y
+    decoded.mandatoryHash              constant=yes k=1  leak=Y
+    decoded.mandatoryIndexes           constant=yes k=1  leak=Y
+    decoded.selectiveIndexes           constant=yes k=1  leak=Y
+
+revocation: status entry in credential=false, disclosed=false, revoked credential accepted=YES -- no status entry exists (short-lived credential model)
+
+VERDICT (hardened): FALSIFIED via decoded.bnodeRank.GuardianshipMandateCredential+VerifiableCredential; decoded.bnodeRank.Mandate; decoded.labelMap; decoded.mandatoryHash; decoded.mandatoryIndexes; decoded.mandatoryNQuads; decoded.selectiveIndexes; issuer collusion; HMAC label tag (target unique in 26/30 cohorts)
+
+==============================================================================
+POLICY hardenedFlat: C-hardened+flat (mitigation candidate: 1 blank node, epoch-scoped id)
+==============================================================================
+mandatoryPointers : ["/issuer","/validUntil"]
+selectivePointers : ["/credentialSubject/scope"]
+presentations     : 21, verified by @digitalbazaar/vc: 21/21
+
+--- Leak table (hardenedFlat) -----------------------------------------------
+k = number of distinct dependents sharing this value (k=1 exact linkage, k=6 none)
++------------------------------+-----------+---+---------------+---------+-------------------------------------------------------+
+| field (path in the payload)  | constant? | k | correlatable? | leak    | note                                                  |
++==============================+===========+===+===============+=========+=======================================================+
+| @context                     | yes       | 6 | no            | N       | cohort-wide (k=6/6) -- no narrowing                   |
+| credentialSubject.scope      | yes       | 4 | yes           | partial | shared with 3 other dependent(s) -- anonymity set 4/6 |
+| credentialSubject.type       | yes       | 6 | no            | N       | cohort-wide (k=6/6) -- no narrowing                   |
+| decoded.bbsProof             | no        | - | no            | N       | varies per presentation                               |
+| decoded.bbsProofByteLength   | yes       | 6 | no            | N       | cohort-wide (k=6/6) -- no narrowing                   |
+| decoded.bnodeRank.Guardian   | yes       | 6 | no            | N       | cohort-wide (k=6/6) -- no narrowing                   |
+| decoded.cborTag              | yes       | 6 | no            | N       | cohort-wide (k=6/6) -- no narrowing                   |
+| decoded.documentShape        | yes       | 6 | no            | N       | cohort-wide (k=6/6) -- no narrowing                   |
+| decoded.labelMap             | yes       | 6 | no            | N       | cohort-wide (k=6/6) -- no narrowing                   |
+| decoded.labelMapSize         | yes       | 6 | no            | N       | cohort-wide (k=6/6) -- no narrowing                   |
+| decoded.mandatoryHash        | yes       | 6 | no            | N       | cohort-wide (k=6/6) -- no narrowing                   |
+| decoded.mandatoryIndexes     | yes       | 6 | no            | N       | cohort-wide (k=6/6) -- no narrowing                   |
+| decoded.mandatoryNQuadCount  | yes       | 6 | no            | N       | cohort-wide (k=6/6) -- no narrowing                   |
+| decoded.mandatoryNQuads      | yes       | 6 | no            | N       | cohort-wide (k=6/6) -- no narrowing                   |
+| decoded.presentationHeader   | no        | - | no            | N       | varies per presentation                               |
+| decoded.proofValueByteLength | no        | - | no            | N       | varies per presentation                               |
+| decoded.revealedNQuadCount   | yes       | 6 | no            | N       | cohort-wide (k=6/6) -- no narrowing                   |
+| decoded.selectiveIndexes     | yes       | 6 | no            | N       | cohort-wide (k=6/6) -- no narrowing                   |
+| id                           | yes       | 6 | no            | N       | cohort-wide (k=6/6) -- no narrowing                   |
+| issuer                       | yes       | 6 | no            | N       | cohort-wide (k=6/6) -- no narrowing                   |
+| proof.cryptosuite            | yes       | 6 | no            | N       | cohort-wide (k=6/6) -- no narrowing                   |
+| proof.proofPurpose           | yes       | 6 | no            | N       | cohort-wide (k=6/6) -- no narrowing                   |
+| proof.proofValue             | no        | - | no            | N       | varies per presentation                               |
+| proof.type                   | yes       | 6 | no            | N       | cohort-wide (k=6/6) -- no narrowing                   |
+| proof.verificationMethod     | yes       | 6 | no            | N       | cohort-wide (k=6/6) -- no narrowing                   |
+| type                         | yes       | 6 | no            | N       | cohort-wide (k=6/6) -- no narrowing                   |
+| validUntil                   | yes       | 6 | no            | N       | cohort-wide (k=6/6) -- no narrowing                   |
++------------------------------+-----------+---+---------------+---------+-------------------------------------------------------+
+
+(c) randomisation: 21/21 distinct bbsProof, 21/21 distinct proofValue -> PASS
+
+Generic clustering adversary (no allowlist):
+  best single field: credentialSubject.scope  -> precision 0.40, recall 1.00
+  -> partial narrowing only
+Conjunction adversary (tuple of all 23 non-random fields): target group 15 payloads from 4 dependent(s), precision 0.40, recall 1.00 -> no exact linkage
+Cohort Monte Carlo (30 fresh cohorts, new HMAC keys each): target exactly linkable in 0/30 = 0% (proof-internal parts alone: 0/30)
+
+(d) issuer + verifier collusion:
+  [ ok ] d1 base-proof material (BBS signature, BBS header, HMAC key) reappears: no
+  [ ok ] d2 a withheld claim value appears in the payload anyway: no
+  [ ok ] d3 issuer re-derives every credential, matches non-random proof parts: anonymity set 4/4/4/4/4/4 of 6
+  [ ok ] d3b same, using ONLY labelMap + mandatory/selective indexes (document ignored): anonymity set 6/6/6/6/6/6 of 6
+
+(h) mandatory-disclosed statements, their count and hash:
+    decoded.mandatoryHash              constant=yes k=6  leak=N
+    decoded.mandatoryIndexes           constant=yes k=6  leak=N
+    decoded.mandatoryNQuadCount        constant=yes k=6  leak=N
+    decoded.mandatoryNQuads            constant=yes k=6  leak=N
+    decoded.revealedNQuadCount         constant=yes k=6  leak=N
+    issuer                             constant=yes k=6  leak=N
+    validUntil                         constant=yes k=6  leak=N
+    per mandatory N-Quad (as the verifier canonicalises it):
+      k=6/6  <urn:kinship-caps:mandate-epoch:2026-Q3> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://kinship-ca...
+      k=6/6  <urn:kinship-caps:mandate-epoch:2026-Q3> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://www.w3.org...
+      k=6/6  <urn:kinship-caps:mandate-epoch:2026-Q3> <https://www.w3.org/2018/credentials#issuer> <https://issuer.example/...
+      k=6/6  <urn:kinship-caps:mandate-epoch:2026-Q3> <https://www.w3.org/2018/credentials#validUntil> "2026-09-30T23:59:59...
+
+(i) proof object / proofValue envelope:
+    decoded.bbsProof                   constant=no  k=-  leak=N
+    decoded.cborTag                    constant=yes k=6  leak=N
+    decoded.presentationHeader         constant=no  k=-  leak=N
+    proof.cryptosuite                  constant=yes k=6  leak=N
+    proof.proofPurpose                 constant=yes k=6  leak=N
+    proof.proofValue                   constant=no  k=-  leak=N
+    proof.type                         constant=yes k=6  leak=N
+    proof.verificationMethod           constant=yes k=6  leak=N
+
+(j) document structure fingerprint:
+    @context                           constant=yes k=6  leak=N
+    decoded.bbsProofByteLength         constant=yes k=6  leak=N
+    decoded.documentShape              constant=yes k=6  leak=N
+    decoded.labelMapSize               constant=yes k=6  leak=N
+    decoded.proofValueByteLength       constant=no  k=-  leak=N
+    decoded.revealedNQuadCount         constant=yes k=6  leak=N
+    type                               constant=yes k=6  leak=N
+
+(k) HMAC label replacement and index lists:
+    decoded.labelMap                   constant=yes k=6  leak=N
+    decoded.mandatoryHash              constant=yes k=6  leak=N
+    decoded.mandatoryIndexes           constant=yes k=6  leak=N
+    decoded.selectiveIndexes           constant=yes k=6  leak=N
+
+revocation: status entry in credential=false, disclosed=false, revoked credential accepted=YES -- no status entry exists (short-lived credential model)
+
+VERDICT (hardenedFlat): NOT-FALSIFIED
+
+==============================================================================
+(k) Monte Carlo: identifying entropy of the HMAC blank-node shuffle
+==============================================================================
+Identical claims issued 30x per shape; only the cryptosuite's per-credential
+HMAC key differs. Each distinct tag is repeated on EVERY presentation of that
+credential. N = blank nodes in the credential, m = blank nodes revealed.
++-----------------------------------------------------------------+---+---+--------------------+-----------+--------+------------------+-------------------+------+-----------------------+----------+
+| shape                                                           | N | m | distinct tags / 30 | labelMaps | selIdx | theory N!/(N-m)! | spec bound C(N,m) | bits | P(target unique in 6) | verified |
++=================================================================+===+===+====================+===========+========+==================+===================+======+=======================+==========+
+| S1 nested subject + per-credential id (as in C-naive/C-minimal) | 3 | 2 | 6                  | 6         | 6      | 6                | 3                 | 2.58 | 0.40                  | 3/3      |
+| S2 nested subject, no credential id (as in C-hardened)          | 4 | 3 | 17                 | 17        | 11     | 24               | 4                 | 4.58 | 0.81                  | 3/3      |
+| S3 flat subject, no credential id                               | 2 | 2 | 2                  | 2         | 2      | 2                | 1                 | 1.00 | 0.03                  | 3/3      |
+| S4 flat subject + epoch-scoped (cohort-wide) credential id      | 1 | 1 | 1                  | 1         | 1      | 1                | 1                 | 0.00 | 0.00                  | 3/3      |
++-----------------------------------------------------------------+---+---+--------------------+-----------+--------+------------------+-------------------+------+-----------------------+----------+
+
+--- ordering side channel: hidden sibling in a multi-valued property --------
+  hidden="aaa_hidden_scope"  revealed={"type":"Guardian","scope":["school_enrolment"]}  selectiveIndexes=[0,2,6]
+  hidden="zzz_hidden_scope"  revealed={"type":"Guardian","scope":["school_enrolment"]}  selectiveIndexes=[0,2,5]
+  revealed documents identical: yes; selective indexes differ: YES -- the index leaks how the hidden value sorts (deterministic across issuances)
+
+==============================================================================
+(e) CROSS-HOP (optional Scenario B probe): guardian vs parent proof in a chain
+==============================================================================
+Hop 1 = guardian discloses scope. Hop 2 = parent-mandate proof inside a sub-carer
+chain, additionally disclosing guardianKey (hop binding, as B-unlinkable-stable).
+Raw-scheme result for this pairing (FINDINGS_2026-08 4.6): PASS.
+
+--- hardened: C-hardened (mandatory: /issuer + epoch-bucketed /validUntil; no id, no status) 
++---------------------------------------------+---+----------------------------------------------------------------------+-----------------------------------------------------------------------------+---------+
+| shared atom                                 | k | hop1 field                                                           | hop2 field                                                                  | leak    |
++=============================================+===+======================================================================+=============================================================================+=========+
+| school_enrolment                            | 4 | credentialSubject.mandate.scope                                      | parent.credentialSubject.mandate.scope                                      | partial |
+| [0,1,3,4]                                   | 2 | decoded.mandatoryIndexes                                             | parent.decoded.mandatoryIndexes                                             | partial |
+| c12ad8e3a940758d5ff75acbb360195811c2354f... | 2 | decoded.mandatoryHash                                                | parent.decoded.mandatoryHash                                                | partial |
+| ["_:b0 <http://www.w3.org/1999/02/22-rdf... | 2 | decoded.mandatoryNQuads                                              | parent.decoded.mandatoryNQuads                                              | partial |
+| GuardianshipMandateCredential+Verifiable... | 2 | decoded.bnodeRank.GuardianshipMandateCredential+VerifiableCredential | parent.decoded.bnodeRank.GuardianshipMandateCredential+VerifiableCredential | partial |
+| Guardian@b2                                 | 1 | decoded.bnodeRank.Guardian                                           | parent.decoded.bnodeRank.Guardian                                           | Y       |
+| Mandate@b3                                  | 3 | decoded.bnodeRank.Mandate                                            | parent.decoded.bnodeRank.Mandate                                            | partial |
++---------------------------------------------+---+----------------------------------------------------------------------+-----------------------------------------------------------------------------+---------+
+  single-atom check in this cohort: FAIL
+  joint blank-node ranks, Monte Carlo over 20 cohorts: target linkable across hops in 15/20 = 75%
+  (e) CROSS-HOP UNLINKABILITY: FAIL
+
+--- hardenedFlat: C-hardened+flat (mitigation candidate: 1 blank node, epoch-scoped id) 
++------------------+---+-------------------------+--------------------------------+---------+
+| shared atom      | k | hop1 field              | hop2 field                     | leak    |
++==================+===+=========================+================================+=========+
+| school_enrolment | 4 | credentialSubject.scope | parent.credentialSubject.scope | partial |
++------------------+---+-------------------------+--------------------------------+---------+
+  single-atom check in this cohort: PASS (no k=1 atom)
+  joint blank-node ranks, Monte Carlo over 20 cohorts: target linkable across hops in 0/20 = 0%
+  (e) CROSS-HOP UNLINKABILITY: PASS
+
+==============================================================================
+SUMMARY
+==============================================================================
++----------------+---------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------------------+-----------------------------------------------------------------------------+
+| policy         | P1 verdict    | mechanism                                                                                                                                                                                                                                                                                | cohorts linkable (MC) | issuer collusion (d3)                                                       |
++================+===============+==========================================================================================================================================================================================================================================================================================+=======================+=============================================================================+
+| naive          | FALSIFIED     | credentialStatus.id; credentialStatus.statusListIndex; decoded.mandatoryHash; decoded.mandatoryNQuads; id; validUntil; issuer collusion                                                                                                                                                  | n/a (deterministic)   | anonymity set 1/1/1/1/1/1 of 6 -- 6/6 presentations pinned to dep:Y by name |
+| minimal        | FALSIFIED     | id; issuer collusion                                                                                                                                                                                                                                                                     | n/a (deterministic)   | anonymity set 1/1/1/1/1/1 of 6 -- 6/6 presentations pinned to dep:Y by name |
+| hardened       | FALSIFIED     | decoded.bnodeRank.GuardianshipMandateCredential+VerifiableCredential; decoded.bnodeRank.Mandate; decoded.labelMap; decoded.mandatoryHash; decoded.mandatoryIndexes; decoded.mandatoryNQuads; decoded.selectiveIndexes; issuer collusion; HMAC label tag (target unique in 26/30 cohorts) | 26/30                 | anonymity set 1/1/1/1/1/1 of 6 -- 6/6 presentations pinned to dep:Y by name |
+| hardenedFlat * | NOT-FALSIFIED | -                                                                                                                                                                                                                                                                                        | 0/30                  | anonymity set 4/4/4/4/4/4 of 6                                              |
++----------------+---------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------------------+-----------------------------------------------------------------------------+
+* mitigation candidate added after probe (k); not one of the three requested policies
+
+runtime: 195.3s
+
+NOTE: the HMAC key is drawn fresh by the cryptosuite at every issuance and
+cannot be seeded, so labelMap-derived k values vary between runs. The Monte
+Carlo table gives the stable number. "NOT-FALSIFIED" is not a proof.

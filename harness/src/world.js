@@ -14,7 +14,7 @@ import {b64} from './bbs.js';
 export const TARGET = 'dep:Y';
 
 /** Y plus five decoys. Scopes deliberately overlap so the cohort is realistic. */
-const DEPENDENTS = [
+export const DEPENDENTS = [
   {id: 'dep:Y', scope: 'school_enrolment', expiry: '2026-09-14'},
   {id: 'dep:D1', scope: 'school_enrolment', expiry: '2026-09-02'},
   {id: 'dep:D2', scope: 'school_enrolment', expiry: '2026-08-27'},

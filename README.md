@@ -24,6 +24,8 @@ We tried to **falsify** our own core privacy claim before building. An empirical
 - A **hardened single-hop profile passed** the empirical check (at the cost of revocation degraded to short validity + re-issuance).
 - **Multi-hop delegation (guardian → temporary sub-carer) was falsified**: an unlinkability ↔ attenuation ↔ cascading-revocation trilemma, plus a delegation-transport problem.
 
+- **Re-run against the full W3C `bbs-2023` cryptosuite (2026-09, [`docs/FINDINGS_2026-09_cryptosuite.md`](docs/FINDINGS_2026-09_cryptosuite.md)):** the cryptosuite adds its own correlators. Every requested `mandatoryPointers` policy was falsified, including the hardened one (linkable in 26/30 cohorts), via auto-revealed node `id`s and the per-credential HMAC blank-node label tag. Only a credential with exactly one blank node survived the check, so the profile must constrain credential *shape*, not just pointers.
+
 **Consequence: v1 targets single-hop; multi-hop is documented open research** (8 precise open questions in FINDINGS §6).
 
 > A passing check is **not** a soundness proof. Testing finds leaks; it cannot prove their absence. See the explicit limitations in FINDINGS §5.
@@ -34,7 +36,8 @@ We tried to **falsify** our own core privacy claim before building. An empirical
 |---|---|
 | [`docs/SOUNDNESS_MEMO.md`](docs/SOUNDNESS_MEMO.md) | Properties memo for cryptographic review: claims P1–P4, threat model, construction, open questions |
 | [`docs/FINDINGS_2026-08.md`](docs/FINDINGS_2026-08.md) | Falsification-harness results: field-by-field tables, attack transcripts, limitations, questions for cryptographers |
-| [`harness/`](harness/) | the falsification harness itself — Node.js, `@digitalbazaar/bbs-signatures`, reproducible; `npm install && npm test` |
+| [`docs/FINDINGS_2026-09_cryptosuite.md`](docs/FINDINGS_2026-09_cryptosuite.md) | The same falsification run against the full W3C `bbs-2023` cryptosuite: per-`mandatoryPointers` verdicts, cryptosuite-specific leak channels, profile requirements |
+| [`harness/`](harness/) | the falsification harness itself — Node.js, `@digitalbazaar/bbs-signatures` + `bbs-2023` cryptosuite stack, reproducible; `npm install && npm test`, `npm run cryptosuite` |
 
 ## Review & feedback invited
 

@@ -262,6 +262,62 @@ export function clusteringAttack({corpus, target}) {
   };
 }
 
+/**
+ * CONJUNCTION adversary. The single-field adversary above misses the case where
+ * no field is identifying on its own but several partial ones are, jointly.
+ * This one keys every presentation by the tuple of ALL fields that are not
+ * per-presentation random (a field qualifies if any of its values occurs in two
+ * or more presentations), then links identical tuples. Still no allowlist.
+ */
+export function conjunctionAttack({corpus, target}) {
+  const flat = new Map(corpus.map(p => [p.id, flatten(p.payload)]));
+  const counts = new Map();
+  for(const f of flat.values()) {
+    for(const [path, v] of f) {
+      const key = `${path}\u0000${v}`;
+      counts.set(key, (counts.get(key) ?? 0) + 1);
+    }
+  }
+  const stablePaths = new Set();
+  for(const key of counts.keys()) {
+    if(counts.get(key) >= 2) {
+      stablePaths.add(key.slice(0, key.indexOf('\u0000')));
+    }
+  }
+  // Colluding verifiers know which of them received each payload, so a field
+  // that is a pure function of the receiving verifier (e.g. a length that only
+  // depends on that verifier's nonce format) says nothing about the subject.
+  // Drop fields that are constant within every verifier but differ across them.
+  const verifierDetermined = path => {
+    const byVerifier = new Map();
+    for(const p of corpus) {
+      const v = flat.get(p.id).get(path);
+      if(!byVerifier.has(p.verifierId)) {
+        byVerifier.set(p.verifierId, new Set());
+      }
+      byVerifier.get(p.verifierId).add(v);
+    }
+    const perVerifierConstant = [...byVerifier.values()].every(s => s.size === 1);
+    const values = new Set([...byVerifier.values()].map(s => [...s][0]));
+    return perVerifierConstant && values.size > 1;
+  };
+  const paths = [...stablePaths].filter(p => !verifierDetermined(p)).sort();
+  const keyOf = id => JSON.stringify(paths.map(p => flat.get(id).get(p) ?? null));
+  const targetIds = new Set(corpus.filter(p => p.subject === target).map(p => p.id));
+  const tKey = keyOf([...targetIds][0]);
+  const group = corpus.filter(p => keyOf(p.id) === tKey).map(p => p.id);
+  const hit = group.filter(i => targetIds.has(i)).length;
+  const subjectsInGroup = new Set(corpus.filter(p => group.includes(p.id)).map(p => p.subject));
+  return {
+    pathsUsed: paths.length,
+    groupSize: group.length,
+    subjectsInGroup: subjectsInGroup.size,
+    precision: hit / group.length,
+    recall: hit / targetIds.size,
+    exactLinkage: subjectsInGroup.size === 1 && hit === targetIds.size && targetIds.size > 1
+  };
+}
+
 /* --------------------------- (d) issuer collusion ------------------------- */
 
 /**

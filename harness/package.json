@@ -1,7 +1,7 @@
 {
   "name": "open-core-p1-harness",
   "version": "0.1.0",
-  "description": "Falsification harness for P1 (repeat-presentation unlinkability) of a BBS-based guardianship-delegation credential.",
+  "description": "Falsification harness for P1 (repeat-presentation unlinkability) of a BBS-based guardianship-delegation credential -- raw IETF BBS scheme and the W3C bbs-2023 cryptosuite.",
   "license": "Apache-2.0",
   "type": "module",
   "private": true,
@@ -10,11 +10,25 @@
   },
   "scripts": {
     "test": "node --test \"test/*.test.js\" && node src/run.js",
+    "test:all": "npm test && npm run cryptosuite",
     "linkability": "node src/run.js",
     "linkability:json": "node src/run.js --json",
-    "sample": "node src/run.js > sample-output/run-output.txt 2>&1"
+    "cryptosuite": "node src/cryptosuite/run.js",
+    "cryptosuite:json": "node src/cryptosuite/run.js --json",
+    "sample": "node src/run.js > sample-output/run-output.txt 2>&1",
+    "sample:cryptosuite": "node src/cryptosuite/run.js --write-json sample-output/cryptosuite-output.json > sample-output/cryptosuite-output.txt 2>&1"
   },
   "dependencies": {
-    "@digitalbazaar/bbs-signatures": "3.1.0"
+    "@digitalbazaar/bbs-2023-cryptosuite": "2.0.1",
+    "@digitalbazaar/bbs-signatures": "3.1.0",
+    "@digitalbazaar/bls12-381-multikey": "2.2.0",
+    "@digitalbazaar/credentials-context": "3.2.0",
+    "@digitalbazaar/data-integrity": "2.5.0",
+    "@digitalbazaar/di-sd-primitives": "3.3.0",
+    "@digitalbazaar/multikey-context": "2.0.1",
+    "@digitalbazaar/vc": "7.3.0",
+    "base64url-universal": "2.0.0",
+    "cborg": "4.5.8",
+    "jsonld-signatures": "11.6.0"
   }
 }
