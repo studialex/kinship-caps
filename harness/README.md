@@ -1,7 +1,7 @@
 # open-core-p1-harness
 
 A small, reproducible harness that tries to **falsify** one privacy claim from the
-Open Core guardianship-delegation design:
+Kinship-Caps guardianship-delegation design:
 
 > **P1 — repeat-presentation unlinkability.** When a guardian presents a mandate
 > ("I am authorised to act for dependent Y, scope = Z") to multiple verifiers,
