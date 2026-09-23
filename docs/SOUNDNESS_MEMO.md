@@ -1,6 +1,6 @@
-# Kinship-Caps — Properties Memo for Cryptographic Review (v0.2)
+# Kinship-Caps — Properties Memo for Cryptographic Review (v0.3)
 
-> **Status (2026-08 → 2026-09).** The empirical falsification harness described in [`FINDINGS_2026-08.md`](FINDINGS_2026-08.md) (code in [`../harness/`](../harness/), `@digitalbazaar/bbs-signatures` 3.1.0, IETF `draft-irtf-cfrg-bbs-signatures-06`) has been run. Headline: **the BBS layer did not leak; our composition plumbing did.** Single-hop P1 passed the basic empirical check in a hardened profile (no per-credential header, no credential id, no status handle, bucketed expiry — at the cost of revocation degraded to short validity). **Multi-hop delegation was falsified:** an unlinkability ↔ attenuation ↔ cascading-revocation trilemma — no tested composition achieved all three — plus a delegation-transport problem (sharing the parent signature = full scope escalation; pre-derived proofs = replay + linkability; fresh proofs = guardian must be online). Design consequence: **v1 ships single-hop; multi-hop is named open work.** The questions in §5 below are superseded by the sharper eight in FINDINGS §6 — please answer those against the measured results.
+> **Status (2026-09).** Two falsification runs have been made. **Run 1** ([`FINDINGS_2026-08.md`](FINDINGS_2026-08.md); raw IETF BBS scheme, `@digitalbazaar/bbs-signatures` 3.1.0): the BBS layer did not leak; our composition plumbing did. A hardened single-hop profile passed; **multi-hop was falsified** (an unlinkability ↔ attenuation ↔ cascading-revocation trilemma, plus a delegation-transport problem). **Run 2** ([`FINDINGS_2026-09_cryptosuite.md`](FINDINGS_2026-09_cryptosuite.md); full W3C `bbs-2023` cryptosuite, same BBS library underneath): the cryptosuite adds its own correlators — auto-revealed node `id`s and a per-credential HMAC blank-node label tag. **Every tested `mandatoryPointers` policy was falsified, including the hardened one; only a credential with exactly one blank node survived**, including under issuer collusion. Design consequence: **v1 ships single-hop with a constrained credential shape; multi-hop is named open work.** The questions in §5 are superseded by FINDINGS 2026-08 §6 and 2026-09 §9 — please answer those against the measured results.
 
 **Purpose.** A short, self-contained brief so an applied cryptographer or identity engineer can sanity-check the **soundness of the privacy/security composition** behind Kinship-Caps in roughly one to two hours of reading. It states what we claim, how we intend to obtain it from existing primitives, and the specific open questions. **This is not a request for a new-cryptosystem audit** — by design we *compose* standardised primitives and invent no new cryptography.
 
@@ -17,6 +17,7 @@ eIDAS 2.0 recognises "a natural person representing another natural person" and 
 - **Credential model:** W3C Verifiable Credentials Data Model 2.0 (W3C Recommendation, 2025-05-15).
 - **Carrier:** an EUDI **mandate/representation attestation** (EAA-shaped), profiled to interoperate with whatever Topic I converges on.
 - **Unlinkability primitive:** **BBS** via the W3C *Data Integrity BBS Cryptosuites v1.0* (Candidate Recommendation Draft) — selective disclosure + **unlinkable derived proofs** (zero-knowledge proof of knowledge of a signature).
+- **Credential shape constraint (added after Run 2):** at most one blank node, no per-credential node ids on disclosable paths, single-valued disclosable properties, fixed schema — see FINDINGS 2026-09 §5.
 - **Delegation/attenuation:** object-capability pattern (attenuated, possibly multi-hop) — cited as a *design pattern* (ZCAP-LD is a W3C-CCG draft, not a normative dependency).
 - **Revocation:** short-lived and/or revocable attestations; revocation-status checks intended to be privacy-preserving (cf. related work below).
 
@@ -33,13 +34,13 @@ eIDAS 2.0 recognises "a natural person representing another natural person" and 
 - Goal of the adversary: **track the dependent Y** across presentations, or learn authority beyond what was disclosed.
 - Out of scope: device compromise, coercion of the guardian, and legal-process disclosure (handled elsewhere / by policy).
 
-## 5. Open questions (original set — see FINDINGS §6 for the sharpened, post-measurement version)
+## 5. Open questions (original set — see FINDINGS 2026-08 §6 and 2026-09 §9 for the sharpened, post-measurement version)
 
-1. **Does P1 hold under composition?** BBS gives per-presentation unlinkability for a *single* credential. A guardianship proof may combine (a) the dependent's PID/attribute(s), (b) the mandate attestation, and (c) a delegation/attenuation statement. Does combining these break unlinkability (a stable correlator in the mandate, the dependent's identifier, the revocation handle)?
+1. **Does P1 hold under composition?** *(Measured: only with a constrained credential shape under `bbs-2023` — FINDINGS 2026-09.)*
 2. **Unlinkability vs. auditability.** A guardian's actions may need to be **auditable for accountability**, yet **unlinkable for privacy**. Is there a sound construction giving accountable-but-unlinkable (e.g. audit only to an authorised auditor, not to RPs)? Or is this an inherent tension that must be a stated design limit?
 3. **Revocation privacy (P3).** Can revocation status be checked without an RP/issuer learning *which* dependent or *which* mandate is being checked? Is a privacy-preserving status mechanism compatible with BBS derived proofs here?
-4. **Multi-hop / cascading attenuation.** If delegation is chained (guardian → temporary carer), do P1–P3 still hold, and what breaks first? *(Measured answer: see FINDINGS §3 — the trilemma.)*
-5. **Minimum viable subset.** Which subset of P1–P4 is **soundly achievable today with standardised primitives** (BBS cryptosuite + VCDM 2.0), and which parts are genuinely open research that v1 should scope *out*?
+4. **Multi-hop / cascading attenuation.** *(Measured answer: the trilemma — FINDINGS 2026-08 §3.)*
+5. **Minimum viable subset.** Which subset of P1–P4 is **soundly achievable today with standardised primitives**, and which parts are genuinely open research that v1 should scope *out*?
 
 ## 6. What we explicitly do NOT claim
 
@@ -51,11 +52,11 @@ eIDAS 2.0 recognises "a natural person representing another natural person" and 
 
 > *"Is there a defensible, soundly-achievable subset of P1–P4 — composing only standardised primitives (BBS cryptosuite + VCDM 2.0 + an EUDI mandate attestation) — that delivers unlinkable, scoped, revocable guardianship delegation; and if so, what is the smallest such subset and what must be deferred?"*
 
-Our current, measured answer: single-hop with short validity (see FINDINGS §7). We would like it confirmed or broken.
+Our current, measured answer: **single-hop, short validity, and a constrained credential shape (one blank node, no per-credential ids)** — see FINDINGS 2026-09 §5. We would like it confirmed or broken.
 
 ## 8. References
 
-- W3C *Data Integrity BBS Cryptosuites v1.0* — Candidate Recommendation Draft (selective disclosure + unlinkable derived proofs).
+- W3C *Data Integrity BBS Cryptosuites v1.0* — Candidate Recommendation Draft (10 Sep 2026 consulted; §6.2 privacy considerations).
 - W3C *Verifiable Credentials Data Model 2.0* — Recommendation, 2025-05-15.
 - EUDI ARF (v3.0.0 at time of writing); EDICG **Topic I "Natural person representing another natural person"** (Iteration 5, 26 Aug–21 Oct 2026, open).
 - "Cryptographers' Feedback on the EU Digital Identity's ARF" (June 2024) — documents the mdoc/SD-JWT linkability the unlinkability layer must avoid.
@@ -65,4 +66,4 @@ Our current, measured answer: single-hop with short validity (see FINDINGS §7).
 - Delegatable anonymous credentials from mercurial signatures — Crites & Lysyanskaya (CT-RSA 2019); practical DAC from equivalence-class signatures (PoPETs 2023); ePrint 2024/1216 — relevant to question 4: multi-hop without a stable disclosed correlator is solvable in the literature, but not yet with any standardised primitive.
 
 ---
-*v0.2 (2026-09). Frames questions for reviewers; does not assert the properties are proven. Issues and PRs welcome.*
+*v0.3 (2026-09). Frames questions for reviewers; does not assert the properties are proven. Issues and PRs welcome.*
