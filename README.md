@@ -16,32 +16,32 @@ Kinship-Caps is an open FOSS protocol profile + reference library that **compose
 
 **No new cryptography is designed here.** The claimed novelty is the composition for the guardianship case: revocable + scope-limited + **unlinkable-on-repeat-presentation** delegation over a dependent's credentials.
 
-## Status & measured results (2026-08)
+## Status & measured results
 
-We tried to **falsify** our own core privacy claim before building. An empirical harness (see [`docs/FINDINGS_2026-08.md`](docs/FINDINGS_2026-08.md)) generated repeated presentations of a BBS-signed guardianship mandate and hunted for correlators, including under simulated issuer–verifier collusion. Headline:
+We tried to **falsify** our own core privacy claim before building, in two runs.
 
-- **The BBS layer did not leak. Our composition plumbing did** — credential ids, status handles, exact expiry dates, and (worst) a per-credential domain separator in the BBS `header`.
-- A **hardened single-hop profile passed** the empirical check (at the cost of revocation degraded to short validity + re-issuance).
-- **Multi-hop delegation (guardian → temporary sub-carer) was falsified**: an unlinkability ↔ attenuation ↔ cascading-revocation trilemma, plus a delegation-transport problem.
+**Run 1 — raw IETF BBS scheme (2026-08, [`docs/FINDINGS_2026-08.md`](docs/FINDINGS_2026-08.md)).** The BBS primitive never leaked; our composition plumbing did — credential ids, status handles, exact expiry dates, and (worst) a per-credential domain separator in the BBS `header`. A hardened single-hop profile passed. Multi-hop delegation (guardian → temporary sub-carer) was falsified: an unlinkability ↔ attenuation ↔ cascading-revocation trilemma, plus a delegation-transport problem.
 
-- **Re-run against the full W3C `bbs-2023` cryptosuite (2026-09, [`docs/FINDINGS_2026-09_cryptosuite.md`](docs/FINDINGS_2026-09_cryptosuite.md)):** the cryptosuite adds its own correlators. Every requested `mandatoryPointers` policy was falsified, including the hardened one (linkable in 26/30 cohorts), via auto-revealed node `id`s and the per-credential HMAC blank-node label tag. Only a credential with exactly one blank node survived the check, so the profile must constrain credential *shape*, not just pointers.
+**Run 2 — full W3C `bbs-2023` cryptosuite (2026-09, [`docs/FINDINGS_2026-09_cryptosuite.md`](docs/FINDINGS_2026-09_cryptosuite.md)).** The cryptosuite adds its own correlators. **Every tested `mandatoryPointers` policy was falsified, including the hardened one** (linkable in 26/30 cohorts; under issuer collusion every presentation pinned to the dependent), via auto-revealed node `id`s and the per-credential HMAC blank-node label tag. **Only a credential with exactly one blank node survived** (0/30 cohorts linkable; issuer collusion narrowed to the scope value only). These leak classes are acknowledged qualitatively in the spec (§6.2.1–6.2.4); the run measures them.
 
-**Consequence: v1 targets single-hop; multi-hop is documented open research** (8 precise open questions in FINDINGS §6).
+**Consequences for the profile:**
+- **v1 targets single-hop** — and single-hop holds only if the profile constrains **credential shape** (at most one blank node, no per-credential node ids, single-valued disclosable properties, fixed schema), not just pointers. Revocation degrades to short validity.
+- **Multi-hop is documented open research** (open questions in FINDINGS 2026-08 §6 and 2026-09 §9). Delegatable anonymous credentials solve it in the literature; no standardised primitive does yet.
 
-> A passing check is **not** a soundness proof. Testing finds leaks; it cannot prove their absence. See the explicit limitations in FINDINGS §5.
+> A passing check is **not** a soundness proof. Testing finds leaks; it cannot prove their absence. See the explicit limitations in both FINDINGS documents.
 
 ## Repository contents
 
 | Path | What |
 |---|---|
 | [`docs/SOUNDNESS_MEMO.md`](docs/SOUNDNESS_MEMO.md) | Properties memo for cryptographic review: claims P1–P4, threat model, construction, open questions |
-| [`docs/FINDINGS_2026-08.md`](docs/FINDINGS_2026-08.md) | Falsification-harness results: field-by-field tables, attack transcripts, limitations, questions for cryptographers |
-| [`docs/FINDINGS_2026-09_cryptosuite.md`](docs/FINDINGS_2026-09_cryptosuite.md) | The same falsification run against the full W3C `bbs-2023` cryptosuite: per-`mandatoryPointers` verdicts, cryptosuite-specific leak channels, profile requirements |
-| [`harness/`](harness/) | the falsification harness itself — Node.js, `@digitalbazaar/bbs-signatures` + `bbs-2023` cryptosuite stack, reproducible; `npm install && npm test`, `npm run cryptosuite` |
+| [`docs/FINDINGS_2026-08.md`](docs/FINDINGS_2026-08.md) | Run 1 (raw BBS scheme): field-by-field tables, attack transcripts, limitations, questions |
+| [`docs/FINDINGS_2026-09_cryptosuite.md`](docs/FINDINGS_2026-09_cryptosuite.md) | Run 2 (full `bbs-2023` cryptosuite): per-`mandatoryPointers` verdicts, cryptosuite-specific leak channels, profile MUST/MUST NOT |
+| [`harness/`](harness/) | the falsification harness — Node.js, `@digitalbazaar/bbs-signatures` + `bbs-2023` cryptosuite stack, reproducible; `npm install && npm test`, `npm run cryptosuite` |
 
 ## Review & feedback invited
 
-This is a public-interest, fully open effort; the result is intended as input to the EDICG **Topic I** discussion and the wider W3C VC / BBS community. If you are a cryptographer or identity engineer: the questions we most need answered are in **FINDINGS §6** (hop-binding without a stable disclosed correlator; minimum safe BBS header content; revocation privacy under cascading revocation; accountable-but-unlinkable auditing). Issues and PRs welcome — including "you're holding BBS wrong."
+This is a public-interest, fully open effort; the result is intended as input to the EDICG **Topic I** discussion and the wider W3C VC / BBS community. If you are a cryptographer or identity engineer, the questions we most need answered are in **FINDINGS 2026-09 §9** (the §6.2.2 fingerprint bound; per-presentation label maps; selective-index ordering; issuer-side linkage) and **FINDINGS 2026-08 §6** (hop-binding without a stable disclosed correlator; revocation privacy; accountable-but-unlinkable auditing). Issues and PRs welcome — including "you're holding BBS wrong."
 
 ## Lineage
 
